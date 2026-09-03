@@ -1,11 +1,379 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lading page</title>
+
+    <title>Landing Page</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: white;
+            color: #15131b;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .contenedor {
+            width: 90%;
+            max-width: 1150px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            align-items: center;
+            gap: 40px;
+        }
+
+        .etiqueta {
+            display: inline-block;
+
+            background-color: #eadfff;
+            color: #7045ba;
+
+            padding: 10px 18px;
+
+            border-radius: 30px;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            margin-bottom: 25px;
+        }
+
+        .etiqueta::before {
+            content: "✦ ";
+        }
+
+
+        h1 {
+            font-size: 75px;
+            line-height: 0.95;
+
+            letter-spacing: -4px;
+
+            margin-bottom: 30px;
+        }
+
+        h1 span {
+            display: block;
+
+            color: #9b6ee8;
+        }
+
+        .descripcion {
+            max-width: 600px;
+
+            color: #6d6875;
+
+            font-size: 19px;
+
+            line-height: 1.6;
+
+            margin-bottom: 32px;
+        }
+
+        .descripcion strong {
+            color: #302b37;
+        }
+
+
+        .botones {
+            display: flex;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+        .boton {
+            display: inline-block;
+
+            padding: 16px 27px;
+
+            border-radius: 35px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+
+            transition: 0.3s;
+        }
+
+
+        .boton-principal {
+            background-color: #9b6ee8;
+
+            color: white;
+
+            box-shadow:
+                0 15px 30px
+                rgba(155, 110, 232, 0.30);
+        }
+
+        .boton-principal:hover {
+            background-color: #784ac3;
+
+            transform: translateY(-3px);
+        }
+
+
+        .boton-secundario {
+            background-color: white;
+
+            color: #15131b;
+
+            border: 2px solid #ded1f5;
+        }
+
+        .boton-secundario:hover {
+            border-color: #9b6ee8;
+
+            transform: translateY(-3px);
+        }
+
+        .ilustracion {
+            position: relative;
+
+            height: 560px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+        }
+
+
+        .circulo {
+            position: absolute;
+
+            width: 530px;
+            height: 530px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #eadfff,
+                    #d6bfff
+                );
+        }
+
+        .personaje {
+            position: relative;
+
+            z-index: 2;
+
+            width: 500px;
+
+            max-width: 100%;
+
+            filter:
+                drop-shadow(
+                    0 20px 20px
+                    rgba(91, 53, 151, 0.13)
+                );
+        }
+
+        .estrella {
+            position: absolute;
+
+            color: #9b6ee8;
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+            z-index: 3;
+        }
+
+        .estrella-1 {
+            top: 40px;
+            right: 25px;
+        }
+
+        .estrella-2 {
+            top: 130px;
+            left: 25px;
+
+            font-size: 18px;
+        }
+
+        .estrella-3 {
+            bottom: 80px;
+            left: 10px;
+
+            font-size: 22px;
+        }
+
+        @media (max-width: 850px) {
+
+            .hero {
+                padding: 60px 0;
+            }
+
+            .contenedor {
+                grid-template-columns: 1fr;
+
+                text-align: center;
+            }
+
+            .descripcion {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .botones {
+                justify-content: center;
+            }
+
+            .ilustracion {
+                height: 430px;
+            }
+
+            .circulo {
+                width: 390px;
+                height: 390px;
+            }
+
+            .personaje {
+                width: 390px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            h1 {
+                font-size: 52px;
+
+                letter-spacing: -2px;
+            }
+
+            .descripcion {
+                font-size: 17px;
+            }
+
+            .ilustracion {
+                height: 340px;
+            }
+
+            .circulo {
+                width: 300px;
+                height: 300px;
+            }
+
+            .personaje {
+                width: 310px;
+            }
+        }
+
+    </style>
 </head>
+
+
 <body>
-    
+
+    <section class="hero">
+
+        <div class="contenedor">
+
+
+            <div class="contenido">
+
+                <div class="etiqueta">
+                    Coleccionables para todos
+                </div>
+
+                <h1>
+                    Abre la caja.
+                    <span>
+                        Descubre la sorpresa.
+                    </span>
+                </h1>
+
+                <p class="descripcion">
+
+                    Bienvenido a
+                    <strong>Blindbox MX</strong>,
+
+                    tu espacio para descubrir
+                    blind boxes y figuras
+                    coleccionables.
+
+                    Hirono, Skullpanda,
+                    Labubu y muchas sorpresas
+                    más, todo en un solo lugar.
+
+                </p>
+
+                <div class="botones">
+
+                    <a
+                        href="#"
+                        class="boton boton-principal"
+                    >
+                        Ver colección ✦
+                    </a>
+
+
+                    <a
+                        href="index.html"
+                        class="boton boton-secundario"
+                    >
+                        Conoce Blindbox MX
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="ilustracion">
+
+
+                <!-- Círculo -->
+
+                <div class="circulo"></div>
+
+
+                <!-- Estrellas -->
+
+                <span class="estrella estrella-1">
+                    ✦
+                </span>
+
+                <span class="estrella estrella-2">
+                    ✦
+                </span>
+
+                <span class="estrella estrella-3">
+                    ✧
+                </span>
+
+
+                <img
+                    src="images/LP.png"
+                    alt="logo de Blindbox MX"
+                    class="personaje"
+                >
+            </div>
+        </div>
+    </section>
 </body>
 </html>
