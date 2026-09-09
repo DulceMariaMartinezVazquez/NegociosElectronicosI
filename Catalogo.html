@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo — Blindbox MX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="CSS/styles.css">
+
+<!-- Diseño específico de esta página (no se tocó styles.css) -->
+<style>
+  .catalog-hero{
+    text-align:center;
+    padding: 50px 6% 10px;
+    background: linear-gradient(180deg, var(--purple-bg) 0%, var(--bg) 100%);
+  }
+
+  .catalog-hero .eyebrow{
+    display:inline-block;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    font-weight:600;
+    font-size: 13px;
+    padding: 7px 18px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+
+  .catalog-hero h1{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size: 36px;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .catalog-hero p{
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .catalog-note{
+    display:inline-block;
+    margin-top: 16px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--purple-dark);
+    background: var(--purple-light);
+    padding: 5px 14px;
+    border-radius: 999px;
+  }
+
+  .catalog-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    max-width: 1100px;
+    margin: 40px auto 0;
+    padding: 0 6% 90px;
+  }
+
+  .catalog-card{
+    background: var(--bg);
+    border-radius: 20px;
+    padding: 14px 14px 20px;
+    box-shadow: 0 10px 24px rgba(122,106,216,0.12);
+    display:flex;
+    flex-direction: column;
+    transition: transform .2s, box-shadow .2s;
+  }
+
+  .catalog-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(122,106,216,0.18);
+  }
+
+  .catalog-card .catalog-image{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, var(--purple-light) 0%, #F7F4FD 100%);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+
+  .catalog-card .catalog-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .catalog-card h3{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size: 14.5px;
+    color: var(--ink);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .catalog-card .catalog-line{
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--purple-dark);
+    margin-bottom: 8px;
+  }
+
+  .catalog-card .catalog-price{
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+
+  .catalog-card .btn-detail{
+    margin-top: auto;
+    display:block;
+    text-align:center;
+    background: var(--purple);
+    color: #fff;
+    font-weight:600;
+    font-size: 13.5px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    transition: background .2s;
+  }
+
+  .catalog-card .btn-detail:hover{
+    background: var(--purple-dark);
+  }
+
+  @media (max-width: 640px){
+    .catalog-hero h1{
+      font-size: 28px;
+    }
+
+    .catalog-grid{
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 420px){
+    .catalog-grid{
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <button class="nav-toggle" aria-label="Abrir menú" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <a href="index.html" class="logo">
+    <img src="images/logobbmx.png" alt="Blindbox MX">
+  </a>
+
+  <div class="header-actions">
+    <a href="#" class="login">Iniciar sesión</a>
+  </div>
+</header>
+
+<section class="catalog-hero">
+  <span class="eyebrow">Catálogo</span>
+  <h1>Todas nuestras figuras</h1>
+  <p>Explora nuestras series disponibles. Da clic en "Ver detalle" para conocer más de cada pieza.</p>
+  <br>
+</section>
+
+<section class="catalog-grid">
+
+  <div class="catalog-card">
+    <div class="catalog-image">
+      <img src="assets/producto-labubu.jpg" alt="Labubu Exciting Macaron" onerror="this.style.display='none'">
+    </div>
+    <span class="catalog-line">Labubu</span>
+    <h3>Labubu Exciting Macaron</h3>
+    <div class="catalog-price">$450 MXN</div>
+    <a href="producto.html?id=labubu-1" class="btn-detail">Ver detalle</a>
+  </div>
+
+  <div class="catalog-card">
+    <div class="catalog-image">
+      <img src="assets/producto-labubu-2.jpg" alt="Labubu The Monsters" onerror="this.style.display='none'">
+    </div>
+    <span class="catalog-line">Labubu</span>
+    <h3>Labubu The Monsters</h3>
+    <div class="catalog-price">$480 MXN</div>
+    <a href="producto.html?id=labubu-2" class="btn-detail">Ver detalle</a>
+  </div>
+
+  <div class="catalog-card">
+    <div class="catalog-image">
+      <img src="assets/producto-hirono.jpg" alt="Hirono Let's Checkmate" onerror="this.style.display='none'">
+    </div>
+    <span class="catalog-line">Hirono</span>
+    <h3>Hirono Let's Checkmate</h3>
+    <div class="catalog-price">$520 MXN</div>
+    <a href="producto.html?id=hirono-1" class="btn-detail">Ver detalle</a>
+  </div>
+
+  <div class="catalog-card">
+    <div class="catalog-image">
+      <img src="assets/producto-hirono-2.jpg" alt="Hirono Sweet Bean" onerror="this.style.display='none'">
+    </div>
+    <span class="catalog-line">Hirono</span>
+    <h3>Hirono Sweet Bean</h3>
+    <div class="catalog-price">$499 MXN</div>
+    <a href="producto.html?id=hirono-2" class="btn-detail">Ver detalle</a>
+  </div>
+
+  <div class="catalog-card">
+    <div class="catalog-image">
+      <img src="assets/producto-skullpanda.jpg" alt="Skullpanda Requiem" onerror="this.style.display='none'">
+    </div>
+    <span class="catalog-line">Skullpanda</span>
+    <h3>Skullpanda Requiem</h3>
+    <div class="catalog-price">$560 MXN</div>
+    <a href="producto.html?id=skullpanda-1" class="btn-detail">Ver detalle</a>
+  </div>
+
+  <div class="catalog-card">
+    <div class="catalog-image">
+      <img src="assets/producto-skullpanda-2.jpg" alt="Skullpanda City of Night" onerror="this.style.display='none'">
+    </div>
+    <span class="catalog-line">Skullpanda</span>
+    <h3>Skullpanda City of Night</h3>
+    <div class="catalog-price">$540 MXN</div>
+    <a href="producto.html?id=skullpanda-2" class="btn-detail">Ver detalle</a>
+  </div>
+
+  <div class="catalog-card">
+    <div class="catalog-image">
+      <img src="assets/producto-kubo.jpg" alt="Kubo Block Society" onerror="this.style.display='none'">
+    </div>
+    <span class="catalog-line">Kubo</span>
+    <h3>Kubo Block Society</h3>
+    <div class="catalog-price">$430 MXN</div>
+    <a href="producto.html?id=kubo-1" class="btn-detail">Ver detalle</a>
+  </div>
+
+  <div class="catalog-card">
+    <div class="catalog-image">
+      <img src="assets/producto-kubo-2.jpg" alt="Kubo Ordinary Life" onerror="this.style.display='none'">
+    </div>
+    <span class="catalog-line">Kubo</span>
+    <h3>Kubo Ordinary Life</h3>
+    <div class="catalog-price">$410 MXN</div>
+    <a href="producto.html?id=kubo-2" class="btn-detail">Ver detalle</a>
+  </div>
+
+</section>
+
+<footer>
+  © 2026 Blindbox MX — todos los derechos reservados
+</footer>
+
+</body>
+</html>

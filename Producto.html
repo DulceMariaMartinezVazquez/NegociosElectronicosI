@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detalle de producto — Blindbox MX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="CSS/styles.css">
+
+<!-- Diseño específico de esta página (no se tocó styles.css) -->
+<style>
+  .product-detail{
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 60px 6% 90px;
+  }
+
+  .back-link{
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--purple-dark);
+    margin-bottom: 30px;
+  }
+
+  .back-link:hover{
+    text-decoration: underline;
+  }
+
+  .back-link svg{
+    width: 15px;
+    height: 15px;
+  }
+
+  .detail-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: flex-start;
+  }
+
+  .detail-image{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, var(--purple-light) 0%, #F7F4FD 100%);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 14px 32px rgba(122,106,216,0.16);
+  }
+
+  .detail-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .detail-line{
+    display:inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--purple-dark);
+    background: var(--purple-light);
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+
+  .detail-name{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+
+  .detail-price{
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--purple-dark);
+    margin-bottom: 22px;
+  }
+
+  .detail-desc{
+    font-size: 14.5px;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+  }
+
+  .detail-actions{
+    display:flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 320px;
+  }
+
+  .btn-cart{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 10px;
+    background: var(--ink);
+    color: #fff;
+    font-weight:600;
+    font-size: 15px;
+    padding: 14px 24px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    transition: background .2s;
+  }
+
+  .btn-cart:hover{
+    background: #000;
+  }
+
+  .cart-message{
+    display:none;
+    align-items:center;
+    gap: 8px;
+    font-size: 13.5px;
+    color: var(--purple-dark);
+    background: var(--purple-light);
+    padding: 10px 14px;
+    border-radius: 10px;
+  }
+
+  .cart-message.show{
+    display:flex;
+  }
+
+  @media (max-width: 720px){
+    .detail-grid{
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <button class="nav-toggle" aria-label="Abrir menú" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <a href="index.html" class="logo">
+    <img src="images/logobbmx.png" alt="Blindbox MX">
+  </a>
+
+  <div class="header-actions">
+    <a href="#" class="login">Iniciar sesión</a>
+  </div>
+</header>
+
+<section class="product-detail">
+  <a href="catalogo.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Regresar al catálogo
+  </a>
+
+  <div class="detail-grid">
+    <div class="detail-image">
+      <img id="pd-image" src="" alt="" onerror="this.style.display='none'">
+    </div>
+
+    <div>
+      <span class="detail-line" id="pd-line">—</span>
+      <h1 class="detail-name" id="pd-name">Producto</h1>
+      <div class="detail-price" id="pd-price">$0 MXN</div>
+      <p class="detail-desc" id="pd-desc">Descripción del producto.</p>
+
+      <div class="detail-actions">
+        <a href="catalogo.html" class="btn-primary" style="justify-content:center;">Regresar al catálogo</a>
+
+        <button class="btn-cart" id="pd-cart-btn">
+          Agregar al carrito
+        </button>
+        <div class="cart-message" id="pd-cart-msg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 8v4l2.5 2.5"/>
+          </svg>
+          Próximamente — esta función aún no está disponible.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Blindbox MX — todos los derechos reservados
+</footer>
+
+<script>
+  // Catálogo de muestra (modo básico, sin backend). Coincide con los productos de catalogo.html
+  const products = {
+    "labubu-1": {
+      line: "Labubu",
+      name: "Labubu Exciting Macaron",
+      price: "$450 MXN",
+      image: "assets/producto-labubu.jpg",
+      desc: "Figura coleccionable de la serie Exciting Macaron. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
+    },
+    "labubu-2": {
+      line: "Labubu",
+      name: "Labubu The Monsters",
+      price: "$480 MXN",
+      image: "assets/producto-labubu-2.jpg",
+      desc: "Figura coleccionable de la serie The Monsters. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
+    },
+    "hirono-1": {
+      line: "Hirono",
+      name: "Hirono Let's Checkmate",
+      price: "$520 MXN",
+      image: "assets/producto-hirono.jpg",
+      desc: "Figura coleccionable de la serie Let's Checkmate. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
+    },
+    "hirono-2": {
+      line: "Hirono",
+      name: "Hirono Sweet Bean",
+      price: "$499 MXN",
+      image: "assets/producto-hirono-2.jpg",
+      desc: "Figura coleccionable de la serie Sweet Bean. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
+    },
+    "skullpanda-1": {
+      line: "Skullpanda",
+      name: "Skullpanda Requiem",
+      price: "$560 MXN",
+      image: "assets/producto-skullpanda.jpg",
+      desc: "Figura coleccionable de la serie Requiem. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
+    },
+    "skullpanda-2": {
+      line: "Skullpanda",
+      name: "Skullpanda City of Night",
+      price: "$540 MXN",
+      image: "assets/producto-skullpanda-2.jpg",
+      desc: "Figura coleccionable de la serie City of Night. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
+    },
+    "kubo-1": {
+      line: "Kubo",
+      name: "Kubo Block Society",
+      price: "$430 MXN",
+      image: "assets/producto-kubo.jpg",
+      desc: "Figura coleccionable de la serie Block Society. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
+    },
+    "kubo-2": {
+      line: "Kubo",
+      name: "Kubo Ordinary Life",
+      price: "$410 MXN",
+      image: "assets/producto-kubo-2.jpg",
+      desc: "Figura coleccionable de la serie Ordinary Life. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
+    }
+  };
+
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id') || 'labubu-1';
+  const product = products[id] || products['labubu-1'];
+
+  document.getElementById('pd-line').textContent = product.line;
+  document.getElementById('pd-name').textContent = product.name;
+  document.getElementById('pd-price').textContent = product.price;
+  document.getElementById('pd-desc').textContent = product.desc;
+  document.getElementById('pd-image').src = product.image;
+  document.getElementById('pd-image').alt = product.name;
+  document.title = product.name + " — Blindbox MX";
+
+  document.getElementById('pd-cart-btn').addEventListener('click', function(){
+    document.getElementById('pd-cart-msg').classList.add('show');
+  });
+</script>
+
+</body>
+</html>
