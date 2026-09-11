@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi perfil — Blindbox MX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="CSS/styles.css">
+
+<style>
+  .profile-hero{
+    text-align:center;
+    padding: 60px 6% 20px;
+    background: linear-gradient(180deg, var(--purple-bg) 0%, var(--bg) 100%);
+  }
+
+  .profile-avatar{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin: 0 auto 16px;
+  }
+
+  .profile-hero h1{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size: 28px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .profile-hero p{
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+
+  .profile-sections{
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px 6% 80px;
+    display:flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .profile-card{
+    background: var(--bg);
+    border-radius: 20px;
+    padding: 26px 28px;
+    box-shadow: 0 10px 24px rgba(122,106,216,0.12);
+  }
+
+  .profile-card h2{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  .profile-field{
+    display:flex;
+    justify-content:space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--purple-light);
+    font-size: 14px;
+  }
+
+  .profile-field:last-child{
+    border-bottom: none;
+  }
+
+  .profile-field .label{
+    color: var(--ink-soft);
+  }
+
+  .profile-field .value{
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .profile-empty{
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    background: var(--purple-bg);
+    border-radius: 12px;
+    padding: 16px;
+    text-align:center;
+  }
+
+  .btn-logout{
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    background: var(--bg);
+    color: var(--ink);
+    font-weight:600;
+    font-size: 14px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: background .2s, color .2s;
+  }
+
+  .btn-logout:hover{
+    background: #FBEAEA;
+    color: #C0392B;
+    border-color: #F3CFCF;
+  }
+
+  .logout-wrap{
+    text-align:center;
+    margin-top: 6px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <button class="nav-toggle" aria-label="Abrir menú" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <a href="index.html" class="logo">
+    <img src="images/logobbmx.png" alt="Blindbox MX">
+  </a>
+
+  <div class="header-actions">
+    <a href="login.html" class="login">Iniciar sesión</a>
+  </div>
+</header>
+
+<section class="profile-hero">
+  <div class="profile-avatar" id="pf-avatar">B</div>
+  <h1 id="pf-name">Coleccionista Blindbox</h1>
+  <p>Bienvenido de vuelta ✦</p>
+</section>
+
+<section class="profile-sections">
+  <div class="profile-card">
+    <h2>Mis datos</h2>
+    <div class="profile-field">
+      <span class="label">Nombre</span>
+      <span class="value" id="pf-data-name">Coleccionista Blindbox</span>
+    </div>
+    <div class="profile-field">
+      <span class="label">Correo</span>
+      <span class="value" id="pf-data-email">sin correo registrado</span>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <h2>Mis compras (próximamente)</h2>
+    <div class="profile-empty">Todavía no tienes compras. Cuando el carrito esté listo, tu historial aparecerá aquí.</div>
+  </div>
+
+  <div class="logout-wrap">
+    <button class="btn-logout" id="logoutBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <path d="M16 17l5-5-5-5"/>
+        <path d="M21 12H9"/>
+      </svg>
+      Cerrar sesión
+    </button>
+  </div>
+</section>
+
+<footer>
+  © 2026 Blindbox MX — todos los derechos reservados
+</footer>
+
+<script>
+
+  const nombre = localStorage.getItem('bb_user_name');
+  const correo = localStorage.getItem('bb_user_email');
+
+  if (nombre) {
+    document.getElementById('pf-name').textContent = nombre;
+    document.getElementById('pf-data-name').textContent = nombre;
+    document.getElementById('pf-avatar').textContent = nombre.trim().charAt(0).toUpperCase() || 'B';
+  }
+  if (correo) {
+    document.getElementById('pf-data-email').textContent = correo;
+  }
+
+  document.getElementById('logoutBtn').addEventListener('click', function(){
+    localStorage.removeItem('bb_user_name');
+    localStorage.removeItem('bb_user_email');
+    window.location.href = 'index.html';
+  });
+</script>
+
+</body>
+</html>

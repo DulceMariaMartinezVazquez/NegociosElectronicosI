@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro — Blindbox MX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="CSS/styles.css">
+
+
+<style>
+  .auth-wrap{
+    min-height: 70vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 60px 6%;
+    background: linear-gradient(180deg, var(--purple-bg) 0%, var(--bg) 100%);
+  }
+
+  .auth-card{
+    width: 100%;
+    max-width: 420px;
+    background: var(--bg);
+    border-radius: 22px;
+    padding: 40px 34px;
+    box-shadow: 0 14px 32px rgba(122,106,216,0.16);
+  }
+
+  .auth-card .eyebrow{
+    display:inline-block;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    font-weight:600;
+    font-size: 12.5px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+
+  .auth-card h1{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size: 26px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .auth-card .auth-sub{
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin-bottom: 26px;
+  }
+
+  .auth-card .btn-primary{
+    width: 100%;
+    justify-content:center;
+    border: none;
+    cursor: pointer;
+  }
+
+  .auth-switch{
+    text-align:center;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 20px;
+  }
+
+  .auth-switch a{
+    color: var(--purple-dark);
+    font-weight: 600;
+  }
+
+  .auth-switch a:hover{
+    text-decoration: underline;
+  }
+
+  .form-success{
+    display:none;
+    align-items:center;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: #EAF7EE;
+    color: #2E7D45;
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+  }
+
+  .form-success.show{
+    display:flex;
+  }
+
+  .form-success svg{
+    width: 18px;
+    height: 18px;
+    flex-shrink:0;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <button class="nav-toggle" aria-label="Abrir menú" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <a href="index.html" class="logo">
+    <img src="images/logobbmx.png" alt="Blindbox MX">
+  </a>
+
+  <div class="header-actions">
+    <a href="login.html" class="login">Iniciar sesión</a>
+  </div>
+</header>
+
+<section class="auth-wrap">
+  <div class="auth-card">
+    <span class="eyebrow">Únete</span>
+    <h1>Crea tu cuenta</h1>
+    <p class="auth-sub">Regístrate para guardar tus figuras favoritas.</p>
+
+    <form id="registroForm">
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" >
+      </div>
+
+      <div class="form-group">
+        <label for="correo">Correo</label>
+        <input type="email" id="correo" name="correo" placeholder="tu@correo.com">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" placeholder="••••••••" >
+      </div>
+
+      <button type="submit" class="btn-primary">Registrarme</button>
+
+      <div class="form-success" id="formSuccess">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M9 12l2 2 4-4"/>
+          <circle cx="12" cy="12" r="9"/>
+        </svg>
+        Registro exitoso  — redirigiendo a inicio de sesión...
+      </div>
+    </form>
+
+    <div class="auth-switch">
+      ¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Blindbox MX — todos los derechos reservados
+</footer>
+
+<script>
+  document.getElementById('registroForm').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const nombre = document.getElementById('nombre').value;
+    const correo = document.getElementById('correo').value;
+    localStorage.setItem('bb_user_name', nombre);
+    localStorage.setItem('bb_user_email', correo);
+
+    document.getElementById('formSuccess').classList.add('show');
+
+    setTimeout(function(){
+      window.location.href = 'login.html';
+    }, 1400);
+  });
+</script>
+
+</body>
+</html>
