@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="CSS/styles.css">
 
-
+<!-- Diseño específico de esta página (no se tocó styles.css) -->
 <style>
   .catalog-hero{
     text-align:center;
@@ -135,6 +135,29 @@
     background: var(--purple-dark);
   }
 
+  .cart-icon-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    margin-right: 14px;
+    cursor: default;
+  }
+
+  .cart-icon-btn svg{
+    width: 20px;
+    height: 20px;
+  }
+
+  .header-actions{
+    display:flex;
+    align-items:center;
+  }
+
   @media (max-width: 640px){
     .catalog-hero h1{
       font-size: 28px;
@@ -171,6 +194,13 @@
   </a>
 
   <div class="header-actions">
+    <span class="cart-icon-btn" aria-label="Carrito (aún no disponible)" title="Carrito — próximamente">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="9" cy="21" r="1.4"/>
+        <circle cx="18" cy="21" r="1.4"/>
+        <path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/>
+      </svg>
+    </span>
     <a href="Login.html" class="login">Iniciar sesión</a>
   </div>
 </header>
@@ -180,6 +210,7 @@
   <h1>Todas nuestras figuras</h1>
   <p>Explora nuestras series disponibles. Da clic en "Ver detalle" para conocer más de cada pieza.</p>
   <br>
+  <span class="catalog-note">Modo de muestra — sin carrito de compras aún</span>
 </section>
 
 <section class="catalog-grid">
