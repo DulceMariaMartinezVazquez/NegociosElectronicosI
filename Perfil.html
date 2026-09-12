@@ -98,6 +98,34 @@
     text-align:center;
   }
 
+  .profile-card .btn-primary{
+    border: none;
+    cursor: pointer;
+  }
+
+  .profile-save-msg{
+    display:none;
+    align-items:center;
+    gap: 8px;
+    margin-top: 14px;
+    padding: 10px 14px;
+    background: #EAF7EE;
+    color: #2E7D45;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .profile-save-msg.show{
+    display:flex;
+  }
+
+  .profile-save-msg svg{
+    width: 16px;
+    height: 16px;
+    flex-shrink:0;
+  }
+
   .btn-logout{
     display:inline-flex;
     align-items:center;
@@ -165,6 +193,49 @@
       <span class="label">Correo</span>
       <span class="value" id="pf-data-email">sin correo registrado</span>
     </div>
+    <div class="profile-field">
+      <span class="label">Teléfono</span>
+      <span class="value" id="pf-data-phone">sin teléfono registrado</span>
+    </div>
+    <div class="profile-field">
+      <span class="label">Dirección</span>
+      <span class="value" id="pf-data-address">sin dirección registrada</span>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <h2>Editar mis datos</h2>
+    <form id="editForm">
+      <div class="form-group">
+        <label for="edit-nombre">Nombre</label>
+        <input type="text" id="edit-nombre" name="nombre" placeholder="Tu nombre">
+      </div>
+
+      <div class="form-group">
+        <label for="edit-correo">Correo</label>
+        <input type="email" id="edit-correo" name="correo" placeholder="tu@correo.com">
+      </div>
+
+      <div class="form-group">
+        <label for="edit-telefono">Teléfono</label>
+        <input type="tel" id="edit-telefono" name="telefono" placeholder="Ej. 449 123 4567">
+      </div>
+
+      <div class="form-group">
+        <label for="edit-direccion">Dirección</label>
+        <input type="text" id="edit-direccion" name="direccion" placeholder="Calle, número, ciudad">
+      </div>
+
+      <button type="submit" class="btn-primary">Guardar cambios</button>
+
+      <div class="profile-save-msg" id="saveMsg">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M9 12l2 2 4-4"/>
+          <circle cx="12" cy="12" r="9"/>
+        </svg>
+        Datos actualizados (simulado)
+      </div>
+    </form>
   </div>
 
   <div class="profile-card">
@@ -189,22 +260,63 @@
 </footer>
 
 <script>
+  // Modo básico: si el usuario vino de registro.html, mostramos su nombre/correo guardados
+  // en este navegador. Si no, mostramos un usuario ficticio de muestra.
+  function cargarDatos(){
+    const nombre = localStorage.getItem('bb_user_name');
+    const correo = localStorage.getItem('bb_user_email');
+    const telefono = localStorage.getItem('bb_user_phone');
+    const direccion = localStorage.getItem('bb_user_address');
 
-  const nombre = localStorage.getItem('bb_user_name');
-  const correo = localStorage.getItem('bb_user_email');
+    if (nombre) {
+      document.getElementById('pf-name').textContent = nombre;
+      document.getElementById('pf-data-name').textContent = nombre;
+      document.getElementById('pf-avatar').textContent = nombre.trim().charAt(0).toUpperCase() || 'B';
+      document.getElementById('edit-nombre').value = nombre;
+    }
+    if (correo) {
+      document.getElementById('pf-data-email').textContent = correo;
+      document.getElementById('edit-correo').value = correo;
+    }
+    if (telefono) {
+      document.getElementById('pf-data-phone').textContent = telefono;
+      document.getElementById('edit-telefono').value = telefono;
+    }
+    if (direccion) {
+      document.getElementById('pf-data-address').textContent = direccion;
+      document.getElementById('edit-direccion').value = direccion;
+    }
+  }
 
-  if (nombre) {
-    document.getElementById('pf-name').textContent = nombre;
-    document.getElementById('pf-data-name').textContent = nombre;
-    document.getElementById('pf-avatar').textContent = nombre.trim().charAt(0).toUpperCase() || 'B';
-  }
-  if (correo) {
-    document.getElementById('pf-data-email').textContent = correo;
-  }
+  cargarDatos();
+
+  document.getElementById('editForm').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    // Modo básico: guardamos los cambios solo en este navegador (localStorage),
+    // no se envían a ningún servidor.
+    const nombre = document.getElementById('edit-nombre').value.trim();
+    const correo = document.getElementById('edit-correo').value.trim();
+    const telefono = document.getElementById('edit-telefono').value.trim();
+    const direccion = document.getElementById('edit-direccion').value.trim();
+
+    if (nombre) localStorage.setItem('bb_user_name', nombre);
+    if (correo) localStorage.setItem('bb_user_email', correo);
+    if (telefono) localStorage.setItem('bb_user_phone', telefono);
+    if (direccion) localStorage.setItem('bb_user_address', direccion);
+
+    cargarDatos();
+
+    const msg = document.getElementById('saveMsg');
+    msg.classList.add('show');
+    setTimeout(function(){ msg.classList.remove('show'); }, 2500);
+  });
 
   document.getElementById('logoutBtn').addEventListener('click', function(){
     localStorage.removeItem('bb_user_name');
     localStorage.removeItem('bb_user_email');
+    localStorage.removeItem('bb_user_phone');
+    localStorage.removeItem('bb_user_address');
     window.location.href = 'index.html';
   });
 </script>
