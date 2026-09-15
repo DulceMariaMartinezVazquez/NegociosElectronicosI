@@ -134,6 +134,104 @@
     background: var(--purple-dark);
   }
 
+  .catalog-controls{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content:center;
+    align-items:center;
+    max-width: 1000px;
+    margin: 30px auto 0;
+    padding: 0 6%;
+  }
+
+  .catalog-search{
+    flex: 1 1 260px;
+    max-width: 340px;
+    position: relative;
+  }
+
+  .catalog-search input{
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--purple-bg);
+    border: 1px solid var(--purple-light);
+    border-radius: 999px;
+    padding: 10px 16px 10px 38px;
+  }
+
+  .catalog-search input:focus{
+    outline: none;
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(122,106,216,0.15);
+  }
+
+  .catalog-search svg{
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: var(--ink-soft);
+  }
+
+  .catalog-price-filter{
+    font-family: 'Poppins', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--purple-bg);
+    border: 1px solid var(--purple-light);
+    border-radius: 999px;
+    padding: 10px 16px;
+    cursor: pointer;
+  }
+
+  .catalog-price-filter:focus{
+    outline: none;
+    border-color: var(--purple);
+  }
+
+  .catalog-badge{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    padding: 4px 11px;
+    border-radius: 999px;
+    color: #fff;
+    z-index: 2;
+  }
+
+  .catalog-badge.badge-new{
+    background: #4FAE6B;
+  }
+
+  .catalog-badge.badge-sale{
+    background: #E0577A;
+  }
+
+  .catalog-card .catalog-image{
+    position: relative;
+  }
+
+  .catalog-price .old-price{
+    color: var(--ink-soft);
+    text-decoration: line-through;
+    font-weight: 500;
+    font-size: 13px;
+    margin-right: 6px;
+  }
+
+  .catalog-price .sale-price{
+    color: #C0416A;
+  }
+
   .cart-icon-btn{
     display:flex;
     align-items:center;
@@ -259,7 +357,25 @@
   <h1>Todas nuestras figuras</h1>
   <p>Explora nuestras series disponibles. Da clic en "Ver detalle" para conocer más de cada pieza.</p>
   <br>
+  <span class="catalog-note">Modo de muestra — sin carrito de compras aún</span>
 </section>
+
+<div class="catalog-controls">
+  <div class="catalog-search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="11" cy="11" r="7"/>
+      <path d="M21 21l-4.3-4.3" stroke-linecap="round"/>
+    </svg>
+    <input type="text" id="catalogSearch" placeholder="Buscar figura...">
+  </div>
+
+  <select class="catalog-price-filter" id="catalogPriceFilter">
+    <option value="todos">Todos los precios</option>
+    <option value="0-450">Hasta $450</option>
+    <option value="451-500">$451 – $500</option>
+    <option value="501-9999">Más de $500</option>
+  </select>
+</div>
 
 <div class="catalog-filters" id="catalogFilters">
   <button class="filter-chip active" data-filter="todos">Todos</button>
@@ -274,8 +390,9 @@
 
 <section class="catalog-grid" id="catalogGrid">
 
-  <div class="catalog-card" data-line="Labubu">
+  <div class="catalog-card" data-line="Labubu" data-price="450" data-name="Labubu Exciting Macaron">
     <div class="catalog-image">
+      <span class="catalog-badge badge-new">Nuevo</span>
       <img src="assets/producto-labubu.jpg" alt="Labubu Exciting Macaron" onerror="this.style.display='none'">
     </div>
     <span class="catalog-line">Labubu</span>
@@ -284,7 +401,7 @@
     <a href="producto.html?id=labubu-1" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card" data-line="Labubu">
+  <div class="catalog-card" data-line="Labubu" data-price="480" data-name="Labubu The Monsters">
     <div class="catalog-image">
       <img src="assets/producto-labubu-2.jpg" alt="Labubu The Monsters" onerror="this.style.display='none'">
     </div>
@@ -294,7 +411,7 @@
     <a href="producto.html?id=labubu-2" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card" data-line="Hirono">
+  <div class="catalog-card" data-line="Hirono" data-price="520" data-name="Hirono Let's Checkmate">
     <div class="catalog-image">
       <img src="assets/producto-hirono.jpg" alt="Hirono Let's Checkmate" onerror="this.style.display='none'">
     </div>
@@ -304,17 +421,18 @@
     <a href="producto.html?id=hirono-1" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card" data-line="Hirono">
+  <div class="catalog-card" data-line="Hirono" data-price="499" data-name="Hirono Sweet Bean">
     <div class="catalog-image">
+      <span class="catalog-badge badge-sale">Oferta</span>
       <img src="assets/producto-hirono-2.jpg" alt="Hirono Sweet Bean" onerror="this.style.display='none'">
     </div>
     <span class="catalog-line">Hirono</span>
     <h3>Hirono Sweet Bean</h3>
-    <div class="catalog-price">$499 MXN</div>
+    <div class="catalog-price"><span class="old-price">$550 MXN</span><span class="sale-price">$499 MXN</span></div>
     <a href="producto.html?id=hirono-2" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card" data-line="Skullpanda">
+  <div class="catalog-card" data-line="Skullpanda" data-price="560" data-name="Skullpanda Requiem">
     <div class="catalog-image">
       <img src="assets/producto-skullpanda.jpg" alt="Skullpanda Requiem" onerror="this.style.display='none'">
     </div>
@@ -324,8 +442,9 @@
     <a href="producto.html?id=skullpanda-1" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card" data-line="Skullpanda">
+  <div class="catalog-card" data-line="Skullpanda" data-price="540" data-name="Skullpanda City of Night">
     <div class="catalog-image">
+      <span class="catalog-badge badge-new">Nuevo</span>
       <img src="assets/producto-skullpanda-2.jpg" alt="Skullpanda City of Night" onerror="this.style.display='none'">
     </div>
     <span class="catalog-line">Skullpanda</span>
@@ -334,7 +453,7 @@
     <a href="producto.html?id=skullpanda-2" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card" data-line="Kubo">
+  <div class="catalog-card" data-line="Kubo" data-price="430" data-name="Kubo Block Society">
     <div class="catalog-image">
       <img src="assets/producto-kubo.jpg" alt="Kubo Block Society" onerror="this.style.display='none'">
     </div>
@@ -344,7 +463,7 @@
     <a href="producto.html?id=kubo-1" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card" data-line="Kubo">
+  <div class="catalog-card" data-line="Kubo" data-price="410" data-name="Kubo Ordinary Life">
     <div class="catalog-image">
       <img src="assets/producto-kubo-2.jpg" alt="Kubo Ordinary Life" onerror="this.style.display='none'">
     </div>
@@ -354,7 +473,7 @@
     <a href="producto.html?id=kubo-2" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card" data-line="Cry Baby">
+  <div class="catalog-card" data-line="Cry Baby" data-price="470" data-name="Cry Baby Fashion Ver.">
     <div class="catalog-image">
       <img src="assets/producto-crybaby.jpg" alt="Cry Baby Fashion Ver." onerror="this.style.display='none'">
     </div>
@@ -364,7 +483,7 @@
     <a href="producto.html?id=crybaby-1" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card" data-line="Nyota">
+  <div class="catalog-card" data-line="Nyota" data-price="440" data-name="Nyota Stars Diary">
     <div class="catalog-image">
       <img src="assets/producto-nyota.jpg" alt="Nyota Stars Diary" onerror="this.style.display='none'">
     </div>
@@ -374,13 +493,14 @@
     <a href="producto.html?id=nyota-1" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card" data-line="Dimoo">
+  <div class="catalog-card" data-line="Dimoo" data-price="500" data-name="Dimoo Animal Circus">
     <div class="catalog-image">
+      <span class="catalog-badge badge-sale">Oferta</span>
       <img src="assets/producto-dimoo.jpg" alt="Dimoo Animal Circus" onerror="this.style.display='none'">
     </div>
     <span class="catalog-line">Dimoo</span>
     <h3>Dimoo Animal Circus</h3>
-    <div class="catalog-price">$500 MXN</div>
+    <div class="catalog-price"><span class="old-price">$560 MXN</span><span class="sale-price">$500 MXN</span></div>
     <a href="producto.html?id=dimoo-1" class="btn-detail">Ver detalle</a>
   </div>
 
@@ -396,24 +516,46 @@
   const chips = document.querySelectorAll('.filter-chip');
   const cards = document.querySelectorAll('.catalog-card');
   const emptyMsg = document.getElementById('catalogEmpty');
+  const searchInput = document.getElementById('catalogSearch');
+  const priceFilter = document.getElementById('catalogPriceFilter');
+
+  let activeCategory = 'todos';
+
+  function aplicarFiltros(){
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    const priceRange = priceFilter.value;
+    let visibleCount = 0;
+
+    cards.forEach(function(card){
+      const matchesCategory = activeCategory === 'todos' || card.dataset.line === activeCategory;
+      const matchesSearch = !searchTerm || card.dataset.name.toLowerCase().includes(searchTerm) || card.dataset.line.toLowerCase().includes(searchTerm);
+
+      let matchesPrice = true;
+      if (priceRange !== 'todos') {
+        const [min, max] = priceRange.split('-').map(Number);
+        const price = Number(card.dataset.price);
+        matchesPrice = price >= min && price <= max;
+      }
+
+      const matches = matchesCategory && matchesSearch && matchesPrice;
+      card.classList.toggle('is-hidden', !matches);
+      if (matches) visibleCount++;
+    });
+
+    emptyMsg.classList.toggle('show', visibleCount === 0);
+  }
 
   chips.forEach(function(chip){
     chip.addEventListener('click', function(){
       chips.forEach(function(c){ c.classList.remove('active'); });
       chip.classList.add('active');
-
-      const filter = chip.dataset.filter;
-      let visibleCount = 0;
-
-      cards.forEach(function(card){
-        const matches = filter === 'todos' || card.dataset.line === filter;
-        card.classList.toggle('is-hidden', !matches);
-        if (matches) visibleCount++;
-      });
-
-      emptyMsg.classList.toggle('show', visibleCount === 0);
+      activeCategory = chip.dataset.filter;
+      aplicarFiltros();
     });
   });
+
+  searchInput.addEventListener('input', aplicarFiltros);
+  priceFilter.addEventListener('change', aplicarFiltros);
 </script>
 
 </body>
