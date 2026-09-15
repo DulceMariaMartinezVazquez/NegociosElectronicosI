@@ -9,7 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="CSS/styles.css">
 
-<!-- Diseño específico de esta página (no se tocó styles.css) -->
 <style>
   .catalog-hero{
     text-align:center;
@@ -144,7 +143,7 @@
     border-radius: 50%;
     background: var(--purple-light);
     color: var(--purple-dark);
-    margin-right: 14px;
+    margin-left: 14px;
     cursor: default;
   }
 
@@ -156,6 +155,56 @@
   .header-actions{
     display:flex;
     align-items:center;
+  }
+
+  .catalog-filters{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    gap: 10px;
+    max-width: 1000px;
+    margin: 26px auto 0;
+    padding: 0 6%;
+  }
+
+  .filter-chip{
+    background: var(--bg);
+    border: 1.5px solid var(--purple-light);
+    color: var(--ink-soft);
+    font-weight: 600;
+    font-size: 13px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .2s, color .2s, border-color .2s;
+  }
+
+  .filter-chip:hover{
+    border-color: var(--purple);
+  }
+
+  .filter-chip.active{
+    background: var(--purple);
+    border-color: var(--purple);
+    color: #fff;
+  }
+
+  .catalog-empty{
+    display:none;
+    text-align:center;
+    max-width: 1100px;
+    margin: 40px auto 0;
+    padding: 0 6% 90px;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+
+  .catalog-empty.show{
+    display:block;
+  }
+
+  .catalog-card.is-hidden{
+    display:none;
   }
 
   @media (max-width: 640px){
@@ -194,6 +243,7 @@
   </a>
 
   <div class="header-actions">
+    <a href="login.html" class="login">Iniciar sesión</a>
     <span class="cart-icon-btn" aria-label="Carrito (aún no disponible)" title="Carrito — próximamente">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <circle cx="9" cy="21" r="1.4"/>
@@ -201,7 +251,6 @@
         <path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/>
       </svg>
     </span>
-    <a href="Login.html" class="login">Iniciar sesión</a>
   </div>
 </header>
 
@@ -210,12 +259,22 @@
   <h1>Todas nuestras figuras</h1>
   <p>Explora nuestras series disponibles. Da clic en "Ver detalle" para conocer más de cada pieza.</p>
   <br>
-  <span class="catalog-note">Modo de muestra — sin carrito de compras aún</span>
 </section>
 
-<section class="catalog-grid">
+<div class="catalog-filters" id="catalogFilters">
+  <button class="filter-chip active" data-filter="todos">Todos</button>
+  <button class="filter-chip" data-filter="Labubu">Labubu</button>
+  <button class="filter-chip" data-filter="Hirono">Hirono</button>
+  <button class="filter-chip" data-filter="Skullpanda">Skullpanda</button>
+  <button class="filter-chip" data-filter="Kubo">Kubo</button>
+  <button class="filter-chip" data-filter="Cry Baby">Cry Baby</button>
+  <button class="filter-chip" data-filter="Nyota">Nyota</button>
+  <button class="filter-chip" data-filter="Dimoo">Dimoo</button>
+</div>
 
-  <div class="catalog-card">
+<section class="catalog-grid" id="catalogGrid">
+
+  <div class="catalog-card" data-line="Labubu">
     <div class="catalog-image">
       <img src="assets/producto-labubu.jpg" alt="Labubu Exciting Macaron" onerror="this.style.display='none'">
     </div>
@@ -225,7 +284,7 @@
     <a href="producto.html?id=labubu-1" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card">
+  <div class="catalog-card" data-line="Labubu">
     <div class="catalog-image">
       <img src="assets/producto-labubu-2.jpg" alt="Labubu The Monsters" onerror="this.style.display='none'">
     </div>
@@ -235,7 +294,7 @@
     <a href="producto.html?id=labubu-2" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card">
+  <div class="catalog-card" data-line="Hirono">
     <div class="catalog-image">
       <img src="assets/producto-hirono.jpg" alt="Hirono Let's Checkmate" onerror="this.style.display='none'">
     </div>
@@ -245,7 +304,7 @@
     <a href="producto.html?id=hirono-1" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card">
+  <div class="catalog-card" data-line="Hirono">
     <div class="catalog-image">
       <img src="assets/producto-hirono-2.jpg" alt="Hirono Sweet Bean" onerror="this.style.display='none'">
     </div>
@@ -255,7 +314,7 @@
     <a href="producto.html?id=hirono-2" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card">
+  <div class="catalog-card" data-line="Skullpanda">
     <div class="catalog-image">
       <img src="assets/producto-skullpanda.jpg" alt="Skullpanda Requiem" onerror="this.style.display='none'">
     </div>
@@ -265,7 +324,7 @@
     <a href="producto.html?id=skullpanda-1" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card">
+  <div class="catalog-card" data-line="Skullpanda">
     <div class="catalog-image">
       <img src="assets/producto-skullpanda-2.jpg" alt="Skullpanda City of Night" onerror="this.style.display='none'">
     </div>
@@ -275,7 +334,7 @@
     <a href="producto.html?id=skullpanda-2" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card">
+  <div class="catalog-card" data-line="Kubo">
     <div class="catalog-image">
       <img src="assets/producto-kubo.jpg" alt="Kubo Block Society" onerror="this.style.display='none'">
     </div>
@@ -285,7 +344,7 @@
     <a href="producto.html?id=kubo-1" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card">
+  <div class="catalog-card" data-line="Kubo">
     <div class="catalog-image">
       <img src="assets/producto-kubo-2.jpg" alt="Kubo Ordinary Life" onerror="this.style.display='none'">
     </div>
@@ -295,11 +354,67 @@
     <a href="producto.html?id=kubo-2" class="btn-detail">Ver detalle</a>
   </div>
 
+  <div class="catalog-card" data-line="Cry Baby">
+    <div class="catalog-image">
+      <img src="assets/producto-crybaby.jpg" alt="Cry Baby Fashion Ver." onerror="this.style.display='none'">
+    </div>
+    <span class="catalog-line">Cry Baby</span>
+    <h3>Cry Baby Fashion Ver.</h3>
+    <div class="catalog-price">$470 MXN</div>
+    <a href="producto.html?id=crybaby-1" class="btn-detail">Ver detalle</a>
+  </div>
+
+  <div class="catalog-card" data-line="Nyota">
+    <div class="catalog-image">
+      <img src="assets/producto-nyota.jpg" alt="Nyota Stars Diary" onerror="this.style.display='none'">
+    </div>
+    <span class="catalog-line">Nyota</span>
+    <h3>Nyota Stars Diary</h3>
+    <div class="catalog-price">$440 MXN</div>
+    <a href="producto.html?id=nyota-1" class="btn-detail">Ver detalle</a>
+  </div>
+
+  <div class="catalog-card" data-line="Dimoo">
+    <div class="catalog-image">
+      <img src="assets/producto-dimoo.jpg" alt="Dimoo Animal Circus" onerror="this.style.display='none'">
+    </div>
+    <span class="catalog-line">Dimoo</span>
+    <h3>Dimoo Animal Circus</h3>
+    <div class="catalog-price">$500 MXN</div>
+    <a href="producto.html?id=dimoo-1" class="btn-detail">Ver detalle</a>
+  </div>
+
 </section>
+
+<p class="catalog-empty" id="catalogEmpty">No hay productos en esta categoría por ahora.</p>
 
 <footer>
   © 2026 Blindbox MX — todos los derechos reservados
 </footer>
+
+<script>
+  const chips = document.querySelectorAll('.filter-chip');
+  const cards = document.querySelectorAll('.catalog-card');
+  const emptyMsg = document.getElementById('catalogEmpty');
+
+  chips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      chips.forEach(function(c){ c.classList.remove('active'); });
+      chip.classList.add('active');
+
+      const filter = chip.dataset.filter;
+      let visibleCount = 0;
+
+      cards.forEach(function(card){
+        const matches = filter === 'todos' || card.dataset.line === filter;
+        card.classList.toggle('is-hidden', !matches);
+        if (matches) visibleCount++;
+      });
+
+      emptyMsg.classList.toggle('show', visibleCount === 0);
+    });
+  });
+</script>
 
 </body>
 </html>
