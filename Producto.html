@@ -42,25 +42,17 @@
     align-items: flex-start;
   }
 
-  .detail-image{
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    background: linear-gradient(135deg, var(--purple-light) 0%, #F7F4FD 100%);
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 0 14px 32px rgba(122,106,216,0.16);
-  }
-
-  .detail-image img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .detail-gallery{
+    display:flex;
+    gap: 14px;
+    align-items:flex-start;
   }
 
   .detail-thumbs{
     display:flex;
+    flex-direction: column;
     gap: 10px;
-    margin-top: 12px;
+    flex-shrink: 0;
   }
 
   .detail-thumbs button{
@@ -86,8 +78,20 @@
     display: block;
   }
 
-  .detail-thumbs button img[hidden]{
-    display:none;
+  .detail-image{
+    flex: 1;
+    width: auto;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, var(--purple-light) 0%, #F7F4FD 100%);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 14px 32px rgba(122,106,216,0.16);
+  }
+
+  .detail-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .detail-line{
@@ -254,6 +258,132 @@
     .detail-grid{
       grid-template-columns: 1fr;
     }
+
+    .detail-gallery{
+      flex-direction: column-reverse;
+    }
+
+    .detail-thumbs{
+      flex-direction: row;
+      overflow-x: auto;
+    }
+  }
+
+  .header-actions{
+    display:flex;
+    align-items:center;
+  }
+
+  .cart-icon-btn{
+    position: relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    margin-left: 14px;
+  }
+
+  .cart-icon-btn svg{
+    width: 20px;
+    height: 20px;
+  }
+
+  .cart-badge{
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #E0577A;
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 0 4px;
+  }
+
+  .cart-badge.hide{
+    display:none;
+  }
+
+  .related-section{
+    max-width: 1000px;
+    margin: 20px auto 0;
+    padding: 40px 6% 90px;
+    border-top: 1px solid var(--purple-light);
+  }
+
+  .related-section h2{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+
+  .related-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .related-card{
+    display:block;
+    text-decoration:none;
+    color: inherit;
+    background: var(--bg);
+    border-radius: 18px;
+    padding: 12px 12px 16px;
+    box-shadow: 0 8px 20px rgba(122,106,216,0.10);
+    transition: transform .2s, box-shadow .2s;
+  }
+
+  .related-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 12px 26px rgba(122,106,216,0.16);
+  }
+
+  .related-card .related-image{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, var(--purple-light) 0%, #F7F4FD 100%);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+
+  .related-card .related-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .related-card h3{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--ink);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .related-card .related-price{
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--purple-dark);
+  }
+
+  @media (max-width: 640px){
+    .related-grid{
+      grid-template-columns: 1fr 1fr;
+    }
   }
 </style>
 </head>
@@ -277,6 +407,14 @@
 
   <div class="header-actions">
     <a href="login.html" class="login">Iniciar sesión</a>
+    <span class="cart-icon-btn" aria-label="Carrito" title="Carrito">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="9" cy="21" r="1.4"/>
+        <circle cx="18" cy="21" r="1.4"/>
+        <path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/>
+      </svg>
+      <span class="cart-badge hide" id="cartBadge">0</span>
+    </span>
   </div>
 </header>
 
@@ -289,11 +427,11 @@
   </a>
 
   <div class="detail-grid">
-    <div>
+    <div class="detail-gallery">
+      <div class="detail-thumbs" id="pd-thumbs"></div>
       <div class="detail-image">
         <img id="pd-image" src="" alt="" onerror="this.style.display='none'">
       </div>
-      <div class="detail-thumbs" id="pd-thumbs"></div>
     </div>
 
     <div>
@@ -328,14 +466,19 @@
         </button>
         <div class="cart-message" id="pd-cart-msg">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16">
+            <path d="M9 12l2 2 4-4"/>
             <circle cx="12" cy="12" r="9"/>
-            <path d="M12 8v4l2.5 2.5"/>
           </svg>
-          Próximamente — esta función aún no está disponible.
+          <span id="pd-cart-msg-text">Agregado al carrito</span>
         </div>
       </div>
     </div>
   </div>
+</section>
+
+<section class="related-section">
+  <h2>Productos relacionados</h2>
+  <div class="related-grid" id="relatedGrid"></div>
 </section>
 
 <footer>
@@ -509,8 +652,81 @@
 
   actualizarPrecios();
 
+  // ---------- Carrito (localStorage, sin backend) ----------
+  const CART_KEY = 'bb_cart';
+
+  function getCart(){
+    try {
+      return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveCart(cart){
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  }
+
+  function actualizarBadge(){
+    const cart = getCart();
+    const total = cart.reduce(function(sum, item){ return sum + item.qty; }, 0);
+    const badge = document.getElementById('cartBadge');
+    badge.textContent = total;
+    badge.classList.toggle('hide', total === 0);
+  }
+
+  actualizarBadge();
+
   document.getElementById('pd-cart-btn').addEventListener('click', function(){
-    document.getElementById('pd-cart-msg').classList.add('show');
+    const cart = getCart();
+    const unitPrice = option === 'kit' ? product.kitPrice : product.price;
+    const cartKey = id + '-' + option;
+
+    const existing = cart.find(function(item){ return item.key === cartKey; });
+    if (existing) {
+      existing.qty += qty;
+    } else {
+      cart.push({
+        key: cartKey,
+        id: id,
+        name: product.name,
+        line: product.line,
+        option: option,
+        price: unitPrice,
+        image: product.images[0],
+        qty: qty
+      });
+    }
+
+    saveCart(cart);
+    actualizarBadge();
+
+    document.getElementById('pd-cart-msg-text').textContent = 'Agregado al carrito (' + qty + (qty === 1 ? ' pieza' : ' piezas') + ')';
+    const msg = document.getElementById('pd-cart-msg');
+    msg.classList.add('show');
+    setTimeout(function(){ msg.classList.remove('show'); }, 2500);
+  });
+
+  // ---------- Productos relacionados ----------
+  const relatedGrid = document.getElementById('relatedGrid');
+  const sameLine = Object.keys(products).filter(function(key){
+    return key !== id && products[key].line === product.line;
+  });
+  const others = Object.keys(products).filter(function(key){
+    return key !== id && products[key].line !== product.line;
+  });
+  const relatedIds = sameLine.concat(others).slice(0, 4);
+
+  relatedIds.forEach(function(key){
+    const p = products[key];
+    const card = document.createElement('a');
+    card.href = 'producto.html?id=' + key;
+    card.className = 'related-card';
+    card.innerHTML =
+      '<div class="related-image"><img src="' + p.images[0] + '" alt="' + p.name + '" onerror="this.style.display=\'none\'"></div>' +
+      '<h3>' + p.name + '</h3>' +
+      '<div class="related-price">$' + p.price.toLocaleString('es-MX') + ' MXN</div>';
+    relatedGrid.appendChild(card);
   });
 </script>
 
