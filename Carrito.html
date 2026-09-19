@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrito — Blindbox MX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="CSS/styles.css">
+
+<style>
+  .cart-hero{
+    text-align:center;
+    padding: 50px 6% 10px;
+    background: linear-gradient(180deg, var(--purple-bg) 0%, var(--bg) 100%);
+  }
+
+  .cart-hero .eyebrow{
+    display:inline-block;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    font-weight:600;
+    font-size: 13px;
+    padding: 7px 18px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+
+  .cart-hero h1{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size: 34px;
+    color: var(--ink);
+  }
+
+  .cart-layout{
+    display:flex;
+    gap: 30px;
+    max-width: 1000px;
+    margin: 40px auto 0;
+    padding: 0 6% 90px;
+    align-items: flex-start;
+  }
+
+  .cart-items{
+    flex: 1.6;
+    display:flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .cart-item{
+    display:flex;
+    align-items:center;
+    gap: 16px;
+    background: var(--bg);
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 8px 20px rgba(122,106,216,0.10);
+  }
+
+  .cart-item-image{
+    width: 76px;
+    height: 76px;
+    flex-shrink:0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--purple-light) 0%, #F7F4FD 100%);
+  }
+
+  .cart-item-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cart-item-info{
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cart-item-info .line{
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--purple-dark);
+  }
+
+  .cart-item-info h3{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+    margin: 2px 0 4px;
+  }
+
+  .cart-item-info .option-tag{
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  .cart-item-price{
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .cart-item-qty{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    background: var(--purple-bg);
+    border-radius: 999px;
+    padding: 4px 4px;
+  }
+
+  .cart-item-qty button{
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg);
+    color: var(--purple-dark);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(122,106,216,0.2);
+  }
+
+  .cart-item-qty span{
+    min-width: 16px;
+    text-align:center;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .cart-item-remove{
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: #FBEAEA;
+    color: #C0392B;
+    cursor: pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink: 0;
+    transition: background .2s;
+  }
+
+  .cart-item-remove:hover{
+    background: #F6D2D2;
+  }
+
+  .cart-item-remove svg{
+    width: 15px;
+    height: 15px;
+  }
+
+  .cart-empty{
+    text-align:center;
+    background: var(--bg);
+    border-radius: 20px;
+    padding: 50px 30px;
+    box-shadow: 0 8px 20px rgba(122,106,216,0.10);
+  }
+
+  .cart-empty p{
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 22px;
+  }
+
+  .cart-summary{
+    flex: 1;
+    background: var(--purple-bg);
+    border-radius: 20px;
+    padding: 26px 26px 24px;
+    position: sticky;
+    top: 90px;
+  }
+
+  .cart-summary h2{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+
+  .cart-summary-row{
+    display:flex;
+    justify-content:space-between;
+    font-size: 14px;
+    color: var(--ink-soft);
+    padding: 8px 0;
+  }
+
+  .cart-summary-row.total{
+    border-top: 1px solid var(--purple-light);
+    margin-top: 8px;
+    padding-top: 14px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .cart-summary .btn-primary{
+    width: 100%;
+    justify-content:center;
+    margin-top: 18px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .cart-summary-note{
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    text-align:center;
+    margin-top: 10px;
+    opacity: 0.85;
+  }
+
+  .header-actions{
+    display:flex;
+    align-items:center;
+  }
+
+  .cart-icon-btn{
+    position: relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    margin-left: 14px;
+  }
+
+  .cart-icon-btn svg{
+    width: 20px;
+    height: 20px;
+  }
+
+  .cart-badge{
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #E0577A;
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 0 4px;
+  }
+
+  .cart-badge.hide{
+    display:none;
+  }
+
+  @media (max-width: 720px){
+    .cart-layout{
+      flex-direction: column;
+    }
+
+    .cart-summary{
+      position: static;
+      width: 100%;
+    }
+
+    .cart-item{
+      flex-wrap: wrap;
+    }
+
+    .cart-item-price{
+      order: 3;
+      margin-left: 92px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <button class="nav-toggle" aria-label="Abrir menú" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <a href="index.html" class="logo">
+    <img src="images/logobbmx.png" alt="Blindbox MX">
+  </a>
+
+  <div class="header-actions">
+    <a href="login.html" class="login">Iniciar sesión</a>
+    <a href="carrito.html" class="cart-icon-btn" aria-label="Carrito" title="Carrito">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="9" cy="21" r="1.4"/>
+        <circle cx="18" cy="21" r="1.4"/>
+        <path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/>
+      </svg>
+      <span class="cart-badge hide" id="cartBadge">0</span>
+    </a>
+  </div>
+</header>
+
+<section class="cart-hero">
+  <span class="eyebrow">Tu carrito</span>
+  <h1>Revisa tu pedido</h1>
+</section>
+
+<section class="cart-layout">
+  <div class="cart-items" id="cartItems"></div>
+
+  <div class="cart-summary" id="cartSummary">
+    <h2>Resumen</h2>
+    <div class="cart-summary-row">
+      <span>Subtotal</span>
+      <span id="cartSubtotal">$0 MXN</span>
+    </div>
+    <div class="cart-summary-row total">
+      <span>Total</span>
+      <span id="cartTotal">$0 MXN</span>
+    </div>
+
+    <button class="btn-primary" id="checkoutBtn">
+      Ir a pagar
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <p class="cart-summary-note">No se realizará ningún cobro real — modo de muestra.</p>
+  </div>
+</section>
+
+<footer>
+  © 2026 Blindbox MX — todos los derechos reservados
+</footer>
+
+<script>
+  const CART_KEY = 'bb_cart';
+
+  function getCart(){
+    try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
+    catch (e) { return []; }
+  }
+
+  function saveCart(cart){
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  }
+
+  const optionLabels = { caja: 'Caja sorpresa', kit: 'Kit completo' };
+
+  function render(){
+    const cart = getCart();
+    const itemsWrap = document.getElementById('cartItems');
+    const summary = document.getElementById('cartSummary');
+    itemsWrap.innerHTML = '';
+
+    if (cart.length === 0) {
+      itemsWrap.innerHTML =
+        '<div class="cart-empty">' +
+          '<p>Tu carrito está vacío por ahora.</p>' +
+          '<a href="catalogo.html" class="btn-primary" style="display:inline-flex;">Ir al catálogo</a>' +
+        '</div>';
+      summary.style.display = 'none';
+      actualizarBadge();
+      return;
+    }
+
+    summary.style.display = '';
+
+    let subtotal = 0;
+
+    cart.forEach(function(item){
+      subtotal += item.price * item.qty;
+
+      const row = document.createElement('div');
+      row.className = 'cart-item';
+      row.innerHTML =
+        '<div class="cart-item-image"><img src="' + item.image + '" alt="' + item.name + '" onerror="this.style.display=\'none\'"></div>' +
+        '<div class="cart-item-info">' +
+          '<span class="line">' + item.line + '</span>' +
+          '<h3>' + item.name + '</h3>' +
+          '<span class="option-tag">' + (optionLabels[item.option] || item.option) + '</span>' +
+        '</div>' +
+        '<div class="cart-item-qty">' +
+          '<button type="button" data-action="minus" aria-label="Quitar uno">−</button>' +
+          '<span>' + item.qty + '</span>' +
+          '<button type="button" data-action="plus" aria-label="Agregar uno">+</button>' +
+        '</div>' +
+        '<div class="cart-item-price">$' + (item.price * item.qty).toLocaleString('es-MX') + ' MXN</div>' +
+        '<button type="button" class="cart-item-remove" aria-label="Eliminar producto">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+            '<path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke-linecap="round" stroke-linejoin="round"/>' +
+          '</svg>' +
+        '</button>';
+
+      row.querySelector('[data-action="minus"]').addEventListener('click', function(){
+        cambiarCantidad(item.key, -1);
+      });
+      row.querySelector('[data-action="plus"]').addEventListener('click', function(){
+        cambiarCantidad(item.key, 1);
+      });
+      row.querySelector('.cart-item-remove').addEventListener('click', function(){
+        eliminarProducto(item.key);
+      });
+
+      itemsWrap.appendChild(row);
+    });
+
+    document.getElementById('cartSubtotal').textContent = '$' + subtotal.toLocaleString('es-MX') + ' MXN';
+    document.getElementById('cartTotal').textContent = '$' + subtotal.toLocaleString('es-MX') + ' MXN';
+
+    actualizarBadge();
+  }
+
+  function cambiarCantidad(key, delta){
+    const cart = getCart();
+    const item = cart.find(function(i){ return i.key === key; });
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty < 1) item.qty = 1;
+    saveCart(cart);
+    render();
+  }
+
+  function eliminarProducto(key){
+    let cart = getCart();
+    cart = cart.filter(function(i){ return i.key !== key; });
+    saveCart(cart);
+    render();
+  }
+
+  function actualizarBadge(){
+    const cart = getCart();
+    const total = cart.reduce(function(sum, item){ return sum + item.qty; }, 0);
+    const badge = document.getElementById('cartBadge');
+    badge.textContent = total;
+    badge.classList.toggle('hide', total === 0);
+  }
+
+  document.getElementById('checkoutBtn').addEventListener('click', function(){
+    window.location.href = 'checkout.html';
+  });
+
+  render();
+</script>
+
+</body>
+</html>
