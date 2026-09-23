@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pago — Blindbox MX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="CSS/styles.css">
+
+<style>
+  .checkout-wrap{
+    min-height: 60vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 60px 6%;
+    background: linear-gradient(180deg, var(--purple-bg) 0%, var(--bg) 100%);
+  }
+
+  .checkout-card{
+    max-width: 440px;
+    background: var(--bg);
+    border-radius: 22px;
+    padding: 46px 36px;
+    box-shadow: 0 14px 32px rgba(122,106,216,0.16);
+  }
+
+  .checkout-icon{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin: 0 auto 20px;
+  }
+
+  .checkout-icon svg{
+    width: 30px;
+    height: 30px;
+  }
+
+  .checkout-card .eyebrow{
+    display:inline-block;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    font-weight:600;
+    font-size: 12.5px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+
+  .checkout-card h1{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size: 24px;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .checkout-card p{
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+  }
+
+  .checkout-card .btn-primary{
+    justify-content:center;
+    width: 100%;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <button class="nav-toggle" aria-label="Abrir menú" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <a href="index.html" class="logo">
+    <img src="images/logobbmx.png" alt="Blindbox MX">
+  </a>
+
+  <div class="header-actions">
+    <a href="login.html" class="login">Iniciar sesión</a>
+  </div>
+</header>
+
+<section class="checkout-wrap">
+  <div class="checkout-card">
+    <div class="checkout-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 7v5l3 2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="eyebrow">Paso siguiente</span>
+    <h1>Pago — próximamente</h1>
+    <p>Estamos trabajando en el proceso de pago y facturación. Por ahora esta parte es solo una vista de muestra.</p>
+    <a href="Carrito.html" class="btn-primary">Regresar al carrito</a>
+  </div>
+</section>
+
+<footer>
+  © 2026 Blindbox MX — todos los derechos reservados
+</footer>
+
+</body>
+</html>
