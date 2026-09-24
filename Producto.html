@@ -117,7 +117,7 @@
   }
 
   .detail-price{
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
     color: var(--purple-dark);
     margin-bottom: 22px;
@@ -254,21 +254,6 @@
     display:flex;
   }
 
-  @media (max-width: 720px){
-    .detail-grid{
-      grid-template-columns: 1fr;
-    }
-
-    .detail-gallery{
-      flex-direction: column-reverse;
-    }
-
-    .detail-thumbs{
-      flex-direction: row;
-      overflow-x: auto;
-    }
-  }
-
   .header-actions{
     display:flex;
     align-items:center;
@@ -380,6 +365,21 @@
     color: var(--purple-dark);
   }
 
+  @media (max-width: 720px){
+    .detail-grid{
+      grid-template-columns: 1fr;
+    }
+
+    .detail-gallery{
+      flex-direction: column-reverse;
+    }
+
+    .detail-thumbs{
+      flex-direction: row;
+      overflow-x: auto;
+    }
+  }
+
   @media (max-width: 640px){
     .related-grid{
       grid-template-columns: 1fr 1fr;
@@ -395,7 +395,7 @@
   <nav>
     <ul>
       <li><a href="index.html">Inicio</a></li>
-      <li><a href="Catalogo.html">Catálogo</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
       <li><a href="Nosotros.html">Nosotros</a></li>
       <li><a href="Contacto.html">Contacto</a></li>
     </ul>
@@ -407,7 +407,7 @@
 
   <div class="header-actions">
     <a href="login.html" class="login">Iniciar sesión</a>
-    <a href="Carrito.html" clase="cart-icon-btn" aria-label="Carrito" título="Carrito"> 
+    <a href="Carrito.html" class="cart-icon-btn" id="cartIconBtn" aria-label="Carrito" title="Carrito" style="display:none;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <circle cx="9" cy="21" r="1.4"/>
         <circle cx="18" cy="21" r="1.4"/>
@@ -419,7 +419,7 @@
 </header>
 
 <section class="product-detail">
-  <a href="Catalogo.html" class="back-link">
+  <a href="catalogo.html" class="back-link">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
@@ -459,8 +459,6 @@
 
         <div class="detail-total">Total estimado: <strong id="pd-total">$0 MXN</strong></div>
 
-        <a href="Catalogo.html" class="btn-primary" style="justify-content:center;">Regresar al catálogo</a>
-
         <button class="btn-cart" id="pd-cart-btn">
           Agregar al carrito
         </button>
@@ -486,102 +484,26 @@
 </footer>
 
 <script>
+  // Catálogo de muestra (modo básico, sin backend). Coincide con los productos de catalogo.html
   const products = {
-    "labubu-1": {
-      line: "Labubu",
-      name: "Labubu Exciting Macaron",
-      price: 450,
-      kitPrice: 2400,
-      images: ["assets/producto-labubu.jpg", "assets/producto-labubu-ref1.jpg", "assets/producto-labubu-ref2.jpg"],
-      desc: "Figura coleccionable de la serie Exciting Macaron. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
-    },
-    "labubu-2": {
-      line: "Labubu",
-      name: "Labubu The Monsters",
-      price: 480,
-      kitPrice: 2550,
-      images: ["assets/producto-labubu-2.jpg", "assets/producto-labubu-2-ref1.jpg", "assets/producto-labubu-2-ref2.jpg"],
-      desc: "Figura coleccionable de la serie The Monsters. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
-    },
-    "hirono-1": {
-      line: "Hirono",
-      name: "Hirono Let's Checkmate",
-      price: 520,
-      kitPrice: 2750,
-      images: ["assets/producto-hirono.jpg", "assets/producto-hirono-ref1.jpg", "assets/producto-hirono-ref2.jpg"],
-      desc: "Figura coleccionable de la serie Let's Checkmate. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
-    },
-    "hirono-2": {
-      line: "Hirono",
-      name: "Hirono Sweet Bean",
-      price: 499,
-      kitPrice: 2650,
-      images: ["assets/producto-hirono-2.jpg", "assets/producto-hirono-2-ref1.jpg", "assets/producto-hirono-2-ref2.jpg"],
-      desc: "Figura coleccionable de la serie Sweet Bean. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
-    },
-    "skullpanda-1": {
-      line: "Skullpanda",
-      name: "Skullpanda Requiem",
-      price: 560,
-      kitPrice: 2980,
-      images: ["assets/producto-skullpanda.jpg", "assets/producto-skullpanda-ref1.jpg", "assets/producto-skullpanda-ref2.jpg"],
-      desc: "Figura coleccionable de la serie Requiem. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
-    },
-    "skullpanda-2": {
-      line: "Skullpanda",
-      name: "Skullpanda City of Night",
-      price: 540,
-      kitPrice: 2870,
-      images: ["assets/producto-skullpanda-2.jpg", "assets/producto-skullpanda-2-ref1.jpg", "assets/producto-skullpanda-2-ref2.jpg"],
-      desc: "Figura coleccionable de la serie City of Night. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
-    },
-    "kubo-1": {
-      line: "Kubo",
-      name: "Kubo Block Society",
-      price: 430,
-      kitPrice: 2280,
-      images: ["assets/producto-kubo.jpg", "assets/producto-kubo-ref1.jpg", "assets/producto-kubo-ref2.jpg"],
-      desc: "Figura coleccionable de la serie Block Society. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
-    },
-    "kubo-2": {
-      line: "Kubo",
-      name: "Kubo Ordinary Life",
-      price: 410,
-      kitPrice: 2180,
-      images: ["assets/producto-kubo-2.jpg", "assets/producto-kubo-2-ref1.jpg", "assets/producto-kubo-2-ref2.jpg"],
-      desc: "Figura coleccionable de la serie Ordinary Life. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
-    },
-    "crybaby-1": {
-      line: "Cry Baby",
-      name: "Cry Baby Fashion Ver.",
-      price: 470,
-      kitPrice: 2500,
-      images: ["assets/producto-crybaby.jpg", "assets/producto-crybaby-ref1.jpg", "assets/producto-crybaby-ref2.jpg"],
-      desc: "Figura coleccionable de la serie Fashion Ver. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
-    },
-    "nyota-1": {
-      line: "Nyota",
-      name: "Nyota Stars Diary",
-      price: 440,
-      kitPrice: 2340,
-      images: ["assets/producto-nyota.jpg", "assets/producto-nyota-ref1.jpg", "assets/producto-nyota-ref2.jpg"],
-      desc: "Figura coleccionable de la serie Stars Diary. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
-    },
-    "dimoo-1": {
-      line: "Dimoo",
-      name: "Dimoo Animal Circus",
-      price: 500,
-      kitPrice: 2650,
-      images: ["assets/producto-dimoo.jpg", "assets/producto-dimoo-ref1.jpg", "assets/producto-dimoo-ref2.jpg"],
-      desc: "Figura coleccionable de la serie Animal Circus. Caja ciega: no sabrás cuál personaje te toca hasta abrirla."
-    }
+    "labubu-1": { line: "Labubu", name: "Labubu Exciting Macaron", price: 299, kitPrice: 1590, images: ["images/L2.png"], desc: "Figura coleccionable de la serie Exciting Macaron. Caja ciega: no sabrás cuál personaje te toca hasta abrirla." },
+    "labubu-2": { line: "Labubu", name: "Labubu The Monsters", price: 350, kitPrice: 1850, images: ["images/L1.png"], desc: "Figura coleccionable de la serie The Monsters. Caja ciega: no sabrás cuál personaje te toca hasta abrirla." },
+    "hirono-1": { line: "Hirono", name: "Hirono Let's Checkmate", price: 300, kitPrice: 1590, images: ["images/H1.jpg"], desc: "Figura coleccionable de la serie Let's Checkmate. Caja ciega: no sabrás cuál personaje te toca hasta abrirla." },
+    "hirono-2": { line: "Hirono", name: "Hirono Sweet Bean", price: 299, kitPrice: 1590, images: ["images/H2.jpg"], desc: "Figura coleccionable de la serie Sweet Bean. Caja ciega: no sabrás cuál personaje te toca hasta abrirla." },
+    "skullpanda-1": { line: "Skullpanda", name: "Skullpanda Requiem", price: 280, kitPrice: 1480, images: ["images/S1.png"], desc: "Figura coleccionable de la serie Requiem. Caja ciega: no sabrás cuál personaje te toca hasta abrirla." },
+    "skullpanda-2": { line: "Skullpanda", name: "Skullpanda City of Night", price: 340, kitPrice: 1800, images: ["images/S2.png"], desc: "Figura coleccionable de la serie City of Night. Caja ciega: no sabrás cuál personaje te toca hasta abrirla." },
+    "kubo-1": { line: "Kubo", name: "Kubo Block Society", price: 370, kitPrice: 1960, images: ["images/k1_.jpg"], desc: "Figura coleccionable de la serie Block Society. Caja ciega: no sabrás cuál personaje te toca hasta abrirla." },
+    "kubo-2": { line: "Kubo", name: "Kubo Ordinary Life", price: 350, kitPrice: 1850, images: ["images/k2_.jpg"], desc: "Figura coleccionable de la serie Ordinary Life. Caja ciega: no sabrás cuál personaje te toca hasta abrirla." },
+    "crybaby-1": { line: "Cry Baby", name: "Cry Baby Fashion Ver.", price: 400, kitPrice: 2120, images: ["images/C1.png"], desc: "Figura coleccionable de la serie Fashion Ver. Caja ciega: no sabrás cuál personaje te toca hasta abrirla." },
+    "nyota-1": { line: "Nyota", name: "Nyota Stars Diary", price: 300, kitPrice: 1590, images: ["images/n1.png"], desc: "Figura coleccionable de la serie Stars Diary. Caja ciega: no sabrás cuál personaje te toca hasta abrirla." },
+    "dimoo-1": { line: "Dimoo", name: "Dimoo Animal Circus", price: 350, kitPrice: 1850, images: ["images/D1.jpg"], desc: "Figura coleccionable de la serie Animal Circus. Caja ciega: no sabrás cuál personaje te toca hasta abrirla." }
   };
 
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id') || 'labubu-1';
   const product = products[id] || products['labubu-1'];
 
-  let option = 'caja'; // 'caja' o 'kit'
+  let option = 'caja';
   let qty = 1;
 
   document.getElementById('pd-line').textContent = product.line;
@@ -589,7 +511,6 @@
   document.getElementById('pd-desc').textContent = product.desc;
   document.title = product.name + " — Blindbox MX";
 
-  // Imagen principal + miniaturas de referencia
   const mainImg = document.getElementById('pd-image');
   const thumbsWrap = document.getElementById('pd-thumbs');
 
@@ -618,7 +539,6 @@
     thumbsWrap.appendChild(btn);
   });
 
-  // Opción: caja sorpresa vs kit completo
   const optionButtons = document.querySelectorAll('#pd-option-toggle button');
   optionButtons.forEach(function(btn){
     btn.addEventListener('click', function(){
@@ -629,7 +549,6 @@
     });
   });
 
-  // Contador de cantidad
   document.getElementById('pd-qty-minus').addEventListener('click', function(){
     if (qty > 1) qty--;
     document.getElementById('pd-qty-value').textContent = qty;
@@ -655,11 +574,8 @@
   const CART_KEY = 'bb_cart';
 
   function getCart(){
-    try {
-      return JSON.parse(localStorage.getItem(CART_KEY)) || [];
-    } catch (e) {
-      return [];
-    }
+    try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
+    catch (e) { return []; }
   }
 
   function saveCart(cart){
@@ -674,9 +590,19 @@
     badge.classList.toggle('hide', total === 0);
   }
 
-  actualizarBadge();
+  // El ícono del carrito solo se muestra si el usuario inició sesión
+  (function actualizarCarritoHeader(){
+    const loggedIn = localStorage.getItem('bb_logged_in') === 'true';
+    document.getElementById('cartIconBtn').style.display = loggedIn ? 'flex' : 'none';
+    if (loggedIn) actualizarBadge();
+  })();
 
   document.getElementById('pd-cart-btn').addEventListener('click', function(){
+    if (localStorage.getItem('bb_logged_in') !== 'true') {
+      window.location.href = 'login.html';
+      return;
+    }
+
     const cart = getCart();
     const unitPrice = option === 'kit' ? product.kitPrice : product.price;
     const cartKey = id + '-' + option;
@@ -698,6 +624,7 @@
     }
 
     saveCart(cart);
+    document.getElementById('cartIconBtn').style.display = 'flex';
     actualizarBadge();
 
     document.getElementById('pd-cart-msg-text').textContent = 'Agregado al carrito (' + qty + (qty === 1 ? ' pieza' : ' piezas') + ')';
