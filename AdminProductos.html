@@ -9,7 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="CSS/styles.css">
 
-
 <style>
   body{
     background: var(--purple-bg);
@@ -22,41 +21,44 @@
 
   /* ---------- Sidebar ---------- */
   .admin-sidebar{
-    width: 240px;
+    width: 252px;
     flex-shrink: 0;
-    background: #201B33;
+    background: linear-gradient(195deg, #A48CF0 0%, #7C5FE0 55%, #6445C9 100%);
     color: #fff;
     display:flex;
     flex-direction: column;
-    padding: 26px 18px;
+    padding: 28px 18px;
+    box-shadow: 4px 0 24px rgba(108,79,214,0.25);
   }
 
   .admin-brand{
     display:flex;
     align-items:center;
-    gap: 10px;
-    padding: 0 8px 24px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    gap: 12px;
+    padding: 0 6px 24px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.18);
   }
 
   .admin-brand img{
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
     object-fit: cover;
+    background: #fff;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
   }
 
   .admin-brand .name{
     font-family: 'Baloo 2', sans-serif;
     font-weight: 700;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.2;
   }
 
   .admin-brand .tag{
     font-size: 11px;
-    color: #B7AEDE;
+    color: #E7E1FB;
   }
 
   .admin-nav{
@@ -72,10 +74,10 @@
     gap: 12px;
     padding: 11px 12px;
     border-radius: 12px;
-    color: #C9C2E8;
+    color: #EFEBFC;
     font-size: 14px;
     font-weight: 500;
-    transition: background .2s, color .2s;
+    transition: background .2s, color .2s, transform .15s;
   }
 
   .admin-nav a svg{
@@ -85,13 +87,16 @@
   }
 
   .admin-nav a:hover{
-    background: rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.14);
     color: #fff;
+    transform: translateX(2px);
   }
 
   .admin-nav a.active{
-    background: var(--purple);
-    color: #fff;
+    background: #fff;
+    color: #6445C9;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   }
 
   .admin-nav .nav-label{
@@ -99,12 +104,12 @@
     font-weight: 700;
     letter-spacing: 0.6px;
     text-transform: uppercase;
-    color: #7E75A8;
+    color: #D8CFF7;
     margin: 18px 12px 6px;
   }
 
   .admin-sidebar-footer{
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(255,255,255,0.18);
     padding-top: 14px;
     margin-top: 14px;
   }
@@ -113,7 +118,7 @@
     display:flex;
     align-items:center;
     gap: 10px;
-    color: #C9C2E8;
+    color: #EFEBFC;
     font-size: 13px;
     padding: 9px 12px;
     border-radius: 12px;
@@ -121,7 +126,7 @@
   }
 
   .admin-sidebar-footer a:hover{
-    background: rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.14);
     color: #fff;
   }
 
@@ -482,7 +487,7 @@
 
   <aside class="admin-sidebar">
     <div class="admin-brand">
-      <img src="images/logobbmx.png" alt="Blindbox MX">
+      <img src="assets/logo.png" alt="Blindbox MX">
       <div>
         <div class="name">Blindbox MX</div>
         <div class="tag">Panel de administrador</div>
@@ -502,7 +507,7 @@
 
       <div class="nav-label">Gestión</div>
 
-      <a href="AdminProductos.html" class="active">
+      <a href="admin-productos.html" class="active">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M20 7l-8-4-8 4v10l8 4 8-4V7z"/>
           <path d="M4 7l8 4 8-4M12 11v10"/>

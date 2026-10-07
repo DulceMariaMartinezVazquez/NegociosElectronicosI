@@ -21,41 +21,44 @@
 
   /* ---------- Sidebar ---------- */
   .admin-sidebar{
-    width: 240px;
+    width: 252px;
     flex-shrink: 0;
-    background: #201B33;
+    background: linear-gradient(195deg, #A48CF0 0%, #7C5FE0 55%, #6445C9 100%);
     color: #fff;
     display:flex;
     flex-direction: column;
-    padding: 26px 18px;
+    padding: 28px 18px;
+    box-shadow: 4px 0 24px rgba(108,79,214,0.25);
   }
 
   .admin-brand{
     display:flex;
     align-items:center;
-    gap: 10px;
-    padding: 0 8px 24px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    gap: 12px;
+    padding: 0 6px 24px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.18);
   }
 
   .admin-brand img{
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
     object-fit: cover;
+    background: #fff;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
   }
 
   .admin-brand .name{
     font-family: 'Baloo 2', sans-serif;
     font-weight: 700;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.2;
   }
 
   .admin-brand .tag{
     font-size: 11px;
-    color: #B7AEDE;
+    color: #E7E1FB;
   }
 
   .admin-nav{
@@ -71,10 +74,10 @@
     gap: 12px;
     padding: 11px 12px;
     border-radius: 12px;
-    color: #C9C2E8;
+    color: #EFEBFC;
     font-size: 14px;
     font-weight: 500;
-    transition: background .2s, color .2s;
+    transition: background .2s, color .2s, transform .15s;
   }
 
   .admin-nav a svg{
@@ -84,13 +87,16 @@
   }
 
   .admin-nav a:hover{
-    background: rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.14);
     color: #fff;
+    transform: translateX(2px);
   }
 
   .admin-nav a.active{
-    background: var(--purple);
-    color: #fff;
+    background: #fff;
+    color: #6445C9;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   }
 
   .admin-nav .nav-label{
@@ -98,12 +104,12 @@
     font-weight: 700;
     letter-spacing: 0.6px;
     text-transform: uppercase;
-    color: #7E75A8;
+    color: #D8CFF7;
     margin: 18px 12px 6px;
   }
 
   .admin-sidebar-footer{
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(255,255,255,0.18);
     padding-top: 14px;
     margin-top: 14px;
   }
@@ -112,7 +118,7 @@
     display:flex;
     align-items:center;
     gap: 10px;
-    color: #C9C2E8;
+    color: #EFEBFC;
     font-size: 13px;
     padding: 9px 12px;
     border-radius: 12px;
@@ -120,7 +126,7 @@
   }
 
   .admin-sidebar-footer a:hover{
-    background: rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.14);
     color: #fff;
   }
 
@@ -200,34 +206,35 @@
     border-radius: 18px;
     padding: 22px;
     box-shadow: 0 10px 24px rgba(122,106,216,0.10);
-    border-top: 4px solid var(--card-accent, var(--purple));
+    transition: transform .2s, box-shadow .2s;
   }
 
-  .stat-card:nth-child(1){ --card-accent: #7A6AD8; }
-  .stat-card:nth-child(2){ --card-accent: #E28AC0; }
-  .stat-card:nth-child(3){ --card-accent: #6FC3D6; }
-  .stat-card:nth-child(4){ --card-accent: #F0A868; }
+  .stat-card:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(122,106,216,0.18);
+  }
+
+  .stat-card:nth-child(1){ --card-grad: linear-gradient(135deg,#A48CF0,#6445C9); }
+  .stat-card:nth-child(2){ --card-grad: linear-gradient(135deg,#F0A0D0,#D6639F); }
+  .stat-card:nth-child(3){ --card-grad: linear-gradient(135deg,#7FD8E8,#3FA9C0); }
+  .stat-card:nth-child(4){ --card-grad: linear-gradient(135deg,#F7C577,#E89A3C); }
 
   .stat-card .icon-badge{
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: var(--purple-light);
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: var(--card-grad);
     display:flex;
     align-items:center;
     justify-content:center;
     margin-bottom: 14px;
+    box-shadow: 0 8px 18px rgba(108,79,214,0.25);
   }
 
-  .stat-card:nth-child(1) .icon-badge{ background: #EAE6FB; }
-  .stat-card:nth-child(2) .icon-badge{ background: #FBE6F2; }
-  .stat-card:nth-child(3) .icon-badge{ background: #E4F5F8; }
-  .stat-card:nth-child(4) .icon-badge{ background: #FCEEDF; }
-
   .stat-card .icon-badge svg{
-    width: 18px;
-    height: 18px;
-    color: var(--card-accent);
+    width: 20px;
+    height: 20px;
+    color: #fff;
   }
 
   .stat-card .stat-value{
@@ -376,7 +383,7 @@
 
   <aside class="admin-sidebar">
     <div class="admin-brand">
-      <img src="images/logobbmx.png" alt="Blindbox MX">
+      <img src="assets/logo.png" alt="Blindbox MX">
       <div>
         <div class="name">Blindbox MX</div>
         <div class="tag">Panel de administrador</div>
