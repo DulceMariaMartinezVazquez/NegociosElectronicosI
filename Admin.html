@@ -32,6 +32,7 @@
   }
 
   .admin-brand{
+    order: 1;
     display:flex;
     align-items:center;
     gap: 12px;
@@ -62,6 +63,7 @@
   }
 
   .admin-nav{
+    order: 2;
     display:flex;
     flex-direction: column;
     gap: 4px;
@@ -109,6 +111,7 @@
   }
 
   .admin-sidebar-footer{
+    order: 3;
     border-top: 1px solid rgba(255,255,255,0.18);
     padding-top: 14px;
     margin-top: 14px;
@@ -383,7 +386,7 @@
 
   <aside class="admin-sidebar">
     <div class="admin-brand">
-      <img src="assets/logo.png" alt="Blindbox MX">
+      <img src="images/personajeBBMX.png" alt="Blindbox MX">
       <div>
         <div class="name">Blindbox MX</div>
         <div class="tag">Panel de administrador</div>
@@ -442,7 +445,7 @@
     <div class="admin-topbar">
       <div>
         <h1>Resumen general</h1>
-        <div class="admin-date">Hoy, 21 de septiembre de 2026</div>
+        <div class="admin-date" id="adminDate"></div>
       </div>
       <div class="admin-user-chip">
         <span class="avatar">A</span>
@@ -554,6 +557,18 @@
   </main>
 
 </div>
+
+<script>
+  // Fecha real de hoy, en español
+  (function mostrarFecha(){
+    const hoy = new Date().toLocaleDateString('es-MX', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+    document.getElementById('adminDate').textContent = 'Hoy, ' + hoy;
+  })();
+</script>
 
 </body>
 </html>

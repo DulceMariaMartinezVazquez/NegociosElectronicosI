@@ -32,6 +32,7 @@
   }
 
   .admin-brand{
+    order: 1;
     display:flex;
     align-items:center;
     gap: 12px;
@@ -62,6 +63,7 @@
   }
 
   .admin-nav{
+    order: 2;
     display:flex;
     flex-direction: column;
     gap: 4px;
@@ -109,6 +111,7 @@
   }
 
   .admin-sidebar-footer{
+    order: 3;
     border-top: 1px solid rgba(255,255,255,0.18);
     padding-top: 14px;
     margin-top: 14px;
@@ -487,7 +490,7 @@
 
   <aside class="admin-sidebar">
     <div class="admin-brand">
-      <img src="assets/logo.png" alt="Blindbox MX">
+      <img src="images/personajeBBMX.png" alt="Blindbox MX">
       <div>
         <div class="name">Blindbox MX</div>
         <div class="tag">Panel de administrador</div>
@@ -584,7 +587,7 @@
 
       <div class="form-group">
         <label for="f-name">Nombre</label>
-        <input type="text" id="f-name" placeholder="Ej. Labubu Exciting Macaron" required>
+        <input type="text" id="f-name" placeholder="Ej. Labubu Exciting Macaron">
       </div>
 
       <div class="form-row">
@@ -603,7 +606,7 @@
 
         <div class="form-group">
           <label for="f-price">Precio (MXN)</label>
-          <input type="number" id="f-price" placeholder="Ej. 350" min="0" required>
+          <input type="number" id="f-price" placeholder="Ej. 350" min="0">
         </div>
       </div>
 
