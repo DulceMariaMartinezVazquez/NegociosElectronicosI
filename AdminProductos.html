@@ -410,6 +410,49 @@
     background: var(--purple-light);
   }
 
+   /* ---------- Confirmación para eliminar ---------- */
+   .confirm-box{
+     max-width: 390px;
+     text-align: center;
+   }
+
+   .confirm-box p{
+     color: var(--ink-soft);
+     font-size: 14px;
+     margin: -8px 0 8px;
+   }
+
+   .confirm-icon{
+     width: 58px;
+     height: 58px;
+     margin: 0 auto 16px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     border-radius: 50%;
+     background: #FBEAEA;
+     color: #C0392B;
+     font-size: 28px;
+     font-weight: 700;
+   }
+
+   .btn-confirm-delete{
+     flex: 1;
+     background: #C0392B;
+     color: #fff;
+     font-weight: 600;
+     font-size: 14px;
+     border-radius: 999px;
+     border: none;
+     cursor: pointer;
+     padding: 12px 14px;
+     transition: background .2s;
+   }
+
+   .btn-confirm-delete:hover{
+     background: #A93226;
+   }
+
   .toast{
     position: fixed;
     bottom: 26px;
@@ -632,6 +675,19 @@
   </div>
 </div>
 
+<!-- Modal: Confirmar eliminación -->
+<div class="modal-overlay" id="deleteConfirmOverlay" role="dialog" aria-modal="true" aria-labelledby="deleteConfirmTitle">
+  <div class="modal-box confirm-box">
+    <div class="confirm-icon" aria-hidden="true">!</div>
+    <h2 id="deleteConfirmTitle">¿Desea eliminarlo?</h2>
+    <p id="deleteConfirmMessage">¿Está seguro de que desea eliminar este producto?</p>
+    <div class="modal-actions">
+      <button type="button" class="btn-cancel" id="btnCancelDelete">Cancelar</button>
+      <button type="button" class="btn-confirm-delete" id="btnConfirmDelete">Eliminar</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -788,19 +844,47 @@
     render();
   });
 
+  // ---------- Confirmación para eliminar ----------
+  const deleteConfirmOverlay = document.getElementById('deleteConfirmOverlay');
+  const deleteConfirmMessage = document.getElementById('deleteConfirmMessage');
+  let productoPendienteEliminar = null;
+
   function eliminarProducto(id){
     const products = getProducts();
     const product = products.find(function(p){ return p.id === id; });
     if (!product) return;
 
-    const confirmado = confirm('¿Seguro que quieres eliminar "' + product.name + '"? Esta acción es simulada.');
-    if (!confirmado) return;
+    // Guardar el producto seleccionado y mostrar el cuadro dentro de la página.
+    productoPendienteEliminar = id;
+    deleteConfirmMessage.textContent = '¿Desea eliminar "' + product.name + '"?';
+    deleteConfirmOverlay.classList.add('show');
+  }
 
-    const updated = products.filter(function(p){ return p.id !== id; });
+  function cerrarConfirmacionEliminar(){
+    deleteConfirmOverlay.classList.remove('show');
+    productoPendienteEliminar = null;
+  }
+
+  document.getElementById('btnCancelDelete').addEventListener('click', function(){
+    // Cancelar cierra el cuadro sin borrar el producto.
+    cerrarConfirmacionEliminar();
+  });
+
+  document.getElementById('btnConfirmDelete').addEventListener('click', function(){
+    if (productoPendienteEliminar === null) return;
+
+    const id = productoPendienteEliminar;
+    const updated = getProducts().filter(function(p){ return p.id !== id; });
     saveProducts(updated);
+    cerrarConfirmacionEliminar();
     render();
     showToast('Producto eliminado (simulado)');
-  }
+  });
+
+  // También permite cerrar el cuadro al hacer clic fuera de él.
+  deleteConfirmOverlay.addEventListener('click', function(e){
+    if (e.target === deleteConfirmOverlay) cerrarConfirmacionEliminar();
+  });
 
   render();
 </script>
