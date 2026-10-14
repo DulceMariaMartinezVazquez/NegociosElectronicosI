@@ -200,6 +200,29 @@
     padding: 8px 0;
   }
 
+  .cart-summary-row.discount{
+    color: #2E7D45;
+    font-weight: 600;
+  }
+
+  .discount-note{
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin: -2px 0 6px;
+  }
+
+  .discount-remove{
+    background: none;
+    border: none;
+    color: #C0392B;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 4px;
+  }
+
   .cart-summary-row.total{
     border-top: 1px solid var(--purple-light);
     margin-top: 8px;
@@ -348,6 +371,7 @@
     <ul>
       <li><a href="index.html">Inicio</a></li>
       <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="promociones.html">Promociones</a></li>
       <li><a href="nosotros.html">Nosotros</a></li>
       <li><a href="contacto.html">Contacto</a></li>
     </ul>
@@ -384,6 +408,13 @@
       <span>Subtotal</span>
       <span id="cartSubtotal">$0 MXN</span>
     </div>
+    <div class="cart-summary-row discount" id="discountRow" style="display:none;">
+      <span id="discountLabel">Descuento</span>
+      <span id="discountAmount">-$0 MXN</span>
+    </div>
+    <p class="discount-note" id="discountNote" style="display:none;"></p>
+    <button type="button" class="discount-remove" id="discountRemove" style="display:none;">Quitar código</button>
+
     <div class="cart-summary-row total">
       <span>Total</span>
       <span id="cartTotal">$0 MXN</span>
@@ -422,7 +453,7 @@
         <input type="email" placeholder="Tu correo" required>
         <button type="submit">Suscribirme</button>
       </form>
- 
+
       <h3 class="footer-social-title">Síguenos</h3>
       <div class="footer-social">
         <a href="#" aria-label="Instagram">
@@ -450,24 +481,17 @@
         </a>
       </div>
     </div>
- 
+
     <div class="footer-col">
       <h4>Explorar</h4>
       <a href="index.html" class="footer-link">Inicio</a>
       <a href="catalogo.html" class="footer-link">Catálogo</a>
+      <a href="promociones.html" class="footer-link">Promociones</a>
       <a href="nosotros.html" class="footer-link">Nosotros</a>
       <a href="contacto.html" class="footer-link">Contacto</a>
     </div>
- 
-    <div class="footer-col">
-      <h4>Mi cuenta</h4>
-      <a href="login.html" class="footer-link">Iniciar sesión</a>
-      <a href="registro.html" class="footer-link">Registrarme</a>
-      <a href="perfil.html" class="footer-link">Mi perfil</a>
-      <a href="carrito.html" class="footer-link">Carrito</a>
-    </div>
-  </div>
- 
+</div>
+
   <div class="footer-bottom">
     <span>© 2026 Blindbox MX — todos los derechos reservados</span>
     <div class="footer-bottom-links">
@@ -490,6 +514,28 @@
   }
 
   const optionLabels = { caja: 'Caja sorpresa', kit: 'Kit completo' };
+
+  // ---------- Descuento (simulado) ----------
+  function getDiscount(){
+    try { return JSON.parse(localStorage.getItem('bb_discount')); } catch (e) { return null; }
+  }
+
+  function calcDiscount(cart, subtotal, d){
+    if (!d) return 0;
+
+    if (d.type === 'percent') {
+      return Math.round(subtotal * d.value / 100);
+    }
+
+    if (d.type === '2x1') {
+      // Por cada 2 cajas sorpresa de la línea, 1 sale gratis
+      return cart
+        .filter(function(i){ return i.line === d.line && i.option === 'caja'; })
+        .reduce(function(sum, i){ return sum + Math.floor(i.qty / 2) * i.price; }, 0);
+    }
+
+    return 0;
+  }
 
   function render(){
     const cart = getCart();
@@ -549,8 +595,35 @@
       itemsWrap.appendChild(row);
     });
 
+    // Descuento (viene de la página de Promociones)
+    const discountInfo = getDiscount();
+    const discount = calcDiscount(cart, subtotal, discountInfo);
+    const total = Math.max(subtotal - discount, 0);
+
+    const discountRow = document.getElementById('discountRow');
+    const discountNote = document.getElementById('discountNote');
+    const discountRemove = document.getElementById('discountRemove');
+
+    if (discountInfo && discountInfo.code) {
+      discountRow.style.display = 'flex';
+      discountRemove.style.display = 'inline-block';
+      document.getElementById('discountLabel').textContent = 'Descuento (' + discountInfo.code + ')';
+      document.getElementById('discountAmount').textContent = '-$' + discount.toLocaleString('es-MX') + ' MXN';
+
+      if (discount === 0) {
+        discountNote.textContent = 'Este código no aplica a los productos de tu carrito.';
+        discountNote.style.display = 'block';
+      } else {
+        discountNote.style.display = 'none';
+      }
+    } else {
+      discountRow.style.display = 'none';
+      discountNote.style.display = 'none';
+      discountRemove.style.display = 'none';
+    }
+
     document.getElementById('cartSubtotal').textContent = '$' + subtotal.toLocaleString('es-MX') + ' MXN';
-    document.getElementById('cartTotal').textContent = '$' + subtotal.toLocaleString('es-MX') + ' MXN';
+    document.getElementById('cartTotal').textContent = '$' + total.toLocaleString('es-MX') + ' MXN';
 
     actualizarBadge();
   }
@@ -597,6 +670,11 @@
     if (this.checked) {
       document.getElementById('termsWarning').classList.remove('show');
     }
+  });
+
+  document.getElementById('discountRemove').addEventListener('click', function(){
+    localStorage.removeItem('bb_discount');
+    render();
   });
 
   render();
