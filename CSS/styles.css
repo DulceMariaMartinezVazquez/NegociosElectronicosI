@@ -323,10 +323,14 @@
     max-width: 1100px;
     margin: 0 auto;
     display:grid;
-    grid-template-columns: 1.6fr 1fr 1fr;
+    grid-template-columns: 1.6fr 1fr;
     gap: 60px;
     padding-bottom: 56px;
     align-items: start;
+  }
+
+  .footer-top > .footer-col{
+    min-width: 0;
   }
 
   .footer-col h3, .footer-col h4{
@@ -617,8 +621,8 @@
     position: absolute;
     top: -16px;
     right: -14px;
-    width: 85px;
-    height: 85px;
+    width: 60px;
+    height: 60px;
     object-fit: contain;
     transform: rotate(12deg);
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.18));
@@ -627,8 +631,8 @@
   }
 
   .about-info-grid .card-sticker{
-    width: 85px;
-    height: 85px;
+    width: 46px;
+    height: 46px;
     top: -12px;
     right: -10px;
   }
