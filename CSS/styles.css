@@ -323,7 +323,7 @@
     max-width: 1100px;
     margin: 0 auto;
     display:grid;
-    grid-template-columns: 1.6fr 1fr;
+    grid-template-columns: 1.6fr 1fr 1fr;
     gap: 60px;
     padding-bottom: 56px;
     align-items: start;
