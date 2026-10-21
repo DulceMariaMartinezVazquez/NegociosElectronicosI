@@ -66,6 +66,7 @@
     order: 2;
     display:flex;
     flex-direction: column;
+    justify-content: flex-start;
     gap: 4px;
     flex: 1;
   }
@@ -410,48 +411,64 @@
     background: var(--purple-light);
   }
 
-   /* ---------- Confirmación para eliminar ---------- */
-   .confirm-box{
-     max-width: 390px;
-     text-align: center;
-   }
 
-   .confirm-box p{
-     color: var(--ink-soft);
-     font-size: 14px;
-     margin: -8px 0 8px;
-   }
+  /* Caja de confirmación para eliminar */
+  .confirm-box{
+    max-width: 400px;
+    text-align: center;
+  }
 
-   .confirm-icon{
-     width: 58px;
-     height: 58px;
-     margin: 0 auto 16px;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     border-radius: 50%;
-     background: #FBEAEA;
-     color: #C0392B;
-     font-size: 28px;
-     font-weight: 700;
-   }
+  .confirm-icon{
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #FBEAEA;
+    color: #C0392B;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin: 0 auto 16px;
+  }
 
-   .btn-confirm-delete{
-     flex: 1;
-     background: #C0392B;
-     color: #fff;
-     font-weight: 600;
-     font-size: 14px;
-     border-radius: 999px;
-     border: none;
-     cursor: pointer;
-     padding: 12px 14px;
-     transition: background .2s;
-   }
+  .confirm-icon svg{
+    width: 26px;
+    height: 26px;
+  }
 
-   .btn-confirm-delete:hover{
-     background: #A93226;
-   }
+  .confirm-box h2{
+    margin-bottom: 10px;
+  }
+
+  .confirm-box p{
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .confirm-box p strong{
+    color: var(--ink);
+  }
+
+  .btn-danger{
+    flex: 1;
+    background: #D64545;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 14px 20px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: background .2s;
+  }
+
+  .btn-danger:hover{
+    background: #B93434;
+  }
+
+  .confirm-box .btn-cancel{
+    padding: 14px 20px;
+  }
 
   .toast{
     position: fixed;
@@ -533,7 +550,7 @@
 
   <aside class="admin-sidebar">
     <div class="admin-brand">
-      <img src="images/personajeBBMX.png" alt="Blindbox MX">
+      <img src="assets/logo.png" alt="Blindbox MX">
       <div>
         <div class="name">Blindbox MX</div>
         <div class="tag">Panel de administrador</div>
@@ -553,7 +570,7 @@
 
       <div class="nav-label">Gestión</div>
 
-      <a href="admin-productos.html" class="active">
+      <a href="AdminProductos.html" class="active">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M20 7l-8-4-8 4v10l8 4 8-4V7z"/>
           <path d="M4 7l8 4 8-4M12 11v10"/>
@@ -569,7 +586,7 @@
         Pedidos
       </a>
 
-      <a href="admin-promociones.html">
+      <a href="AdminPromociones.html">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M20.6 12.6L12 21.2 2.8 12A4 4 0 0 1 8.5 6.3L12 9.8l3.5-3.5a4 4 0 0 1 5.7 0 4 4 0 0 1 0 5.7z" transform="scale(0.9) translate(1.2,0.5)"/>
           <path d="M12 3v6M9 6h6"/>
@@ -630,7 +647,7 @@
 
       <div class="form-group">
         <label for="f-name">Nombre</label>
-        <input type="text" id="f-name" placeholder="Ej. Labubu Exciting Macaron">
+        <input type="text" id="f-name" placeholder="Ej. Labubu Exciting Macaron" required>
       </div>
 
       <div class="form-row">
@@ -649,7 +666,7 @@
 
         <div class="form-group">
           <label for="f-price">Precio (MXN)</label>
-          <input type="number" id="f-price" placeholder="Ej. 350" min="0">
+          <input type="number" id="f-price" placeholder="Ej. 350" min="0" required>
         </div>
       </div>
 
@@ -675,15 +692,19 @@
   </div>
 </div>
 
-<!-- Modal: Confirmar eliminación -->
-<div class="modal-overlay" id="deleteConfirmOverlay" role="dialog" aria-modal="true" aria-labelledby="deleteConfirmTitle">
+<!-- Modal: Confirmar eliminar -->
+<div class="modal-overlay" id="deleteOverlay">
   <div class="modal-box confirm-box">
-    <div class="confirm-icon" aria-hidden="true">!</div>
-    <h2 id="deleteConfirmTitle">¿Desea eliminarlo?</h2>
-    <p id="deleteConfirmMessage">¿Está seguro de que desea eliminar este producto?</p>
+    <div class="confirm-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2>Eliminar producto</h2>
+    <p>¿Quieres eliminar <strong id="deleteName"></strong>?</p>
     <div class="modal-actions">
-      <button type="button" class="btn-cancel" id="btnCancelDelete">Cancelar</button>
-      <button type="button" class="btn-confirm-delete" id="btnConfirmDelete">Eliminar</button>
+      <button type="button" class="btn-cancel" id="btnDeleteCancel">Cancelar</button>
+      <button type="button" class="btn-danger" id="btnDeleteConfirm">Eliminar</button>
     </div>
   </div>
 </div>
@@ -774,11 +795,11 @@
       btn.addEventListener('click', function(){ abrirModalEditar(btn.dataset.id); });
     });
     tbody.querySelectorAll('.btn-delete').forEach(function(btn){
-      btn.addEventListener('click', function(){ eliminarProducto(btn.dataset.id); });
+      btn.addEventListener('click', function(){ abrirModalEliminar(btn.dataset.id); });
     });
   }
 
-  // ---------- Modal ----------
+  // ---------- Modal agregar / editar ----------
   const modalOverlay = document.getElementById('modalOverlay');
   const productForm = document.getElementById('productForm');
 
@@ -844,46 +865,35 @@
     render();
   });
 
-  // ---------- Confirmación para eliminar ----------
-  const deleteConfirmOverlay = document.getElementById('deleteConfirmOverlay');
-  const deleteConfirmMessage = document.getElementById('deleteConfirmMessage');
-  let productoPendienteEliminar = null;
+  // ---------- Modal eliminar (Cancelar / Eliminar) ----------
+  const deleteOverlay = document.getElementById('deleteOverlay');
+  let idPorEliminar = null;
 
-  function eliminarProducto(id){
-    const products = getProducts();
-    const product = products.find(function(p){ return p.id === id; });
+  function abrirModalEliminar(id){
+    const product = getProducts().find(function(p){ return p.id === id; });
     if (!product) return;
-
-    // Guardar el producto seleccionado y mostrar el cuadro dentro de la página.
-    productoPendienteEliminar = id;
-    deleteConfirmMessage.textContent = '¿Desea eliminar "' + product.name + '"?';
-    deleteConfirmOverlay.classList.add('show');
+    idPorEliminar = id;
+    document.getElementById('deleteName').textContent = '"' + product.name + '"';
+    deleteOverlay.classList.add('show');
   }
 
-  function cerrarConfirmacionEliminar(){
-    deleteConfirmOverlay.classList.remove('show');
-    productoPendienteEliminar = null;
+  function cerrarModalEliminar(){
+    deleteOverlay.classList.remove('show');
+    idPorEliminar = null;
   }
 
-  document.getElementById('btnCancelDelete').addEventListener('click', function(){
-    // Cancelar cierra el cuadro sin borrar el producto.
-    cerrarConfirmacionEliminar();
+  document.getElementById('btnDeleteCancel').addEventListener('click', cerrarModalEliminar);
+  deleteOverlay.addEventListener('click', function(e){
+    if (e.target === deleteOverlay) cerrarModalEliminar();
   });
 
-  document.getElementById('btnConfirmDelete').addEventListener('click', function(){
-    if (productoPendienteEliminar === null) return;
-
-    const id = productoPendienteEliminar;
-    const updated = getProducts().filter(function(p){ return p.id !== id; });
+  document.getElementById('btnDeleteConfirm').addEventListener('click', function(){
+    if (!idPorEliminar) return;
+    const updated = getProducts().filter(function(p){ return p.id !== idPorEliminar; });
     saveProducts(updated);
-    cerrarConfirmacionEliminar();
+    cerrarModalEliminar();
     render();
     showToast('Producto eliminado (simulado)');
-  });
-
-  // También permite cerrar el cuadro al hacer clic fuera de él.
-  deleteConfirmOverlay.addEventListener('click', function(e){
-    if (e.target === deleteConfirmOverlay) cerrarConfirmacionEliminar();
   });
 
   render();

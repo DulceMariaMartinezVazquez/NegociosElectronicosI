@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promociones — Panel de administrador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="CSS/styles.css">
+
+
+<style>
+  body{
+    background: var(--purple-bg);
+  }
+
+  .admin-shell{
+    display:flex;
+    min-height: 100vh;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .admin-sidebar{
+    width: 252px;
+    flex-shrink: 0;
+    background: linear-gradient(195deg, #A48CF0 0%, #7C5FE0 55%, #6445C9 100%);
+    color: #fff;
+    display:flex;
+    flex-direction: column;
+    padding: 28px 18px;
+    box-shadow: 4px 0 24px rgba(108,79,214,0.25);
+  }
+
+  .admin-brand{
+    order: 1;
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    padding: 0 6px 24px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.18);
+  }
+
+  .admin-brand img{
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    object-fit: cover;
+    background: #fff;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+  }
+
+  .admin-brand .name{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.2;
+  }
+
+  .admin-brand .tag{
+    font-size: 11px;
+    color: #E7E1FB;
+  }
+
+  .admin-nav{
+    order: 2;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 4px;
+    flex: 1;
+  }
+
+  .admin-nav a{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    padding: 11px 12px;
+    border-radius: 12px;
+    color: #EFEBFC;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background .2s, color .2s, transform .15s;
+  }
+
+  .admin-nav a svg{
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .admin-nav a:hover{
+    background: rgba(255,255,255,0.14);
+    color: #fff;
+    transform: translateX(2px);
+  }
+
+  .admin-nav a.active{
+    background: #fff;
+    color: #6445C9;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+
+  .admin-nav .nav-label{
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #D8CFF7;
+    margin: 18px 12px 6px;
+  }
+
+  .admin-sidebar-footer{
+    order: 3;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    padding-top: 14px;
+    margin-top: 14px;
+  }
+
+  .admin-sidebar-footer a{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    color: #EFEBFC;
+    font-size: 13px;
+    padding: 9px 12px;
+    border-radius: 12px;
+    transition: background .2s, color .2s;
+  }
+
+  .admin-sidebar-footer a:hover{
+    background: rgba(255,255,255,0.14);
+    color: #fff;
+  }
+
+  .admin-sidebar-footer svg{
+    width: 16px;
+    height: 16px;
+  }
+
+  /* ---------- Main ---------- */
+  .admin-main{
+    flex: 1;
+    min-width: 0;
+    padding: 34px 40px 60px;
+  }
+
+  .admin-topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .admin-topbar h1{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--ink);
+  }
+
+  .admin-topbar p{
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  .btn-add{
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    background: var(--purple);
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 22px rgba(122,106,216,0.3);
+    transition: background .2s, transform .2s;
+  }
+
+  .btn-add:hover{
+    background: var(--purple-dark);
+    transform: translateY(-1px);
+  }
+
+  .btn-add svg{
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Table panel */
+  .admin-panel{
+    background: var(--bg);
+    border-radius: 20px;
+    padding: 26px;
+    box-shadow: 0 10px 24px rgba(122,106,216,0.10);
+  }
+
+  .admin-table{
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .admin-table th{
+    text-align:left;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 0 10px 12px;
+    border-bottom: 1px solid var(--purple-light);
+  }
+
+  .admin-table td{
+    padding: 12px 10px;
+    font-size: 13.5px;
+    color: var(--ink);
+    border-bottom: 1px solid var(--purple-bg);
+    vertical-align: middle;
+  }
+
+  .prod-thumb{
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--purple-light) 0%, #F7F4FD 100%);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .prod-thumb img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .prod-name-cell{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+  }
+
+  .prod-name-cell .prod-name{
+    font-weight: 600;
+  }
+
+  .prod-line-tag{
+    display:inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    color: var(--purple-dark);
+    background: var(--purple-light);
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+
+  .status-tag{
+    display:inline-block;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 4px 11px;
+    border-radius: 999px;
+  }
+
+  .status-tag.nuevo{ background: #E8F6EC; color: #2E7D45; }
+  .status-tag.oferta{ background: #FBE6ED; color: #C0416A; }
+  .status-tag.ninguno{ background: var(--purple-bg); color: var(--ink-soft); }
+
+  .row-actions{
+    display:flex;
+    gap: 8px;
+  }
+
+  .row-actions button{
+    display:flex;
+    align-items:center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 7px 13px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: background .2s;
+  }
+
+  .row-actions button svg{
+    width: 13px;
+    height: 13px;
+  }
+
+  .btn-edit{
+    background: var(--purple-light);
+    color: var(--purple-dark);
+  }
+
+  .btn-edit:hover{
+    background: var(--purple);
+    color: #fff;
+  }
+
+  .btn-delete{
+    background: #FBEAEA;
+    color: #C0392B;
+  }
+
+  .btn-delete:hover{
+    background: #F3CFCF;
+  }
+
+  .table-empty{
+    text-align:center;
+    padding: 40px 20px;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+
+  /* ---------- Modal ---------- */
+  .modal-overlay{
+    display:none;
+    position: fixed;
+    inset: 0;
+    background: rgba(27,23,48,0.5);
+    align-items:center;
+    justify-content:center;
+    padding: 20px;
+    z-index: 100;
+  }
+
+  .modal-overlay.show{
+    display:flex;
+  }
+
+  .modal-box{
+    background: var(--bg);
+    border-radius: 22px;
+    padding: 32px;
+    width: 100%;
+    max-width: 460px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  }
+
+  .modal-box h2{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+
+  .modal-box .form-group{
+    margin-bottom: 16px;
+  }
+
+  .modal-box .form-row{
+    display:flex;
+    gap: 12px;
+  }
+
+  .modal-box .form-row .form-group{
+    flex: 1;
+  }
+
+  .modal-box select{
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--purple-bg);
+    border: 1px solid var(--purple-light);
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+
+  .modal-actions{
+    display:flex;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .modal-actions .btn-primary{
+    flex: 1;
+    justify-content:center;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-cancel{
+    flex: 1;
+    background: var(--purple-bg);
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-cancel:hover{
+    background: var(--purple-light);
+  }
+
+
+  /* Caja de confirmación para eliminar */
+  .confirm-box{
+    max-width: 400px;
+    text-align: center;
+  }
+
+  .confirm-icon{
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #FBEAEA;
+    color: #C0392B;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin: 0 auto 16px;
+  }
+
+  .confirm-icon svg{
+    width: 26px;
+    height: 26px;
+  }
+
+  .confirm-box h2{
+    margin-bottom: 10px;
+  }
+
+  .confirm-box p{
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .confirm-box p strong{
+    color: var(--ink);
+  }
+
+  .btn-danger{
+    flex: 1;
+    background: #D64545;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 14px 20px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: background .2s;
+  }
+
+  .btn-danger:hover{
+    background: #B93434;
+  }
+
+  .confirm-box .btn-cancel{
+    padding: 14px 20px;
+  }
+
+  .toast{
+    position: fixed;
+    bottom: 26px;
+    right: 26px;
+    background: #201B33;
+    color: #fff;
+    padding: 13px 22px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .25s, transform .25s;
+    pointer-events: none;
+    z-index: 200;
+  }
+
+  .toast.show{
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 980px){
+    .admin-table{
+      display:block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 760px){
+    .admin-shell{
+      flex-direction: column;
+    }
+
+    .admin-sidebar{
+      width: 100%;
+      flex-direction: row;
+      align-items:center;
+      overflow-x: auto;
+      padding: 14px 16px;
+    }
+
+    .admin-brand{
+      border-bottom: none;
+      padding: 0 14px 0 0;
+      margin-bottom: 0;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .admin-nav{
+      flex-direction: row;
+      flex: none;
+    }
+
+    .admin-nav .nav-label{
+      display:none;
+    }
+
+    .admin-sidebar-footer{
+      border-top: none;
+      border-left: 1px solid rgba(255,255,255,0.1);
+      padding-top: 0;
+      margin-top: 0;
+      padding-left: 10px;
+    }
+
+    .admin-main{
+      padding: 24px 5%;
+    }
+  }
+
+  /* ---------- Promociones ---------- */
+  .promo-cell{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .promo-name{
+    font-weight: 600;
+  }
+
+  .code-chip{
+    display:inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--purple-dark);
+    background: var(--purple-light);
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+
+  .status-tag.vencida{ background: #FEF3C7; color: #B45309; }
+
+  .switch{
+    display:inline-flex;
+    align-items:center;
+    gap: 9px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .switch .track{
+    position: relative;
+    width: 38px;
+    height: 22px;
+    border-radius: 999px;
+    background: #D9D4EE;
+    transition: background .2s;
+  }
+
+  .switch .track::after{
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    transition: transform .2s;
+  }
+
+  .switch.on{
+    color: #2E7D45;
+  }
+
+  .switch.on .track{
+    background: #2E9E5B;
+  }
+
+  .switch.on .track::after{
+    transform: translateX(16px);
+  }
+
+  .form-error{
+    display:none;
+    margin-top: 4px;
+    padding: 10px 14px;
+    background: #FBEAEA;
+    color: #C0392B;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .form-error.show{
+    display:block;
+  }
+</style>
+</head>
+<body>
+
+<div class="admin-shell">
+
+  <aside class="admin-sidebar">
+    <div class="admin-brand">
+      <img src="assets/logo.png" alt="Blindbox MX">
+      <div>
+        <div class="name">Blindbox MX</div>
+        <div class="tag">Panel de administrador</div>
+      </div>
+    </div>
+
+    <nav class="admin-nav">
+      <a href="admin.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+        </svg>
+        Resumen
+      </a>
+
+      <div class="nav-label">Gestión</div>
+
+      <a href="AdminProductos.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 7l-8-4-8 4v10l8 4 8-4V7z"/>
+          <path d="M4 7l8 4 8-4M12 11v10"/>
+        </svg>
+        Productos
+      </a>
+
+      <a href="Admin-pedidos.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
+          <path d="M9 13l2 2 4-4"/>
+        </svg>
+        Pedidos
+      </a>
+
+      <a href="AdminPromociones.html" class="active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20.6 12.6L12 21.2 2.8 12A4 4 0 0 1 8.5 6.3L12 9.8l3.5-3.5a4 4 0 0 1 5.7 0 4 4 0 0 1 0 5.7z" transform="scale(0.9) translate(1.2,0.5)"/>
+          <path d="M12 3v6M9 6h6"/>
+        </svg>
+        Promociones
+      </a>
+    </nav>
+
+    <div class="admin-sidebar-footer">
+      <a href="index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver a la tienda
+      </a>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Gestión de promociones</h1>
+        <p id="promoCount">3 promociones</p>
+      </div>
+      <button class="btn-add" id="btnAdd">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 5v14M5 12h14" stroke-linecap="round"/>
+        </svg>
+        Agregar promoción
+      </button>
+    </div>
+
+    <div class="admin-panel">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Promoción</th>
+            <th>Descuento</th>
+            <th>Vigencia</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="promoTableBody"></tbody>
+      </table>
+      <div class="table-empty" id="tableEmpty" style="display:none;">Todavía no hay promociones. Crea la primera con el botón de arriba.</div>
+    </div>
+  </main>
+
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <h2 id="modalTitle">Agregar promoción</h2>
+    <form id="promoForm" novalidate>
+      <input type="hidden" id="f-id">
+
+      <div class="form-group">
+        <label for="f-name">Nombre de la promoción</label>
+        <input type="text" id="f-name" placeholder="Ej. 10% en todo tu pedido">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="f-code">Código</label>
+          <input type="text" id="f-code" placeholder="Ej. BLIND10" maxlength="20" autocomplete="off" style="text-transform:uppercase;">
+        </div>
+
+        <div class="form-group">
+          <label for="f-type">Tipo</label>
+          <select id="f-type">
+            <option value="percent">% de descuento</option>
+            <option value="2x1">2x1</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" id="g-value">
+          <label for="f-value">Descuento (%)</label>
+          <input type="number" id="f-value" placeholder="Ej. 10" min="1" max="100">
+        </div>
+
+        <div class="form-group" id="g-line" style="display:none;">
+          <label for="f-line">Línea</label>
+          <select id="f-line">
+            <option>Labubu</option>
+            <option>Hirono</option>
+            <option>Skullpanda</option>
+            <option>Kubo</option>
+            <option>Cry Baby</option>
+            <option>Nyota</option>
+            <option>Dimoo</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="f-until">Vigente hasta</label>
+          <input type="date" id="f-until">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="f-status">Estado</label>
+        <select id="f-status">
+          <option value="active">Activa</option>
+          <option value="paused">Pausada</option>
+        </select>
+      </div>
+
+      <p class="form-error" id="formError"></p>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" id="btnCancel">Cancelar</button>
+        <button type="submit" class="btn-primary">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal: Confirmar eliminar -->
+<div class="modal-overlay" id="deleteOverlay">
+  <div class="modal-box confirm-box">
+    <div class="confirm-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2>Eliminar promoción</h2>
+    <p>¿Quieres eliminar <strong id="deleteName"></strong>?</p>
+    <div class="modal-actions">
+      <button type="button" class="btn-cancel" id="btnDeleteCancel">Cancelar</button>
+      <button type="button" class="btn-danger" id="btnDeleteConfirm">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const STORAGE_KEY = 'bb_admin_promos';
+
+  const seedPromos = [
+    { id: 'promo-labubu2x1', name: '2x1 en cajas Labubu', code: 'LABUBU2X1', type: '2x1', value: null, line: 'Labubu', until: '', status: 'active' },
+    { id: 'promo-blind10', name: '10% en todo tu pedido', code: 'BLIND10', type: 'percent', value: 10, line: '', until: '', status: 'active' },
+    { id: 'promo-bienvenida15', name: 'Bienvenida: 15% en tu primera compra', code: 'BIENVENIDA15', type: 'percent', value: 15, line: '', until: '', status: 'active' }
+  ];
+
+  function getPromos(){
+    try {
+      const stored = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if (Array.isArray(stored)) return stored;
+    } catch (e) {}
+    savePromos(seedPromos);
+    return seedPromos.slice();
+  }
+
+  function savePromos(list){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  }
+
+  // Escapa texto antes de meterlo en el HTML
+  function esc(s){
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function isExpired(p){
+    return !!p.until && new Date(p.until + 'T23:59:59') < new Date();
+  }
+
+  function isActive(p){
+    return p.status === 'active' && !isExpired(p);
+  }
+
+  function describe(p){
+    return p.type === '2x1' ? '2x1 en cajas ' + p.line : p.value + '% de descuento';
+  }
+
+  function formatDate(s){
+    if (!s) return 'Sin fecha';
+    return new Date(s + 'T00:00:00').toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  function showToast(text){
+    const toast = document.getElementById('toast');
+    toast.textContent = text;
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, 2200);
+  }
+
+  // ---------- Tabla (Leer) ----------
+  function render(){
+    const promos = getPromos();
+    const tbody = document.getElementById('promoTableBody');
+    const emptyMsg = document.getElementById('tableEmpty');
+    tbody.innerHTML = '';
+
+    const activas = promos.filter(isActive).length;
+    document.getElementById('promoCount').textContent =
+      promos.length + (promos.length === 1 ? ' promoción' : ' promociones') + ' · ' +
+      activas + (activas === 1 ? ' activa' : ' activas');
+
+    if (promos.length === 0) {
+      emptyMsg.style.display = 'block';
+      return;
+    }
+    emptyMsg.style.display = 'none';
+
+    promos.forEach(function(p){
+      const encendida = p.status === 'active';
+      const estado = isExpired(p)
+        ? '<span class="status-tag vencida">Vencida</span>'
+        : '<button type="button" class="switch' + (encendida ? ' on' : '') + '" role="switch" aria-checked="' + encendida + '" data-id="' + esc(p.id) + '">' +
+            '<span class="track"></span><span class="switch-label">' + (encendida ? 'Activa' : 'Pausada') + '</span>' +
+          '</button>';
+
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td><div class="promo-cell"><span class="promo-name">' + esc(p.name) + '</span><span class="code-chip">' + esc(p.code) + '</span></div></td>' +
+        '<td>' + esc(describe(p)) + '</td>' +
+        '<td>' + esc(formatDate(p.until)) + '</td>' +
+        '<td>' + estado + '</td>' +
+        '<td><div class="row-actions">' +
+          '<button type="button" class="btn-edit" data-id="' + esc(p.id) + '">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>' +
+            'Editar' +
+          '</button>' +
+          '<button type="button" class="btn-delete" data-id="' + esc(p.id) + '">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+            'Eliminar' +
+          '</button>' +
+        '</div></td>';
+      tbody.appendChild(tr);
+    });
+  }
+
+  // Un solo escuchador para los botones de la tabla
+  document.getElementById('promoTableBody').addEventListener('click', function(e){
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const id = btn.dataset.id;
+    if (btn.classList.contains('btn-edit')) abrirModalEditar(id);
+    else if (btn.classList.contains('btn-delete')) abrirModalEliminar(id);
+    else if (btn.classList.contains('switch')) cambiarEstado(id);
+  });
+
+  // ---------- Activar / pausar ----------
+  function cambiarEstado(id){
+    const promos = getPromos().map(function(p){
+      return p.id === id ? Object.assign({}, p, { status: p.status === 'active' ? 'paused' : 'active' }) : p;
+    });
+    savePromos(promos);
+    render();
+    const p = promos.find(function(x){ return x.id === id; });
+    showToast(p.status === 'active' ? 'Promoción activada (simulado)' : 'Promoción pausada (simulado)');
+  }
+
+  // ---------- Modal agregar / editar ----------
+  const modalOverlay = document.getElementById('modalOverlay');
+  const promoForm = document.getElementById('promoForm');
+  const fType = document.getElementById('f-type');
+  const formError = document.getElementById('formError');
+
+  function actualizarCamposTipo(){
+    const es2x1 = fType.value === '2x1';
+    document.getElementById('g-value').style.display = es2x1 ? 'none' : '';
+    document.getElementById('g-line').style.display = es2x1 ? '' : 'none';
+  }
+
+  fType.addEventListener('change', actualizarCamposTipo);
+
+  function mostrarError(texto){
+    formError.textContent = texto;
+    formError.classList.add('show');
+  }
+
+  function ocultarError(){
+    formError.classList.remove('show');
+  }
+
+  function abrirModalAgregar(){
+    document.getElementById('modalTitle').textContent = 'Agregar promoción';
+    promoForm.reset();
+    document.getElementById('f-id').value = '';
+    actualizarCamposTipo();
+    ocultarError();
+    modalOverlay.classList.add('show');
+    document.getElementById('f-name').focus();
+  }
+
+  function abrirModalEditar(id){
+    const p = getPromos().find(function(x){ return x.id === id; });
+    if (!p) return;
+
+    document.getElementById('modalTitle').textContent = 'Editar promoción';
+    document.getElementById('f-id').value = p.id;
+    document.getElementById('f-name').value = p.name;
+    document.getElementById('f-code').value = p.code;
+    fType.value = p.type;
+    document.getElementById('f-value').value = p.value == null ? '' : p.value;
+    document.getElementById('f-line').value = p.line || 'Labubu';
+    document.getElementById('f-until').value = p.until || '';
+    document.getElementById('f-status').value = p.status;
+    actualizarCamposTipo();
+    ocultarError();
+    modalOverlay.classList.add('show');
+  }
+
+  function cerrarModal(){
+    modalOverlay.classList.remove('show');
+  }
+
+  document.getElementById('btnAdd').addEventListener('click', abrirModalAgregar);
+  document.getElementById('btnCancel').addEventListener('click', cerrarModal);
+  modalOverlay.addEventListener('click', function(e){
+    if (e.target === modalOverlay) cerrarModal();
+  });
+
+  // ---------- Guardar (Crear / Actualizar) ----------
+  promoForm.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const id = document.getElementById('f-id').value;
+    const name = document.getElementById('f-name').value.trim();
+    const code = document.getElementById('f-code').value.trim().toUpperCase();
+    const type = fType.value;
+    const value = type === 'percent' ? Number(document.getElementById('f-value').value) : null;
+    const line = type === '2x1' ? document.getElementById('f-line').value : '';
+    const until = document.getElementById('f-until').value;
+    const status = document.getElementById('f-status').value;
+
+    let promos = getPromos();
+
+    if (!name) return mostrarError('Escribe el nombre de la promoción.');
+    if (!/^[A-Z0-9]{3,20}$/.test(code)) return mostrarError('El código debe tener de 3 a 20 letras o números, sin espacios.');
+    if (promos.some(function(p){ return p.code === code && p.id !== id; })) return mostrarError('Ya existe una promoción con ese código.');
+    if (type === 'percent' && (!Number.isInteger(value) || value < 1 || value > 100)) return mostrarError('El descuento debe ser un número entero entre 1 y 100.');
+
+    if (id) {
+      promos = promos.map(function(p){
+        return p.id === id ? Object.assign({}, p, { name: name, code: code, type: type, value: value, line: line, until: until, status: status }) : p;
+      });
+      showToast('Promoción actualizada (simulado)');
+    } else {
+      promos.push({ id: 'promo-' + Date.now(), name: name, code: code, type: type, value: value, line: line, until: until, status: status });
+      showToast('Promoción agregada (simulado)');
+    }
+
+    savePromos(promos);
+    cerrarModal();
+    render();
+  });
+
+  // ---------- Modal eliminar (Cancelar / Eliminar) ----------
+  const deleteOverlay = document.getElementById('deleteOverlay');
+  let idPorEliminar = null;
+
+  function abrirModalEliminar(id){
+    const p = getPromos().find(function(x){ return x.id === id; });
+    if (!p) return;
+    idPorEliminar = id;
+    document.getElementById('deleteName').textContent = '"' + p.name + '"';
+    deleteOverlay.classList.add('show');
+  }
+
+  function cerrarModalEliminar(){
+    deleteOverlay.classList.remove('show');
+    idPorEliminar = null;
+  }
+
+  document.getElementById('btnDeleteCancel').addEventListener('click', cerrarModalEliminar);
+  deleteOverlay.addEventListener('click', function(e){
+    if (e.target === deleteOverlay) cerrarModalEliminar();
+  });
+
+  document.getElementById('btnDeleteConfirm').addEventListener('click', function(){
+    if (!idPorEliminar) return;
+    savePromos(getPromos().filter(function(p){ return p.id !== idPorEliminar; }));
+    cerrarModalEliminar();
+    render();
+    showToast('Promoción eliminada (simulado)');
+  });
+
+  // Escape cierra cualquier caja abierta
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') {
+      cerrarModal();
+      cerrarModalEliminar();
+    }
+  });
+
+  render();
+</script>
+
+</body>
+</html>
