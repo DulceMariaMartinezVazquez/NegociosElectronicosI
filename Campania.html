@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaña: Semana Labubu — Blindbox MX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="CSS/styles.css">
+
+<style>
+  /* ---------- Hero ---------- */
+  .camp-hero{
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--purple-bg) 0%, var(--bg) 100%);
+    padding: 70px 6% 90px;
+  }
+
+  .camp-hero::before{
+    content:"";
+    position:absolute;
+    width: 440px; height: 440px;
+    right: -130px; top: -150px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(122,106,216,0.28), transparent 70%);
+  }
+
+  .camp-hero::after{
+    content:"";
+    position:absolute;
+    width: 380px; height: 380px;
+    left: -150px; bottom: -170px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(226,138,192,0.24), transparent 70%);
+  }
+
+  .camp-hero-inner{
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    display:grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 50px;
+    align-items: center;
+  }
+
+  .camp-eyebrow{
+    display:inline-block;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    font-weight: 600;
+    font-size: 13px;
+    padding: 7px 18px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+  }
+
+  .camp-hero h1{
+    font-family:'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 50px;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  .camp-hero h1 .accent{
+    color: var(--purple);
+  }
+
+  .camp-hero .lead{
+    font-size: 16.5px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    max-width: 480px;
+    margin-bottom: 8px;
+  }
+
+  .camp-price-teaser{
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 26px;
+  }
+
+  .camp-price-teaser strong{
+    font-family:'Baloo 2', sans-serif;
+    font-size: 26px;
+    color: var(--purple-dark);
+  }
+
+  .camp-actions{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .btn-buy{
+    display:inline-flex;
+    align-items:center;
+    gap: 10px;
+    background: var(--purple);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 16px 34px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 12px 26px rgba(122,106,216,0.38);
+    transition: background .2s, transform .2s, box-shadow .2s;
+  }
+
+  .btn-buy:hover{
+    background: var(--purple-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px rgba(122,106,216,0.45);
+  }
+
+  .btn-buy svg{
+    width: 18px;
+    height: 18px;
+  }
+
+  .btn-ghost{
+    display:inline-flex;
+    align-items:center;
+    background: transparent;
+    color: var(--purple-dark);
+    font-weight: 600;
+    font-size: 16px;
+    padding: 14px 30px;
+    border-radius: 999px;
+    border: 2px solid var(--purple-light);
+    transition: border-color .2s, background .2s;
+  }
+
+  .btn-ghost:hover{
+    border-color: var(--purple);
+    background: #fff;
+  }
+
+  .camp-promo-hint{
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+
+  .camp-promo-hint strong{
+    color: var(--ink);
+    letter-spacing: 1px;
+  }
+
+  .camp-promo-hint a{
+    color: var(--purple-dark);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .camp-visual{
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .camp-frame{
+    background: var(--purple-light);
+    border-radius: 38px;
+    padding: 22px;
+    box-shadow: 0 26px 54px rgba(122,106,216,0.30);
+    transform: rotate(2.5deg);
+  }
+
+  .camp-frame img{
+    display:block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 26px;
+    background: #fff;
+  }
+
+  .float-chip{
+    position: absolute;
+    display:flex;
+    align-items:center;
+    gap: 8px;
+    background: #fff;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 12.5px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+    animation: floaty 4s ease-in-out infinite;
+  }
+
+  .float-chip svg{
+    width: 15px;
+    height: 15px;
+  }
+
+  .chip-new{
+    top: -14px;
+    left: -18px;
+    color: #2E7D45;
+  }
+
+  .chip-box{
+    bottom: 28px;
+    right: -22px;
+    color: var(--purple-dark);
+    animation-delay: 1.3s;
+  }
+
+  @keyframes floaty{
+    0%, 100%{ transform: translateY(0); }
+    50%{ transform: translateY(-8px); }
+  }
+
+  /* ---------- Secciones ---------- */
+  .camp-section{
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 76px 6% 0;
+  }
+
+  .camp-head{
+    text-align:center;
+    margin-bottom: 34px;
+  }
+
+  .camp-head .tag{
+    display:inline-block;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    font-weight: 600;
+    font-size: 13px;
+    padding: 7px 18px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+
+  .camp-head h2{
+    font-family:'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .camp-head p{
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    max-width: 460px;
+    margin: 0 auto;
+  }
+
+  /* Producto destacado */
+  .featured-card{
+    display:grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 40px;
+    align-items:center;
+    background: #fff;
+    border-radius: 30px;
+    padding: 30px;
+    border-top: 6px solid var(--purple);
+    box-shadow: 0 16px 40px rgba(122,106,216,0.16);
+  }
+
+  .featured-image{
+    position: relative;
+    border-radius: 22px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, var(--purple-light) 0%, #F7F4FD 100%);
+  }
+
+  .featured-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display:block;
+  }
+
+  .featured-badge{
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: #4FAE6B;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 999px;
+    z-index: 2;
+  }
+
+  .featured-line{
+    display:inline-block;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--purple-dark);
+    background: var(--purple-light);
+    padding: 5px 14px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+  }
+
+  .featured-info h3{
+    font-family:'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .featured-rating{
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+
+  .stars{
+    color: #F5A623;
+    letter-spacing: 2px;
+  }
+
+  .featured-info p{
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+
+  .featured-list{
+    list-style: none;
+    margin-bottom: 22px;
+  }
+
+  .featured-list li{
+    display:flex;
+    align-items:flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    color: var(--ink);
+    padding: 5px 0;
+  }
+
+  .featured-list svg{
+    width: 17px;
+    height: 17px;
+    color: #2E9E5B;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .featured-price{
+    font-family:'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 34px;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+
+  .featured-price small{
+    font-family:'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+
+  /* Beneficios */
+  .benefits-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+
+  .benefit-card{
+    background: var(--purple-bg);
+    border-radius: 24px;
+    padding: 30px 24px;
+    text-align:center;
+    transition: transform .2s;
+  }
+
+  .benefit-card:hover{
+    transform: translateY(-4px);
+  }
+
+  .benefit-card:nth-child(1){ --accent: #7A6AD8; }
+  .benefit-card:nth-child(2){ --accent: #E28AC0; }
+  .benefit-card:nth-child(3){ --accent: #4FB3C8; }
+
+  .benefit-icon{
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    background: var(--accent);
+    color: #fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin: 0 auto 16px;
+    box-shadow: 0 10px 20px rgba(122,106,216,0.25);
+  }
+
+  .benefit-icon svg{
+    width: 26px;
+    height: 26px;
+  }
+
+  .benefit-card h3{
+    font-family:'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .benefit-card p{
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  /* Reseñas */
+  .reviews-summary{
+    display:inline-flex;
+    align-items:center;
+    gap: 10px;
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 999px;
+    box-shadow: 0 8px 20px rgba(122,106,216,0.12);
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+
+  .reviews-summary strong{
+    font-family:'Baloo 2', sans-serif;
+    font-size: 20px;
+    color: var(--ink);
+  }
+
+  .reviews-note{
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 10px;
+    opacity: 0.85;
+  }
+
+  .reviews-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+
+  .review-card{
+    position: relative;
+    background: #fff;
+    border-radius: 24px;
+    padding: 28px 24px 24px;
+    box-shadow: 0 12px 30px rgba(122,106,216,0.12);
+    display:flex;
+    flex-direction: column;
+  }
+
+  .review-card::before{
+    content: "“";
+    position: absolute;
+    top: 6px;
+    right: 20px;
+    font-family: Georgia, serif;
+    font-size: 70px;
+    line-height: 1;
+    color: var(--purple-light);
+  }
+
+  .review-card .stars{
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .review-card blockquote{
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 20px;
+    flex: 1;
+  }
+
+  .review-author{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--purple-light);
+  }
+
+  .review-avatar{
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #A48CF0, #6445C9);
+    color: #fff;
+    font-family:'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink: 0;
+  }
+
+  .review-card:nth-child(2) .review-avatar{ background: linear-gradient(135deg, #F0A0D0, #D6639F); }
+  .review-card:nth-child(3) .review-avatar{ background: linear-gradient(135deg, #7FD8E8, #3FA9C0); }
+
+  .review-author .who{
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .review-author .bought{
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  /* Llamado final */
+  .camp-cta{
+    max-width: 1000px;
+    margin: 76px auto 90px;
+    padding: 0 6%;
+  }
+
+  .camp-cta-box{
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(120deg, #8B77E8 0%, #5F4FBD 100%);
+    border-radius: 32px;
+    padding: 54px 30px;
+    text-align:center;
+    color: #fff;
+  }
+
+  .camp-cta-box::before{
+    content:"";
+    position:absolute;
+    width: 300px; height: 300px;
+    right: -80px; top: -120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+  }
+
+  .camp-cta-box::after{
+    content:"";
+    position:absolute;
+    width: 220px; height: 220px;
+    left: -70px; bottom: -110px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.10);
+  }
+
+  .camp-cta-box > *{
+    position: relative;
+    z-index: 1;
+  }
+
+  .camp-cta-box h2{
+    font-family:'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 34px;
+    margin-bottom: 10px;
+  }
+
+  .camp-cta-box p{
+    font-size: 15px;
+    opacity: 0.92;
+    max-width: 440px;
+    margin: 0 auto 26px;
+  }
+
+  .camp-cta-box .btn-buy{
+    background: #fff;
+    color: var(--purple-dark);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.22);
+  }
+
+  .camp-cta-box .btn-buy:hover{
+    background: #F5F2FF;
+  }
+
+  .camp-cta-box .cta-link{
+    display:block;
+    margin-top: 18px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: underline;
+    opacity: 0.9;
+  }
+
+  /* Aviso */
+  .camp-toast{
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translate(-50%, 20px);
+    background: #201B33;
+    color: #fff;
+    padding: 14px 26px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 14px 34px rgba(0,0,0,0.28);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s, transform .25s;
+    z-index: 200;
+    max-width: 90%;
+    text-align: center;
+  }
+
+  .camp-toast.show{
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  /* Aparecer al hacer scroll (solo si hay JavaScript) */
+  .js .reveal{
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+
+  .js .reveal.in{
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Carrito en el header */
+  .header-actions{
+    display:flex;
+    align-items:center;
+  }
+
+  .cart-icon-btn{
+    position: relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    margin-left: 14px;
+  }
+
+  .cart-icon-btn svg{
+    width: 20px;
+    height: 20px;
+  }
+
+  .cart-badge{
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #E0577A;
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 0 4px;
+  }
+
+  .cart-badge.hide{
+    display:none;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .float-chip{ animation: none; }
+    .js .reveal{ opacity: 1; transform: none; transition: none; }
+  }
+
+  @media (max-width: 860px){
+    .camp-hero{
+      padding: 50px 6% 70px;
+    }
+
+    .camp-hero-inner{
+      grid-template-columns: 1fr;
+      gap: 44px;
+    }
+
+    .camp-hero h1{
+      font-size: 38px;
+    }
+
+    .featured-card{
+      grid-template-columns: 1fr;
+      gap: 26px;
+      padding: 22px;
+    }
+
+    .benefits-grid,
+    .reviews-grid{
+      grid-template-columns: 1fr;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 480px){
+    .camp-hero h1{ font-size: 32px; }
+    .camp-head h2{ font-size: 26px; }
+    .camp-cta-box h2{ font-size: 27px; }
+    .btn-buy, .btn-ghost{ width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <button class="nav-toggle" aria-label="Abrir menú" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="promociones.html">Promociones</a></li>
+      <li><a href="campana.html">Campaña</a></li>
+      <li><a href="Nosotros.html">Nosotros</a></li>
+      <li><a href="Contacto.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <a href="index.html" class="logo">
+    <img src="images/logobbmx.png" alt="Blindbox MX">
+  </a>
+
+  <div class="header-actions">
+    <a href="login.html" class="login">Iniciar sesión</a>
+    <a href="Carrito.html" class="cart-icon-btn" id="cartIconBtn" aria-label="Carrito" title="Carrito" style="display:none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="9" cy="21" r="1.4"/>
+        <circle cx="18" cy="21" r="1.4"/>
+        <path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/>
+      </svg>
+      <span class="cart-badge hide" id="cartBadge">0</span>
+    </a>
+  </div>
+</header>
+
+<!-- Hero de la campaña -->
+<section class="camp-hero">
+  <div class="camp-hero-inner">
+    <div class="camp-copy">
+      <span class="camp-eyebrow">Campaña · Semana Labubu</span>
+      <h1>Tu próximo Labubu <span class="accent">te está esperando</span></h1>
+      <p class="lead">Descubre la serie Exciting Macaron: figuras suaves, colores pastel y la emoción de no saber cuál te va a tocar.</p>
+      <p class="camp-price-teaser">Desde <strong>$299 MXN</strong> · caja sorpresa</p>
+
+      <div class="camp-actions">
+        <button type="button" class="btn-buy">
+          Comprar ahora
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <a href="#destacado" class="btn-ghost">Ver producto</a>
+      </div>
+
+      <p class="camp-promo-hint">Lleva 2 cajas Labubu y paga 1 con el código <strong>LABUBU2X1</strong>. <a href="promociones.html">Ver promoción</a></p>
+    </div>
+
+    <div class="camp-visual">
+      <div class="camp-frame">
+        <img src="images/L2.png" alt="Labubu Exciting Macaron" onerror="this.style.display='none'">
+      </div>
+      <span class="float-chip chip-new">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2l2.6 6.6L21 10l-5 4.2L17.4 21 12 17.4 6.6 21 8 14.2 3 10l6.4-1.4L12 2z"/></svg>
+        Nuevo
+      </span>
+      <span class="float-chip chip-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9.5 9a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1 1-1.1 1.8M12 17h.01" stroke-linecap="round"/></svg>
+        Caja sorpresa
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- Producto destacado -->
+<section class="camp-section reveal" id="destacado">
+  <div class="camp-head">
+    <span class="tag">Producto destacado</span>
+    <h2>La figura de la semana</h2>
+    <p>La favorita de la campaña, lista para sumarse a tu colección.</p>
+  </div>
+
+  <div class="featured-card">
+    <div class="featured-image">
+      <span class="featured-badge">Nuevo</span>
+      <img src="images/L2.png" alt="Labubu Exciting Macaron" onerror="this.style.display='none'">
+    </div>
+
+    <div class="featured-info">
+      <span class="featured-line">Labubu</span>
+      <h3>Labubu Exciting Macaron</h3>
+      <div class="featured-rating"><span class="stars">★★★★★</span> 4.9 · reseñas de ejemplo</div>
+      <p>Figura coleccionable de la serie Exciting Macaron. Caja ciega: no sabrás cuál personaje te toca hasta abrirla.</p>
+
+      <ul class="featured-list">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Caja sorpresa con un personaje al azar de la serie
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          También disponible como kit completo en el detalle del producto
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Compatible con la promo 2x1 en cajas Labubu
+        </li>
+      </ul>
+
+      <div class="featured-price">$299 <small>MXN · caja sorpresa</small></div>
+
+      <div class="camp-actions">
+        <button type="button" class="btn-buy">
+          Comprar ahora
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <a href="producto.html?id=labubu-1" class="btn-ghost">Ver detalle</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Beneficios -->
+<section class="camp-section reveal">
+  <div class="camp-head">
+    <span class="tag">¿Por qué te va a encantar?</span>
+    <h2>Mucho más que una figura</h2>
+  </div>
+
+  <div class="benefits-grid">
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20 7l-8-4-8 4v10l8 4 8-4V7z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg>
+      </div>
+      <h3>Caja sorpresa</h3>
+      <p>No sabes cuál personaje te toca hasta abrirla. Esa es la mitad de la diversión.</p>
+    </div>
+
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2l2.6 6.6L21 10l-5 4.2L17.4 21 12 17.4 6.6 21 8 14.2 3 10l6.4-1.4L12 2z"/></svg>
+      </div>
+      <h3>Para coleccionar</h3>
+      <p>Cada serie tiene varios personajes. Junta los que te faltan y arma tu colección.</p>
+    </div>
+
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 21V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg>
+      </div>
+      <h3>Ideal para regalar</h3>
+      <p>Una sorpresa que se abre en el momento. Perfecta para cumpleaños y detalles.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Reseñas -->
+<section class="camp-section reveal">
+  <div class="camp-head">
+    <span class="tag">Lo que dicen</span>
+    <h2>Coleccionistas felices</h2>
+    <div class="reviews-summary"><strong>4.9</strong> <span class="stars">★★★★★</span> <span>promedio</span></div>
+    <p class="reviews-note">Reseñas de ejemplo (simuladas)</p>
+  </div>
+
+  <div class="reviews-grid">
+    <article class="review-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>La emoción de abrir la caja es lo mejor. Me tocó mi favorito y ya quiero otra.</blockquote>
+      <div class="review-author">
+        <div class="review-avatar">A</div>
+        <div>
+          <div class="who">Ana M.</div>
+          <div class="bought">Compró: Labubu Exciting Macaron</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="review-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>Compré el kit completo para regalar y fue todo un éxito. Se ve increíble en mi repisa.</blockquote>
+      <div class="review-author">
+        <div class="review-avatar">D</div>
+        <div>
+          <div class="who">Diego R.</div>
+          <div class="bought">Compró: Kit completo Labubu</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="review-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>Me encantan los colores pastel. Ya voy por mi tercera caja de la colección.</blockquote>
+      <div class="review-author">
+        <div class="review-avatar">S</div>
+        <div>
+          <div class="who">Sofía H.</div>
+          <div class="bought">Compró: Labubu The Monsters</div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- Llamado final -->
+<section class="camp-cta reveal">
+  <div class="camp-cta-box">
+    <h2>Abre tu caja sorpresa hoy</h2>
+    <p>Súmate a la Semana Labubu y descubre qué personaje te toca.</p>
+    <button type="button" class="btn-buy">
+      Comprar ahora
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <a href="catalogo.html" class="cta-link">Ver el catálogo completo</a>
+  </div>
+</section>
+
+<div class="camp-toast" id="campToast" role="status" aria-live="polite"></div>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-col">
+      <h3>Únete a la comunidad</h3>
+      <p>Entérate primero de nuevos lanzamientos, ofertas y sorpresas.</p>
+      <form class="newsletter-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='¡Listo!'; this.reset();">
+        <input type="email" placeholder="Tu correo" required>
+        <button type="submit">Suscribirme</button>
+      </form>
+
+      <h3 class="footer-social-title">Síguenos</h3>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5z"/>
+            <path d="M9 8h6l-6 8h6"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M21 11.5a8.5 8.5 0 0 1-12.8 7.3L3 20l1.2-5.1A8.5 8.5 0 1 1 21 11.5z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M15 8h-2a2 2 0 0 0-2 2v2H9v3h2v7h3v-7h2.3l.5-3H14v-1.3c0-.5.3-.7.8-.7H15V8z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Explorar</h4>
+      <a href="index.html" class="footer-link">Inicio</a>
+      <a href="catalogo.html" class="footer-link">Catálogo</a>
+      <a href="promociones.html" class="footer-link">Promociones</a>
+      <a href="campana.html" class="footer-link">Campaña</a>
+      <a href="Nosotros.html" class="footer-link">Nosotros</a>
+      <a href="Contacto.html" class="footer-link">Contacto</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Mi cuenta</h4>
+      <a href="login.html" class="footer-link">Iniciar sesión</a>
+      <a href="registro.html" class="footer-link">Registrarme</a>
+      <a href="perfil.html" class="footer-link">Mi perfil</a>
+      <a href="carrito.html" class="footer-link">Carrito</a>
+    </div>
+</div>
+
+  <div class="footer-bottom">
+    <span>© 2026 Blindbox MX — todos los derechos reservados</span>
+    <div class="footer-bottom-links">
+      <a href="#">Términos y condiciones</a>
+      <a href="#">Política de privacidad</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.documentElement.classList.add('js');
+
+  // Producto de la campaña (mismo formato que usa el carrito)
+  const FEATURED = {
+    id: 'labubu-1',
+    name: 'Labubu Exciting Macaron',
+    line: 'Labubu',
+    price: 299,
+    image: 'images/L2.png'
+  };
+
+  const toast = document.getElementById('campToast');
+  let toastTimer = null;
+
+  function mostrarAviso(texto){
+    toast.textContent = texto;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 2600);
+  }
+
+  function getCart(){
+    try { return JSON.parse(localStorage.getItem('bb_cart')) || []; }
+    catch (e) { return []; }
+  }
+
+  // El carrito solo se muestra si el usuario inició sesión
+  function actualizarCarrito(){
+    const loggedIn = localStorage.getItem('bb_logged_in') === 'true';
+    const icon = document.getElementById('cartIconBtn');
+    if (!icon) return;
+    icon.style.display = loggedIn ? 'flex' : 'none';
+    if (!loggedIn) return;
+
+    const total = getCart().reduce(function(sum, item){ return sum + item.qty; }, 0);
+    const badge = document.getElementById('cartBadge');
+    badge.textContent = total;
+    badge.classList.toggle('hide', total === 0);
+  }
+
+  // "Comprar ahora": agrega 1 caja sorpresa y lleva al carrito
+  function comprarAhora(){
+    if (localStorage.getItem('bb_logged_in') !== 'true') {
+      mostrarAviso('Inicia sesión para continuar con tu compra');
+      setTimeout(function(){ window.location.href = 'login.html'; }, 1300);
+      return;
+    }
+
+    const cart = getCart();
+    const key = FEATURED.id + '-caja';
+    const existente = cart.find(function(item){ return item.key === key; });
+
+    if (existente) {
+      existente.qty += 1;
+    } else {
+      cart.push({
+        key: key,
+        id: FEATURED.id,
+        name: FEATURED.name,
+        line: FEATURED.line,
+        option: 'caja',
+        price: FEATURED.price,
+        image: FEATURED.image,
+        qty: 1
+      });
+    }
+
+    localStorage.setItem('bb_cart', JSON.stringify(cart));
+    actualizarCarrito();
+    mostrarAviso('Agregado al carrito. Te llevamos a tu pedido…');
+    setTimeout(function(){ window.location.href = 'Carrito.html'; }, 900);
+  }
+
+  document.querySelectorAll('.btn-buy').forEach(function(btn){
+    btn.addEventListener('click', comprarAhora);
+  });
+
+  actualizarCarrito();
+
+  // Las secciones aparecen suavemente al hacer scroll
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(function(el){ observer.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add('in'); });
+  }
+</script>
+
+</body>
+</html>
