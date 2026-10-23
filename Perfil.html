@@ -151,6 +151,279 @@
     text-align:center;
     margin-top: 6px;
   }
+
+  /* ---------- Comentarios e historial ---------- */
+  .card-head{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .card-head h2{
+    margin-bottom: 0;
+  }
+
+  .count-pill{
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 11px;
+    border-radius: 999px;
+  }
+
+  .comment-item{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--purple-light);
+  }
+
+  .comment-item:first-child{
+    padding-top: 4px;
+  }
+
+  .comment-item:last-child{
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .comment-body{
+    min-width: 0;
+  }
+
+  .comment-text{
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    margin-bottom: 6px;
+  }
+
+  .comment-date{
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  .comment-delete{
+    display:flex;
+    align-items:center;
+    gap: 6px;
+    flex-shrink: 0;
+    background: #FBEAEA;
+    color: #C0392B;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 7px 13px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: background .2s;
+  }
+
+  .comment-delete:hover{
+    background: #F3CFCF;
+  }
+
+  .comment-delete svg{
+    width: 13px;
+    height: 13px;
+  }
+
+  .profile-empty a{
+    color: var(--purple-dark);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .history-list{
+    list-style: none;
+    margin: 4px 0 0 8px;
+    padding-left: 24px;
+    border-left: 2px solid var(--purple-light);
+  }
+
+  .history-item{
+    position: relative;
+    padding-bottom: 18px;
+  }
+
+  .history-item:last-child{
+    padding-bottom: 0;
+  }
+
+  .h-dot{
+    position: absolute;
+    left: -33px;
+    top: 1px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px var(--dot, var(--purple));
+    background: var(--dot, var(--purple));
+  }
+
+  .h-dot.comment{ --dot: #7A6AD8; }
+  .h-dot.delete{ --dot: #D64545; }
+  .h-dot.profile{ --dot: #4FB3C8; }
+
+  .h-title{
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .h-detail{
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+    overflow-wrap: anywhere;
+  }
+
+  .h-date{
+    font-size: 12px;
+    color: var(--ink-soft);
+    opacity: 0.8;
+    margin-top: 3px;
+  }
+
+  .history-note{
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 14px;
+    text-align: center;
+  }
+
+  /* Caja de confirmación */
+  .modal-overlay{
+    display:none;
+    position: fixed;
+    inset: 0;
+    background: rgba(27,23,48,0.5);
+    align-items:center;
+    justify-content:center;
+    padding: 20px;
+    z-index: 100;
+  }
+
+  .modal-overlay.show{
+    display:flex;
+  }
+
+  .modal-box{
+    background: var(--bg);
+    border-radius: 22px;
+    padding: 32px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  }
+
+  .confirm-icon{
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #FBEAEA;
+    color: #C0392B;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin: 0 auto 16px;
+  }
+
+  .confirm-icon svg{
+    width: 26px;
+    height: 26px;
+  }
+
+  .modal-box h2{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size: 20px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .modal-box p{
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .confirm-preview{
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: var(--purple-bg);
+    border-radius: 12px;
+    font-size: 13px;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+
+  .modal-actions{
+    display:flex;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .btn-cancel,
+  .btn-danger{
+    flex: 1;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 14px 20px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: background .2s;
+  }
+
+  .btn-cancel{
+    background: var(--purple-bg);
+    color: var(--ink);
+  }
+
+  .btn-cancel:hover{
+    background: var(--purple-light);
+  }
+
+  .btn-danger{
+    background: #D64545;
+    color: #fff;
+  }
+
+  .btn-danger:hover{
+    background: #B93434;
+  }
+
+  .toast{
+    position: fixed;
+    bottom: 26px;
+    right: 26px;
+    background: #201B33;
+    color: #fff;
+    padding: 13px 22px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .25s, transform .25s;
+    pointer-events: none;
+    z-index: 200;
+  }
+
+  .toast.show{
+    opacity: 1;
+    transform: translateY(0);
+  }
 </style>
 </head>
 <body>
@@ -163,13 +436,14 @@
       <li><a href="index.html">Inicio</a></li>
       <li><a href="catalogo.html">Catálogo</a></li>
       <li><a href="promociones.html">Promociones</a></li>
+      <li><a href="campaña.html">Campaña</a></li>
       <li><a href="nosotros.html">Nosotros</a></li>
       <li><a href="contacto.html">Contacto</a></li>
     </ul>
   </nav>
 
   <a href="index.html" class="logo">
-    <img src="images/logobbmx.png" alt="Blindbox MX">
+    <img src="assets/logo.png" alt="Blindbox MX">
   </a>
 
   <div class="header-actions">
@@ -234,9 +508,25 @@
           <path d="M9 12l2 2 4-4"/>
           <circle cx="12" cy="12" r="9"/>
         </svg>
-        Datos actualizados 
+        Datos actualizados (simulado)
       </div>
     </form>
+  </div>
+
+  <div class="profile-card">
+    <div class="card-head">
+      <h2>Mis comentarios</h2>
+      <span class="count-pill" id="commentCount">0</span>
+    </div>
+    <div id="commentsList"></div>
+  </div>
+
+  <div class="profile-card">
+    <div class="card-head">
+      <h2>Historial de actividad</h2>
+    </div>
+    <ul class="history-list" id="historyList"></ul>
+    <p class="history-note" id="historyNote" style="display:none;"></p>
   </div>
 
   <div class="profile-card">
@@ -256,6 +546,26 @@
   </div>
 </section>
 
+<!-- Confirmar eliminar comentario -->
+<div class="modal-overlay" id="deleteOverlay">
+  <div class="modal-box">
+    <div class="confirm-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2>Eliminar comentario</h2>
+    <p>¿Quieres eliminar este comentario?</p>
+    <p class="confirm-preview" id="deletePreview"></p>
+    <div class="modal-actions">
+      <button type="button" class="btn-cancel" id="btnDeleteCancel">Cancelar</button>
+      <button type="button" class="btn-danger" id="btnDeleteConfirm">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <footer class="site-footer">
   <div class="footer-top">
     <div class="footer-col">
@@ -265,7 +575,7 @@
         <input type="email" placeholder="Tu correo" required>
         <button type="submit">Suscribirme</button>
       </form>
- 
+
       <h3 class="footer-social-title">Síguenos</h3>
       <div class="footer-social">
         <a href="#" aria-label="Instagram">
@@ -293,15 +603,17 @@
         </a>
       </div>
     </div>
- 
+
     <div class="footer-col">
       <h4>Explorar</h4>
       <a href="index.html" class="footer-link">Inicio</a>
       <a href="catalogo.html" class="footer-link">Catálogo</a>
+      <a href="promociones.html" class="footer-link">Promociones</a>
+      <a href="campaña.html" class="footer-link">Campaña</a>
       <a href="nosotros.html" class="footer-link">Nosotros</a>
       <a href="contacto.html" class="footer-link">Contacto</a>
     </div>
- 
+
     <div class="footer-col">
       <h4>Mi cuenta</h4>
       <a href="login.html" class="footer-link">Iniciar sesión</a>
@@ -309,8 +621,8 @@
       <a href="perfil.html" class="footer-link">Mi perfil</a>
       <a href="carrito.html" class="footer-link">Carrito</a>
     </div>
-  </div>
- 
+</div>
+
   <div class="footer-bottom">
     <span>© 2026 Blindbox MX — todos los derechos reservados</span>
     <div class="footer-bottom-links">
@@ -321,6 +633,8 @@
 </footer>
 
 <script>
+  // Modo básico: si el usuario vino de registro.html, mostramos su nombre/correo guardados
+  // en este navegador. Si no, mostramos un usuario ficticio de muestra.
   function cargarDatos(){
     const nombre = localStorage.getItem('bb_user_name');
     const correo = localStorage.getItem('bb_user_email');
@@ -365,6 +679,8 @@
     if (direccion) localStorage.setItem('bb_user_address', direccion);
 
     cargarDatos();
+    addHistory('profile', 'Actualizaste tus datos de perfil', '');
+    renderHistory();
 
     const msg = document.getElementById('saveMsg');
     msg.classList.add('show');
@@ -379,6 +695,157 @@
     localStorage.removeItem('bb_logged_in');
     window.location.href = 'index.html';
   });
+
+  // ---------- Comentarios e historial (se guardan solo en este navegador) ----------
+  const COMMENTS_KEY = 'bb_comments';
+  const HISTORY_KEY = 'bb_history';
+  const MAX_HISTORY_SHOWN = 15;
+
+  function readList(key){
+    try {
+      const v = JSON.parse(localStorage.getItem(key));
+      return Array.isArray(v) ? v : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function writeList(key, list){
+    localStorage.setItem(key, JSON.stringify(list));
+  }
+
+  function esc(s){
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function preview(texto){
+    return texto.length > 70 ? texto.slice(0, 70) + '…' : texto;
+  }
+
+  function formatDateTime(iso){
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleString('es-MX', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+  }
+
+  function addHistory(type, text, detail){
+    const list = readList(HISTORY_KEY);
+    list.unshift({
+      id: 'h-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+      type: type,
+      text: text,
+      detail: detail || '',
+      date: new Date().toISOString()
+    });
+    writeList(HISTORY_KEY, list.slice(0, 200));
+  }
+
+  function showToast(texto){
+    const toast = document.getElementById('toast');
+    toast.textContent = texto;
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, 2200);
+  }
+
+  const iconoBasura = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function renderComments(){
+    const comments = readList(COMMENTS_KEY);
+    const wrap = document.getElementById('commentsList');
+    document.getElementById('commentCount').textContent = comments.length;
+
+    if (comments.length === 0) {
+      wrap.innerHTML = '<div class="profile-empty">Todavía no has hecho comentarios. Cuéntanos qué piensas desde <a href="contacto.html">Contacto</a>.</div>';
+      return;
+    }
+
+    wrap.innerHTML = comments.map(function(c){
+      return '<div class="comment-item">' +
+        '<div class="comment-body">' +
+          '<p class="comment-text">' + esc(c.text) + '</p>' +
+          '<span class="comment-date">' + esc(formatDateTime(c.date)) + '</span>' +
+        '</div>' +
+        '<button type="button" class="comment-delete" data-id="' + esc(c.id) + '">' + iconoBasura + 'Eliminar</button>' +
+      '</div>';
+    }).join('');
+  }
+
+  function renderHistory(){
+    const history = readList(HISTORY_KEY);
+    const list = document.getElementById('historyList');
+    const note = document.getElementById('historyNote');
+
+    if (history.length === 0) {
+      list.innerHTML = '';
+      list.style.display = 'none';
+      note.style.display = 'block';
+      note.textContent = 'Aquí aparecerá tu actividad: comentarios enviados y eliminados, y cambios en tus datos.';
+      return;
+    }
+
+    list.style.display = '';
+    list.innerHTML = history.slice(0, MAX_HISTORY_SHOWN).map(function(h){
+      return '<li class="history-item">' +
+        '<span class="h-dot ' + esc(h.type) + '"></span>' +
+        '<div class="h-title">' + esc(h.text) + '</div>' +
+        (h.detail ? '<div class="h-detail">“' + esc(h.detail) + '”</div>' : '') +
+        '<div class="h-date">' + esc(formatDateTime(h.date)) + '</div>' +
+      '</li>';
+    }).join('');
+
+    if (history.length > MAX_HISTORY_SHOWN) {
+      note.style.display = 'block';
+      note.textContent = 'Mostrando los últimos ' + MAX_HISTORY_SHOWN + ' movimientos.';
+    } else {
+      note.style.display = 'none';
+    }
+  }
+
+  // ---------- Eliminar comentario (Cancelar / Eliminar) ----------
+  const deleteOverlay = document.getElementById('deleteOverlay');
+  let idPorEliminar = null;
+
+  document.getElementById('commentsList').addEventListener('click', function(e){
+    const btn = e.target.closest('.comment-delete');
+    if (!btn) return;
+    const comment = readList(COMMENTS_KEY).find(function(c){ return c.id === btn.dataset.id; });
+    if (!comment) return;
+    idPorEliminar = comment.id;
+    document.getElementById('deletePreview').textContent = '“' + preview(comment.text) + '”';
+    deleteOverlay.classList.add('show');
+  });
+
+  function cerrarEliminar(){
+    deleteOverlay.classList.remove('show');
+    idPorEliminar = null;
+  }
+
+  document.getElementById('btnDeleteCancel').addEventListener('click', cerrarEliminar);
+  deleteOverlay.addEventListener('click', function(e){
+    if (e.target === deleteOverlay) cerrarEliminar();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') cerrarEliminar();
+  });
+
+  document.getElementById('btnDeleteConfirm').addEventListener('click', function(){
+    if (!idPorEliminar) return;
+    const comments = readList(COMMENTS_KEY);
+    const comment = comments.find(function(c){ return c.id === idPorEliminar; });
+
+    writeList(COMMENTS_KEY, comments.filter(function(c){ return c.id !== idPorEliminar; }));
+    if (comment) addHistory('delete', 'Eliminaste un comentario', preview(comment.text));
+
+    cerrarEliminar();
+    renderComments();
+    renderHistory();
+    showToast('Comentario eliminado');
+  });
+
+  renderComments();
+  renderHistory();
 </script>
 
 </body>

@@ -19,6 +19,7 @@
       <li><a href="index.html">Inicio</a></li>
       <li><a href="catalogo.html">Catálogo</a></li>
       <li><a href="promociones.html">Promociones</a></li>
+      <li><a href="campaña.html">Campaña</a></li>
       <li><a href="nosotros.html">Nosotros</a></li>
       <li><a href="contacto.html">Contacto</a></li>
     </ul>
@@ -29,7 +30,7 @@
   </a>
 
   <div class="header-actions">
-    <a href="Login.html" class="login">Iniciar sesión</a>
+    <a href="login.html" class="login">Iniciar sesión</a>
   </div>
 </header>
 
@@ -43,17 +44,17 @@
   <form class="contact-form" id="contactForm">
     <div class="form-group">
       <label for="nombre">Nombre</label>
-      <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" >
+      <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
     </div>
 
     <div class="form-group">
       <label for="correo">Correo</label>
-      <input type="email" id="correo" name="correo" placeholder="tu@correo.com" >
+      <input type="email" id="correo" name="correo" placeholder="tu@correo.com" required>
     </div>
 
     <div class="form-group">
       <label for="mensaje">Mensaje</label>
-      <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos en qué te podemos ayudar"></textarea>
+      <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos en qué te podemos ayudar" required></textarea>
     </div>
 
     <button type="submit" class="btn-primary">
@@ -68,7 +69,7 @@
         <path d="M9 12l2 2 4-4"/>
         <circle cx="12" cy="12" r="9"/>
       </svg>
-      Mensaje enviado 
+      <span>Mensaje enviado (simulado). <a href="perfil.html" style="font-weight:600;text-decoration:underline;">Ver en mi perfil</a></span>
     </div>
   </form>
 
@@ -131,7 +132,7 @@
         <input type="email" placeholder="Tu correo" required>
         <button type="submit">Suscribirme</button>
       </form>
- 
+
       <h3 class="footer-social-title">Síguenos</h3>
       <div class="footer-social">
         <a href="#" aria-label="Instagram">
@@ -159,15 +160,17 @@
         </a>
       </div>
     </div>
- 
+
     <div class="footer-col">
       <h4>Explorar</h4>
       <a href="index.html" class="footer-link">Inicio</a>
       <a href="catalogo.html" class="footer-link">Catálogo</a>
+      <a href="promociones.html" class="footer-link">Promociones</a>
+      <a href="campaña.html" class="footer-link">Campaña</a>
       <a href="nosotros.html" class="footer-link">Nosotros</a>
       <a href="contacto.html" class="footer-link">Contacto</a>
     </div>
- 
+
     <div class="footer-col">
       <h4>Mi cuenta</h4>
       <a href="login.html" class="footer-link">Iniciar sesión</a>
@@ -175,8 +178,8 @@
       <a href="perfil.html" class="footer-link">Mi perfil</a>
       <a href="carrito.html" class="footer-link">Carrito</a>
     </div>
-  </div>
- 
+</div>
+
   <div class="footer-bottom">
     <span>© 2026 Blindbox MX — todos los derechos reservados</span>
     <div class="footer-bottom-links">
@@ -187,8 +190,38 @@
 </footer>
 
 <script>
+  // Los mensajes enviados se guardan como "comentarios" para verlos en el perfil
+  // (solo en este navegador, no se envían a ningún servidor).
+  function leerLista(clave){
+    try {
+      const v = JSON.parse(localStorage.getItem(clave));
+      return Array.isArray(v) ? v : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function vistaPrevia(texto){
+    return texto.length > 70 ? texto.slice(0, 70) + '…' : texto;
+  }
+
   document.getElementById('contactForm').addEventListener('submit', function(e){
     e.preventDefault();
+
+    const texto = document.getElementById('mensaje').value.trim();
+    if (texto) {
+      const ahora = new Date().toISOString();
+      const id = 'c-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+
+      const comentarios = leerLista('bb_comments');
+      comentarios.unshift({ id: id, text: texto, date: ahora });
+      localStorage.setItem('bb_comments', JSON.stringify(comentarios));
+
+      const historial = leerLista('bb_history');
+      historial.unshift({ id: 'h-' + id, type: 'comment', text: 'Enviaste un comentario', detail: vistaPrevia(texto), date: ahora });
+      localStorage.setItem('bb_history', JSON.stringify(historial.slice(0, 200)));
+    }
+
     document.getElementById('formSuccess').classList.add('show');
     this.reset();
   });

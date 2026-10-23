@@ -7,9 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="CSS/styles.css">
+<link rel="stylesheet" href="styles.css">
 
-
+<!-- Diseño específico de esta página (no se tocó styles.css) -->
 <style>
   .auth-wrap{
     min-height: 70vh;
@@ -111,13 +111,14 @@
       <li><a href="index.html">Inicio</a></li>
       <li><a href="catalogo.html">Catálogo</a></li>
       <li><a href="promociones.html">Promociones</a></li>
+      <li><a href="campaña.html">Campaña</a></li>
       <li><a href="nosotros.html">Nosotros</a></li>
       <li><a href="contacto.html">Contacto</a></li>
     </ul>
   </nav>
 
   <a href="index.html" class="logo">
-    <img src="images/logobbmx.png" alt="Blindbox MX">
+    <img src="assets/logo.png" alt="Blindbox MX">
   </a>
 
   <div class="header-actions">
@@ -134,17 +135,17 @@
     <form id="registroForm">
       <div class="form-group">
         <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" >
+        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
       </div>
 
       <div class="form-group">
         <label for="correo">Correo</label>
-        <input type="email" id="correo" name="correo" placeholder="tu@correo.com">
+        <input type="email" id="correo" name="correo" placeholder="tu@correo.com" required>
       </div>
 
       <div class="form-group">
         <label for="password">Contraseña</label>
-        <input type="password" id="password" name="password" placeholder="••••••••" >
+        <input type="password" id="password" name="password" placeholder="••••••••" required>
       </div>
 
       <button type="submit" class="btn-primary">Registrarme</button>
@@ -154,7 +155,7 @@
           <path d="M9 12l2 2 4-4"/>
           <circle cx="12" cy="12" r="9"/>
         </svg>
-        Registro exitoso  — redirigiendo a inicio de sesión...
+        Registro exitoso (simulado) — redirigiendo a inicio de sesión...
       </div>
     </form>
 
@@ -173,7 +174,7 @@
         <input type="email" placeholder="Tu correo" required>
         <button type="submit">Suscribirme</button>
       </form>
- 
+
       <h3 class="footer-social-title">Síguenos</h3>
       <div class="footer-social">
         <a href="#" aria-label="Instagram">
@@ -201,15 +202,17 @@
         </a>
       </div>
     </div>
- 
+
     <div class="footer-col">
       <h4>Explorar</h4>
       <a href="index.html" class="footer-link">Inicio</a>
       <a href="catalogo.html" class="footer-link">Catálogo</a>
+      <a href="promociones.html" class="footer-link">Promociones</a>
+      <a href="campaña.html" class="footer-link">Campaña</a>
       <a href="nosotros.html" class="footer-link">Nosotros</a>
       <a href="contacto.html" class="footer-link">Contacto</a>
     </div>
- 
+
     <div class="footer-col">
       <h4>Mi cuenta</h4>
       <a href="login.html" class="footer-link">Iniciar sesión</a>
@@ -217,8 +220,8 @@
       <a href="perfil.html" class="footer-link">Mi perfil</a>
       <a href="carrito.html" class="footer-link">Carrito</a>
     </div>
-  </div>
- 
+</div>
+
   <div class="footer-bottom">
     <span>© 2026 Blindbox MX — todos los derechos reservados</span>
     <div class="footer-bottom-links">
@@ -232,6 +235,8 @@
   document.getElementById('registroForm').addEventListener('submit', function(e){
     e.preventDefault();
 
+    // Guardamos el nombre y correo de forma simulada (solo en este navegador) para
+    // poder mostrarlos luego en la página de Perfil. No se envía a ningún servidor.
     const nombre = document.getElementById('nombre').value;
     const correo = document.getElementById('correo').value;
     localStorage.setItem('bb_user_name', nombre);

@@ -352,7 +352,8 @@
     <ul>
       <li><a href="index.html">Inicio</a></li>
       <li><a href="catalogo.html">Catálogo</a></li>
-      <li><a href="Promociones.html">Promociones</a></li>
+      <li><a href="promociones.html">Promociones</a></li>
+      <li><a href="campaña.html">Campaña</a></li>
       <li><a href="Nosotros.html">Nosotros</a></li>
       <li><a href="Contacto.html">Contacto</a></li>
     </ul>
@@ -390,6 +391,13 @@
     </svg>
     <input type="text" id="catalogSearch" placeholder="Buscar figura...">
   </div>
+
+  <select class="catalog-price-filter" id="catalogPriceFilter">
+    <option value="todos">Todos los precios</option>
+    <option value="0-299">Hasta $299</option>
+    <option value="300-350">$300 – $350</option>
+    <option value="351-9999">Más de $350</option>
+  </select>
 </div>
 
 <div class="catalog-filters" id="catalogFilters">
@@ -405,54 +413,54 @@
 
 <section class="catalog-grid" id="catalogGrid">
 
-  <div class="catalog-card" data-line="Labubu" data-price="299" data-name="Labubu Biginto Energy">
+  <div class="catalog-card" data-line="Labubu" data-price="299" data-name="Labubu Exciting Macaron">
     <div class="catalog-image">
       <span class="catalog-badge badge-new">Nuevo</span>
-      <img src="images/L2.png" alt="Labubu Biginto Energy" onerror="this.style.display='none'">
+      <img src="images/L2.png" alt="Labubu Exciting Macaron" onerror="this.style.display='none'">
     </div>
     <span class="catalog-line">Labubu</span>
-    <h3>Labubu Biginto Energy</h3>
+    <h3>Labubu Exciting Macaron</h3>
     <div class="catalog-price">$299 MXN</div>
     <a href="producto.html?id=labubu-1" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card" data-line="Labubu" data-price="350" data-name="Labubu Why so Serious">
+  <div class="catalog-card" data-line="Labubu" data-price="350" data-name="Labubu The Monsters">
     <div class="catalog-image">
-      <img src="images/L1.png" alt="Labubu Why so Serious" onerror="this.style.display='none'">
+      <img src="images/L1.png" alt="Labubu The Monsters" onerror="this.style.display='none'">
     </div>
     <span class="catalog-line">Labubu</span>
-    <h3>Labubu Why so Serious</h3>
+    <h3>Labubu The Monsters</h3>
     <div class="catalog-price">$350 MXN</div>
     <a href="producto.html?id=labubu-2" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card" data-line="Hirono" data-price="300" data-name="Hirono The Other One">
+  <div class="catalog-card" data-line="Hirono" data-price="300" data-name="Hirono Let's Checkmate">
     <div class="catalog-image">
-      <img src="images/H1.jpg" alt="Hirono The Other One" onerror="this.style.display='none'">
+      <img src="images/H1.jpg" alt="Hirono Let's Checkmate" onerror="this.style.display='none'">
     </div>
     <span class="catalog-line">Hirono</span>
-    <h3>Hirono The Other One</h3>
+    <h3>Hirono Let's Checkmate</h3>
     <div class="catalog-price">$300 MXN</div>
     <a href="producto.html?id=hirono-1" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card" data-line="Hirono" data-price="299" data-name="Hirono Mime">
+  <div class="catalog-card" data-line="Hirono" data-price="299" data-name="Hirono Sweet Bean">
     <div class="catalog-image">
       <span class="catalog-badge badge-sale">Oferta</span>
-      <img src="images/H2.jpg" alt="Hirono Mime" onerror="this.style.display='none'">
+      <img src="images/H2.jpg" alt="Hirono Sweet Bean" onerror="this.style.display='none'">
     </div>
     <span class="catalog-line">Hirono</span>
-    <h3>Hirono Mime</h3>
+    <h3>Hirono Sweet Bean</h3>
     <div class="catalog-price"><span class="old-price">$400 MXN</span><span class="sale-price">$299 MXN</span></div>
     <a href="producto.html?id=hirono-2" class="btn-detail">Ver detalle</a>
   </div>
 
-  <div class="catalog-card" data-line="Skullpanda" data-price="280" data-name="Skullpanda Sound">
+  <div class="catalog-card" data-line="Skullpanda" data-price="280" data-name="Skullpanda Requiem">
     <div class="catalog-image">
-      <img src="images/S1.png" alt="Skullpanda Sound" onerror="this.style.display='none'">
+      <img src="images/S1.png" alt="Skullpanda Requiem" onerror="this.style.display='none'">
     </div>
     <span class="catalog-line">Skullpanda</span>
-    <h3>Skullpanda Sound</h3>
+    <h3>Skullpanda Requiem</h3>
     <div class="catalog-price">$280 MXN</div>
     <a href="producto.html?id=skullpanda-1" class="btn-detail">Ver detalle</a>
   </div>
@@ -532,7 +540,7 @@
         <input type="email" placeholder="Tu correo" required>
         <button type="submit">Suscribirme</button>
       </form>
- 
+
       <h3 class="footer-social-title">Síguenos</h3>
       <div class="footer-social">
         <a href="#" aria-label="Instagram">
@@ -560,15 +568,17 @@
         </a>
       </div>
     </div>
- 
+
     <div class="footer-col">
       <h4>Explorar</h4>
       <a href="index.html" class="footer-link">Inicio</a>
       <a href="catalogo.html" class="footer-link">Catálogo</a>
-      <a href="nosotros.html" class="footer-link">Nosotros</a>
-      <a href="contacto.html" class="footer-link">Contacto</a>
+      <a href="promociones.html" class="footer-link">Promociones</a>
+      <a href="campaña.html" class="footer-link">Campaña</a>
+      <a href="Nosotros.html" class="footer-link">Nosotros</a>
+      <a href="Contacto.html" class="footer-link">Contacto</a>
     </div>
- 
+
     <div class="footer-col">
       <h4>Mi cuenta</h4>
       <a href="login.html" class="footer-link">Iniciar sesión</a>
@@ -576,8 +586,8 @@
       <a href="perfil.html" class="footer-link">Mi perfil</a>
       <a href="carrito.html" class="footer-link">Carrito</a>
     </div>
-  </div>
- 
+</div>
+
   <div class="footer-bottom">
     <span>© 2026 Blindbox MX — todos los derechos reservados</span>
     <div class="footer-bottom-links">

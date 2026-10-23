@@ -595,6 +595,7 @@
       <li><a href="index.html">Inicio</a></li>
       <li><a href="catalogo.html">Catálogo</a></li>
       <li><a href="promociones.html">Promociones</a></li>
+      <li><a href="campaña.html">Campaña</a></li>
       <li><a href="Nosotros.html">Nosotros</a></li>
       <li><a href="Contacto.html">Contacto</a></li>
     </ul>
@@ -764,6 +765,7 @@
       <a href="index.html" class="footer-link">Inicio</a>
       <a href="catalogo.html" class="footer-link">Catálogo</a>
       <a href="promociones.html" class="footer-link">Promociones</a>
+      <a href="campaña.html" class="footer-link">Campaña</a>
       <a href="Nosotros.html" class="footer-link">Nosotros</a>
       <a href="Contacto.html" class="footer-link">Contacto</a>
     </div>
@@ -787,7 +789,7 @@
 </footer>
 
 <script>
-  // Promociones disponibles 
+  // Promociones disponibles (modo simulado, sin servidor)
   const PROMOS = {
     'BLIND10':      { type: 'percent', value: 10, label: '10% de descuento en tu pedido' },
     'BIENVENIDA15': { type: 'percent', value: 15, label: '15% de descuento en tu primera compra' },
@@ -963,7 +965,7 @@
     localStorage.setItem(DISCOUNT_KEY, JSON.stringify(Object.assign({ code: code }, promo)));
 
     mostrarMensaje('ok',
-      'Descuento aplicado <br>' + promo.label + '.<br>' +
+      'Descuento aplicado (simulado)<br>' + promo.label + '.<br>' +
       '<a href="carrito.html">Ver mi carrito →</a>');
     mostrarActivo();
     lanzarConfeti(couponForm.querySelector('button[type="submit"]'));
