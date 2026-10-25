@@ -152,12 +152,12 @@
     margin-top: 6px;
   }
 
-  /* ---------- Comentarios e historial ---------- */
+  /* ---------- Comentarios ---------- */
   .card-head{
     display:flex;
     align-items:center;
     gap: 10px;
-    margin-bottom: 16px;
+    margin-bottom: 6px;
   }
 
   .card-head h2{
@@ -173,6 +173,68 @@
     border-radius: 999px;
   }
 
+  .card-sub{
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+  }
+
+  .comment-form{
+    background: var(--purple-bg);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 22px;
+  }
+
+  .comment-form .form-group{
+    margin-bottom: 10px;
+  }
+
+  .comment-form textarea{
+    background: #fff;
+  }
+
+  .comment-form-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 12px;
+  }
+
+  .char-count{
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  .comment-form .btn-primary{
+    padding: 11px 24px;
+    font-size: 14px;
+  }
+
+  .comment-error{
+    display:none;
+    margin-top: 10px;
+    padding: 9px 12px;
+    background: #FBEAEA;
+    color: #C0392B;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .comment-error.show{
+    display:block;
+  }
+
+  .list-title{
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+
   .comment-item{
     display:flex;
     align-items:flex-start;
@@ -180,10 +242,6 @@
     gap: 16px;
     padding: 16px 0;
     border-bottom: 1px solid var(--purple-light);
-  }
-
-  .comment-item:first-child{
-    padding-top: 4px;
   }
 
   .comment-item:last-child{
@@ -234,69 +292,21 @@
     height: 13px;
   }
 
-  .profile-empty a{
-    color: var(--purple-dark);
+  .profile-empty .btn-restore{
+    display:inline-block;
+    margin-top: 12px;
+    background: var(--purple);
+    color: #fff;
     font-weight: 600;
-    text-decoration: underline;
-  }
-
-  .history-list{
-    list-style: none;
-    margin: 4px 0 0 8px;
-    padding-left: 24px;
-    border-left: 2px solid var(--purple-light);
-  }
-
-  .history-item{
-    position: relative;
-    padding-bottom: 18px;
-  }
-
-  .history-item:last-child{
-    padding-bottom: 0;
-  }
-
-  .h-dot{
-    position: absolute;
-    left: -33px;
-    top: 1px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    border: 3px solid #fff;
-    box-shadow: 0 0 0 2px var(--dot, var(--purple));
-    background: var(--dot, var(--purple));
-  }
-
-  .h-dot.comment{ --dot: #7A6AD8; }
-  .h-dot.delete{ --dot: #D64545; }
-  .h-dot.profile{ --dot: #4FB3C8; }
-
-  .h-title{
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ink);
-  }
-
-  .h-detail{
     font-size: 13px;
-    color: var(--ink-soft);
-    margin-top: 2px;
-    overflow-wrap: anywhere;
+    padding: 9px 20px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
   }
 
-  .h-date{
-    font-size: 12px;
-    color: var(--ink-soft);
-    opacity: 0.8;
-    margin-top: 3px;
-  }
-
-  .history-note{
-    font-size: 12px;
-    color: var(--ink-soft);
-    margin-top: 14px;
-    text-align: center;
+  .profile-empty .btn-restore:hover{
+    background: var(--purple-dark);
   }
 
   /* Caja de confirmación */
@@ -443,9 +453,9 @@
   </nav>
 
   <a href="index.html" class="logo">
-    <img src="assets/logo.png" alt="Blindbox MX">
+    <img src="images/logobbmx.png" alt="Blindbox MX">
   </a>
-
+S
   <div class="header-actions">
     <a href="login.html" class="login">Iniciar sesión</a>
   </div>
@@ -518,15 +528,21 @@
       <h2>Mis comentarios</h2>
       <span class="count-pill" id="commentCount">0</span>
     </div>
-    <div id="commentsList"></div>
-  </div>
+    <p class="card-sub">Tu historial de comentarios. Publica uno nuevo o elimina los que ya no quieras.</p>
 
-  <div class="profile-card">
-    <div class="card-head">
-      <h2>Historial de actividad</h2>
-    </div>
-    <ul class="history-list" id="historyList"></ul>
-    <p class="history-note" id="historyNote" style="display:none;"></p>
+    <form class="comment-form" id="commentForm" novalidate>
+      <div class="form-group">
+        <textarea id="commentInput" rows="3" maxlength="300" placeholder="Escribe un comentario sobre tu experiencia…"></textarea>
+      </div>
+      <div class="comment-form-row">
+        <span class="char-count" id="charCount">0/300</span>
+        <button type="submit" class="btn-primary">Publicar comentario</button>
+      </div>
+      <p class="comment-error" id="commentError"></p>
+    </form>
+
+    <div class="list-title">Historial</div>
+    <div id="commentsList"></div>
   </div>
 
   <div class="profile-card">
@@ -679,8 +695,6 @@
     if (direccion) localStorage.setItem('bb_user_address', direccion);
 
     cargarDatos();
-    addHistory('profile', 'Actualizaste tus datos de perfil', '');
-    renderHistory();
 
     const msg = document.getElementById('saveMsg');
     msg.classList.add('show');
@@ -696,22 +710,44 @@
     window.location.href = 'index.html';
   });
 
-  // ---------- Comentarios e historial (se guardan solo en este navegador) ----------
+  // ---------- Comentarios (se guardan solo en este navegador) ----------
   const COMMENTS_KEY = 'bb_comments';
-  const HISTORY_KEY = 'bb_history';
-  const MAX_HISTORY_SHOWN = 15;
+  const MAX_CHARS = 300;
 
-  function readList(key){
+  // Comentarios de ejemplo que aparecen la primera vez que se abre el perfil
+  function comentariosEjemplo(){
+    const hora = 60 * 60 * 1000;
+    const dia = 24 * hora;
+    const ahora = Date.now();
+    const base = [
+      { atras: 2 * dia + 3 * hora,   text: 'Mi Skullpanda Requiem llegó muy bien empacada. ¡Me tocó el personaje que quería!' },
+      { atras: 6 * dia + 8 * hora,   text: '¿Habrá más figuras de Hirono pronto? Me quedé con ganas de otra caja de la serie Sweet Bean.' },
+      { atras: 15 * dia + 5 * hora,  text: 'Muy buena atención por WhatsApp: respondieron rapidísimo mis dudas sobre el kit completo.' },
+      { atras: 30 * dia + 10 * hora, text: 'El código BLIND10 me funcionó perfecto en mi segunda compra. ¡Gracias!' }
+    ];
+    return base.map(function(s, i){
+      return { id: 'c-ejemplo-' + (i + 1), text: s.text, date: new Date(ahora - s.atras).toISOString() };
+    });
+  }
+
+  function readComments(){
+    const raw = localStorage.getItem(COMMENTS_KEY);
+    if (raw === null) {
+      // Primera vez: se guardan los comentarios de ejemplo
+      const ejemplo = comentariosEjemplo();
+      writeComments(ejemplo);
+      return ejemplo;
+    }
     try {
-      const v = JSON.parse(localStorage.getItem(key));
+      const v = JSON.parse(raw);
       return Array.isArray(v) ? v : [];
     } catch (e) {
       return [];
     }
   }
 
-  function writeList(key, list){
-    localStorage.setItem(key, JSON.stringify(list));
+  function writeComments(list){
+    localStorage.setItem(COMMENTS_KEY, JSON.stringify(list));
   }
 
   function esc(s){
@@ -730,18 +766,6 @@
     return d.toLocaleString('es-MX', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' });
   }
 
-  function addHistory(type, text, detail){
-    const list = readList(HISTORY_KEY);
-    list.unshift({
-      id: 'h-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
-      type: type,
-      text: text,
-      detail: detail || '',
-      date: new Date().toISOString()
-    });
-    writeList(HISTORY_KEY, list.slice(0, 200));
-  }
-
   function showToast(texto){
     const toast = document.getElementById('toast');
     toast.textContent = texto;
@@ -751,13 +775,17 @@
 
   const iconoBasura = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
+  // ---------- Ver ----------
   function renderComments(){
-    const comments = readList(COMMENTS_KEY);
+    const comments = readComments().slice().sort(function(a, b){
+      return new Date(b.date) - new Date(a.date);
+    });
     const wrap = document.getElementById('commentsList');
     document.getElementById('commentCount').textContent = comments.length;
 
     if (comments.length === 0) {
-      wrap.innerHTML = '<div class="profile-empty">Todavía no has hecho comentarios. Cuéntanos qué piensas desde <a href="contacto.html">Contacto</a>.</div>';
+      wrap.innerHTML = '<div class="profile-empty">Todavía no tienes comentarios.<br>' +
+        '<button type="button" class="btn-restore" id="btnRestore">Restaurar comentarios de ejemplo</button></div>';
       return;
     }
 
@@ -772,46 +800,59 @@
     }).join('');
   }
 
-  function renderHistory(){
-    const history = readList(HISTORY_KEY);
-    const list = document.getElementById('historyList');
-    const note = document.getElementById('historyNote');
+  // ---------- Agregar ----------
+  const commentForm = document.getElementById('commentForm');
+  const commentInput = document.getElementById('commentInput');
+  const commentError = document.getElementById('commentError');
+  const charCount = document.getElementById('charCount');
 
-    if (history.length === 0) {
-      list.innerHTML = '';
-      list.style.display = 'none';
-      note.style.display = 'block';
-      note.textContent = 'Aquí aparecerá tu actividad: comentarios enviados y eliminados, y cambios en tus datos.';
+  commentInput.addEventListener('input', function(){
+    charCount.textContent = commentInput.value.length + '/' + MAX_CHARS;
+    commentError.classList.remove('show');
+  });
+
+  commentForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    const texto = commentInput.value.trim();
+
+    if (texto.length < 3) {
+      commentError.textContent = 'Escribe tu comentario antes de publicarlo (mínimo 3 caracteres).';
+      commentError.classList.add('show');
       return;
     }
 
-    list.style.display = '';
-    list.innerHTML = history.slice(0, MAX_HISTORY_SHOWN).map(function(h){
-      return '<li class="history-item">' +
-        '<span class="h-dot ' + esc(h.type) + '"></span>' +
-        '<div class="h-title">' + esc(h.text) + '</div>' +
-        (h.detail ? '<div class="h-detail">“' + esc(h.detail) + '”</div>' : '') +
-        '<div class="h-date">' + esc(formatDateTime(h.date)) + '</div>' +
-      '</li>';
-    }).join('');
+    const comments = readComments();
+    comments.unshift({
+      id: 'c-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+      text: texto.slice(0, MAX_CHARS),
+      date: new Date().toISOString()
+    });
+    writeComments(comments);
 
-    if (history.length > MAX_HISTORY_SHOWN) {
-      note.style.display = 'block';
-      note.textContent = 'Mostrando los últimos ' + MAX_HISTORY_SHOWN + ' movimientos.';
-    } else {
-      note.style.display = 'none';
-    }
-  }
+    commentInput.value = '';
+    charCount.textContent = '0/' + MAX_CHARS;
+    commentError.classList.remove('show');
+    renderComments();
+    showToast('Comentario publicado');
+  });
 
-  // ---------- Eliminar comentario (Cancelar / Eliminar) ----------
+  // ---------- Eliminar (Cancelar / Eliminar) ----------
   const deleteOverlay = document.getElementById('deleteOverlay');
   let idPorEliminar = null;
 
   document.getElementById('commentsList').addEventListener('click', function(e){
+    if (e.target.closest('#btnRestore')) {
+      writeComments(comentariosEjemplo());
+      renderComments();
+      showToast('Comentarios de ejemplo restaurados');
+      return;
+    }
+
     const btn = e.target.closest('.comment-delete');
     if (!btn) return;
-    const comment = readList(COMMENTS_KEY).find(function(c){ return c.id === btn.dataset.id; });
+    const comment = readComments().find(function(c){ return c.id === btn.dataset.id; });
     if (!comment) return;
+
     idPorEliminar = comment.id;
     document.getElementById('deletePreview').textContent = '“' + preview(comment.text) + '”';
     deleteOverlay.classList.add('show');
@@ -832,20 +873,13 @@
 
   document.getElementById('btnDeleteConfirm').addEventListener('click', function(){
     if (!idPorEliminar) return;
-    const comments = readList(COMMENTS_KEY);
-    const comment = comments.find(function(c){ return c.id === idPorEliminar; });
-
-    writeList(COMMENTS_KEY, comments.filter(function(c){ return c.id !== idPorEliminar; }));
-    if (comment) addHistory('delete', 'Eliminaste un comentario', preview(comment.text));
-
+    writeComments(readComments().filter(function(c){ return c.id !== idPorEliminar; }));
     cerrarEliminar();
     renderComments();
-    renderHistory();
     showToast('Comentario eliminado');
   });
 
   renderComments();
-  renderHistory();
 </script>
 
 </body>
