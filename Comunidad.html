@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comunidad — Blindbox MX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="CSS/styles.css">
+
+<style>
+  .com-hero{
+    text-align:center;
+    padding: 50px 6% 10px;
+    background: linear-gradient(180deg, var(--purple-bg) 0%, var(--bg) 100%);
+  }
+
+  .com-hero .eyebrow{
+    display:inline-block;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    font-weight:600;
+    font-size: 13px;
+    padding: 7px 18px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+
+  .com-hero h1{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size: 36px;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .com-hero p{
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .com-wrap{
+    max-width: 760px;
+    margin: 36px auto 0;
+    padding: 0 6% 90px;
+  }
+
+  .com-card{
+    background: var(--bg);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 12px 30px rgba(122,106,216,0.14);
+    border-top: 5px solid var(--purple);
+    margin-bottom: 44px;
+  }
+
+  .com-card h2{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size: 21px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .com-card .sub{
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+  }
+
+  .com-row{
+    display:flex;
+    gap: 14px;
+  }
+
+  .com-row .form-group{
+    flex: 1;
+    min-width: 0;
+  }
+
+  .com-card select{
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--purple-bg);
+    border: 1px solid var(--purple-light);
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+
+  .com-card select:focus{
+    outline: none;
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(122,106,216,0.15);
+  }
+
+  .com-foot{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 12px;
+  }
+
+  .com-count-chars{
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+
+  .btn-publish{
+    background: var(--purple);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 13px 38px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 22px rgba(122,106,216,0.32);
+    transition: background .2s, transform .2s;
+  }
+
+  .btn-publish:hover{
+    background: var(--purple-dark);
+    transform: translateY(-1px);
+  }
+
+  .com-error{
+    display:none;
+    margin-top: 14px;
+    padding: 10px 14px;
+    background: #FBEAEA;
+    color: #C0392B;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .com-error.show{
+    display:block;
+  }
+
+  .com-list-head{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    margin-bottom: 20px;
+    scroll-margin-top: 120px;
+  }
+
+  .com-list-head h2{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size: 24px;
+    color: var(--ink);
+  }
+
+  .count-pill{
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 999px;
+  }
+
+  .com-item{
+    display:flex;
+    gap: 16px;
+    background: var(--bg);
+    border-radius: 20px;
+    padding: 20px 22px;
+    margin-bottom: 14px;
+    box-shadow: 0 8px 22px rgba(122,106,216,0.10);
+  }
+
+  .com-item.mine{
+    border: 2px solid var(--purple-light);
+  }
+
+  .com-item.just-added{
+    animation: flashIn 1.4s ease;
+  }
+
+  @keyframes flashIn{
+    0%{ background: #EFE9FB; transform: translateY(-8px); opacity: 0; }
+    30%{ opacity: 1; transform: translateY(0); }
+    100%{ background: var(--bg); }
+  }
+
+  .com-avatar{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    color: #fff;
+    font-family:'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: linear-gradient(135deg, #A48CF0, #6445C9);
+  }
+
+  .com-avatar.g1{ background: linear-gradient(135deg, #F0A0D0, #D6639F); }
+  .com-avatar.g2{ background: linear-gradient(135deg, #7FD8E8, #3FA9C0); }
+  .com-avatar.g3{ background: linear-gradient(135deg, #F7C577, #E89A3C); }
+
+  .com-body{
+    min-width: 0;
+    flex: 1;
+  }
+
+  .com-meta{
+    display:flex;
+    align-items:center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .com-name{
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .com-tag{
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: var(--purple-dark);
+    background: var(--purple-light);
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+
+  .com-you{
+    font-size: 11px;
+    font-weight: 700;
+    color: #2E7D45;
+    background: #E8F6EC;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+
+  .com-time{
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-left: auto;
+  }
+
+  .com-text{
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .com-reset{
+    text-align:center;
+    margin-top: 22px;
+  }
+
+  .com-reset button{
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .com-reset button:hover{
+    color: #C0392B;
+  }
+
+  .com-toast{
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translate(-50%, 20px);
+    background: #201B33;
+    color: #fff;
+    padding: 13px 26px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 14px 34px rgba(0,0,0,0.28);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s, transform .25s;
+    z-index: 200;
+  }
+
+  .com-toast.show{
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  .header-actions{
+    display:flex;
+    align-items:center;
+  }
+
+  .cart-icon-btn{
+    position: relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    margin-left: 14px;
+  }
+
+  .cart-icon-btn svg{
+    width: 20px;
+    height: 20px;
+  }
+
+  .cart-badge{
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #E0577A;
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 0 4px;
+  }
+
+  .cart-badge.hide{
+    display:none;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .com-item.just-added{ animation: none; }
+  }
+
+  @media (max-width: 640px){
+    .com-hero h1{ font-size: 28px; }
+    .com-card{ padding: 22px; }
+    .com-row{ flex-direction: column; gap: 0; }
+    .com-item{ padding: 16px; gap: 12px; }
+    .com-time{ margin-left: 0; width: 100%; }
+    .btn-publish{ padding: 13px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <button class="nav-toggle" aria-label="Abrir menú" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="promociones.html">Promociones</a></li>
+      <li><a href="campana.html">Campaña</a></li>
+      <li><a href="comunidad.html">Comunidad</a></li>
+      <li><a href="Nosotros.html">Nosotros</a></li>
+      <li><a href="Contacto.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <a href="index.html" class="logo">
+    <img src="images/logobbmx.png" alt="Blindbox MX">
+  </a>
+
+  <div class="header-actions">
+    <a href="login.html" class="login">Iniciar sesión</a>
+    <a href="Carrito.html" class="cart-icon-btn" id="cartIconBtn" aria-label="Carrito" title="Carrito" style="display:none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="9" cy="21" r="1.4"/>
+        <circle cx="18" cy="21" r="1.4"/>
+        <path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/>
+      </svg>
+      <span class="cart-badge hide" id="cartBadge">0</span>
+    </a>
+  </div>
+</header>
+
+<section class="com-hero">
+  <span class="eyebrow">Comunidad</span>
+  <h1>La comunidad Blindbox MX</h1>
+  <p>Comparte tu colección, tus hallazgos y tus cajas sorpresa con otros coleccionistas.</p>
+</section>
+
+<section class="com-wrap">
+
+  <div class="com-card">
+    <h2>Deja tu comentario</h2>
+    <p class="sub">Cuéntanos qué figura te tocó, qué te gustaría ver o cualquier consejo para otros coleccionistas.</p>
+
+    <form id="comForm" novalidate>
+      <div class="com-row">
+        <div class="form-group">
+          <label for="c-name">Nombre</label>
+          <input type="text" id="c-name" placeholder="Tu nombre" maxlength="30" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+          <label for="c-topic">Serie</label>
+          <select id="c-topic">
+            <option>General</option>
+            <option>Labubu</option>
+            <option>Hirono</option>
+            <option>Skullpanda</option>
+            <option>Kubo</option>
+            <option>Cry Baby</option>
+            <option>Nyota</option>
+            <option>Dimoo</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="c-text">Tu comentario</label>
+        <textarea id="c-text" rows="4" maxlength="300" placeholder="Escribe aquí tu comentario…"></textarea>
+      </div>
+
+      <div class="com-foot">
+        <span class="com-count-chars" id="charCount">0/300</span>
+        <button type="submit" class="btn-publish">Publicar</button>
+      </div>
+
+      <p class="com-error" id="comError"></p>
+    </form>
+  </div>
+
+  <div class="com-list-head">
+    <h2>Lo que dice la comunidad</h2>
+    <span class="count-pill" id="comCount">0</span>
+  </div>
+
+  <div id="comList"></div>
+
+  <p class="com-reset" id="comResetWrap" style="display:none;">
+    <button type="button" id="comReset">Quitar mis comentarios de prueba</button>
+  </p>
+
+</section>
+
+<div class="com-toast" id="comToast" role="status" aria-live="polite"></div>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-col">
+      <h3>Únete a la comunidad</h3>
+      <p>Entérate primero de nuevos lanzamientos, ofertas y sorpresas.</p>
+      <form class="newsletter-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='¡Listo!'; this.reset();">
+        <input type="email" placeholder="Tu correo" required>
+        <button type="submit">Suscribirme</button>
+      </form>
+
+      <h3 class="footer-social-title">Síguenos</h3>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5z"/>
+            <path d="M9 8h6l-6 8h6"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M21 11.5a8.5 8.5 0 0 1-12.8 7.3L3 20l1.2-5.1A8.5 8.5 0 1 1 21 11.5z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M15 8h-2a2 2 0 0 0-2 2v2H9v3h2v7h3v-7h2.3l.5-3H14v-1.3c0-.5.3-.7.8-.7H15V8z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Explorar</h4>
+      <a href="index.html" class="footer-link">Inicio</a>
+      <a href="catalogo.html" class="footer-link">Catálogo</a>
+      <a href="promociones.html" class="footer-link">Promociones</a>
+      <a href="campana.html" class="footer-link">Campaña</a>
+      <a href="comunidad.html" class="footer-link">Comunidad</a>
+      <a href="Nosotros.html" class="footer-link">Nosotros</a>
+      <a href="Contacto.html" class="footer-link">Contacto</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Mi cuenta</h4>
+      <a href="login.html" class="footer-link">Iniciar sesión</a>
+      <a href="registro.html" class="footer-link">Registrarme</a>
+      <a href="perfil.html" class="footer-link">Mi perfil</a>
+      <a href="carrito.html" class="footer-link">Carrito</a>
+    </div>
+</div>
+
+  <div class="footer-bottom">
+    <span>© 2026 Blindbox MX — todos los derechos reservados</span>
+    <div class="footer-bottom-links">
+      <a href="#">Términos y condiciones</a>
+      <a href="#">Política de privacidad</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const COM_KEY = 'bb_community';
+  const MAX_CHARS = 300;
+
+  // Comentarios inventados que aparecen la primera vez que se abre la página
+  function comentariosEjemplo(){
+    const h = 60 * 60 * 1000;
+    const d = 24 * h;
+    const ahora = Date.now();
+    const base = [
+      { atras: 3 * h,       name: 'Mariana L.', topic: 'Labubu',     text: 'Por fin conseguí el Labubu que me faltaba. Cambié repetidos con otra coleccionista y quedó perfecto.' },
+      { atras: 1 * d + 2*h, name: 'Carlos P.',  topic: 'Skullpanda', text: '¿Alguien más piensa que la serie City of Night tiene los mejores acabados? Ya quiero ver la siguiente.' },
+      { atras: 3 * d + 6*h, name: 'Fer G.',     topic: 'Hirono',     text: 'Mi primera caja de Hirono y ya quiero la colección completa. Los colores se ven increíbles en persona.' },
+      { atras: 5 * d + 1*h, name: 'Paola R.',   topic: 'Kubo',       text: 'Armé mi repisa con Kubo y Dimoo juntos y se ve genial. Se las comparto por si les sirve la idea.' },
+      { atras: 9 * d + 4*h, name: 'Jorge A.',   topic: 'General',    text: 'Consejo: abran las cajas con calma para no dañar el empaque si después quieren intercambiar.' },
+      { atras: 14 * d + 7*h,name: 'Lupita S.',  topic: 'Dimoo',      text: 'Ya estoy ahorrando para mi próxima caja. Cada vez que abro una me cuesta parar.' }
+    ];
+    return base.map(function(s, i){
+      return { id: 'cm-ejemplo-' + (i + 1), name: s.name, topic: s.topic, text: s.text, date: new Date(ahora - s.atras).toISOString(), mine: false };
+    });
+  }
+
+  function readComments(){
+    const raw = localStorage.getItem(COM_KEY);
+    if (raw === null) {
+      const ejemplo = comentariosEjemplo();
+      writeComments(ejemplo);
+      return ejemplo;
+    }
+    try {
+      const v = JSON.parse(raw);
+      return Array.isArray(v) ? v : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function writeComments(list){
+    localStorage.setItem(COM_KEY, JSON.stringify(list));
+  }
+
+  function esc(s){
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  // "hace 3 h", "hace 2 días"…
+  function tiempoRelativo(iso){
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    const min = Math.floor((Date.now() - d.getTime()) / 60000);
+    if (min < 1) return 'justo ahora';
+    if (min < 60) return 'hace ' + min + ' min';
+    const h = Math.floor(min / 60);
+    if (h < 24) return 'hace ' + h + ' h';
+    const dias = Math.floor(h / 24);
+    if (dias < 30) return 'hace ' + dias + (dias === 1 ? ' día' : ' días');
+    return d.toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  const toast = document.getElementById('comToast');
+  let toastTimer = null;
+  function mostrarAviso(texto){
+    toast.textContent = texto;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 2400);
+  }
+
+  // ---------- Lista ----------
+  function renderLista(idNuevo){
+    const comments = readComments().slice().sort(function(a, b){
+      return new Date(b.date) - new Date(a.date);
+    });
+
+    document.getElementById('comCount').textContent = comments.length;
+
+    document.getElementById('comList').innerHTML = comments.map(function(c){
+      const inicial = (c.name || '?').trim().charAt(0).toUpperCase() || '?';
+      const grad = ['', 'g1', 'g2', 'g3'][(c.name || '?').charCodeAt(0) % 4];
+      return '<article class="com-item' + (c.mine ? ' mine' : '') + (c.id === idNuevo ? ' just-added' : '') + '">' +
+        '<div class="com-avatar ' + grad + '">' + esc(inicial) + '</div>' +
+        '<div class="com-body">' +
+          '<div class="com-meta">' +
+            '<span class="com-name">' + esc(c.name) + '</span>' +
+            (c.mine ? '<span class="com-you">Tú</span>' : '') +
+            (c.topic ? '<span class="com-tag">' + esc(c.topic) + '</span>' : '') +
+            '<span class="com-time">' + esc(tiempoRelativo(c.date)) + '</span>' +
+          '</div>' +
+          '<p class="com-text">' + esc(c.text) + '</p>' +
+        '</div>' +
+      '</article>';
+    }).join('');
+
+    document.getElementById('comResetWrap').style.display =
+      comments.some(function(c){ return c.mine; }) ? 'block' : 'none';
+  }
+
+  // ---------- Publicar (simulado) ----------
+  const form = document.getElementById('comForm');
+  const nameInput = document.getElementById('c-name');
+  const textInput = document.getElementById('c-text');
+  const errorBox = document.getElementById('comError');
+  const charCount = document.getElementById('charCount');
+
+  // Si hay una cuenta, se usa su nombre
+  const nombreCuenta = localStorage.getItem('bb_user_name');
+  if (nombreCuenta) nameInput.value = nombreCuenta.slice(0, 30);
+
+  textInput.addEventListener('input', function(){
+    charCount.textContent = textInput.value.length + '/' + MAX_CHARS;
+    errorBox.classList.remove('show');
+  });
+  nameInput.addEventListener('input', function(){ errorBox.classList.remove('show'); });
+
+  function mostrarError(texto){
+    errorBox.textContent = texto;
+    errorBox.classList.add('show');
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const name = nameInput.value.trim();
+    const text = textInput.value.trim();
+    const topic = document.getElementById('c-topic').value;
+
+    if (name.length < 2) return mostrarError('Escribe tu nombre (mínimo 2 letras).');
+    if (text.length < 3) return mostrarError('Escribe tu comentario antes de publicarlo (mínimo 3 caracteres).');
+
+    const comments = readComments();
+    const nuevo = {
+      id: 'cm-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+      name: name,
+      topic: topic,
+      text: text.slice(0, MAX_CHARS),
+      date: new Date().toISOString(),
+      mine: true
+    };
+    comments.unshift(nuevo);
+    writeComments(comments);
+
+    textInput.value = '';
+    charCount.textContent = '0/' + MAX_CHARS;
+    errorBox.classList.remove('show');
+
+    renderLista(nuevo.id);
+    mostrarAviso('Comentario publicado (simulado)');
+    document.querySelector('.com-list-head').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  // Quitar solo los comentarios que publicó el usuario (los de ejemplo se quedan)
+  document.getElementById('comReset').addEventListener('click', function(){
+    writeComments(readComments().filter(function(c){ return !c.mine; }));
+    renderLista();
+    mostrarAviso('Tus comentarios de prueba se quitaron');
+  });
+
+  // ---------- Carrito del header (solo con sesión iniciada) ----------
+  (function actualizarCarrito(){
+    const loggedIn = localStorage.getItem('bb_logged_in') === 'true';
+    const icon = document.getElementById('cartIconBtn');
+    if (!icon) return;
+    icon.style.display = loggedIn ? 'flex' : 'none';
+    if (!loggedIn) return;
+
+    let cart = [];
+    try { cart = JSON.parse(localStorage.getItem('bb_cart')) || []; } catch (e) {}
+    const total = cart.reduce(function(sum, item){ return sum + item.qty; }, 0);
+    const badge = document.getElementById('cartBadge');
+    badge.textContent = total;
+    badge.classList.toggle('hide', total === 0);
+  })();
+
+  renderLista();
+</script>
+
+</body>
+</html>
