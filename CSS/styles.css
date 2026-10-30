@@ -813,6 +813,48 @@
   }
 
   /* ---------- Responsive ---------- */
+  /* ---------- Menú en pantallas medianas ---------- */
+  @media (min-width: 861px) and (max-width: 1080px){
+    nav ul{
+      position: fixed;
+      top: 96px;
+      left: -100%;
+      flex-direction: column;
+      background: var(--bg);
+      width: 60%;
+      max-width: 340px;
+      height: calc(100vh - 96px);
+      padding: 40px 30px;
+      gap: 26px;
+      align-items:flex-start;
+      transition: left .3s ease;
+      box-shadow: 4px 0 20px rgba(122,106,216,0.15);
+    }
+
+    nav ul.open{
+      left: 0;
+    }
+
+    .nav-toggle{
+      display:block;
+      background:none;
+      border:none;
+      font-size: 24px;
+      color: var(--ink);
+      cursor:pointer;
+    }
+  }
+
+  @media (min-width: 1081px) and (max-width: 1240px){
+    nav ul{
+      gap: 20px;
+    }
+
+    nav a{
+      font-size: 14px;
+    }
+  }
+
   @media (max-width: 860px){
     nav ul{
       position: fixed;
