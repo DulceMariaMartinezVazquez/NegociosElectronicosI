@@ -746,8 +746,10 @@
       <li><a href="catalogo.html">Catálogo</a></li>
       <li><a href="promociones.html">Promociones</a></li>
       <li><a href="campaña.html">Campaña</a></li>
-      <li><a href="Nosotros.html">Nosotros</a></li>
-      <li><a href="Contacto.html">Contacto</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+      <li><a href="Comunidad.html">Comunidad</a></li>
+      <li><a href="Subasta.html">Ventas</a></li>
     </ul>
   </nav>
 
@@ -891,11 +893,11 @@
   <div class="camp-head">
     <span class="tag">Lo que dicen</span>
     <h2>Coleccionistas felices</h2>
-    <div class="reviews-summary"><strong>4.9</strong> <span class="stars">★★★★★</span> <span>promedio</span></div>
-    <p class="reviews-note">Reseñas de ejemplo (simuladas)</p>
+    <div class="reviews-summary"><strong id="avgNum">4.9</strong> <span class="stars" id="avgStars">★★★★★</span> <span>promedio</span></div>
+    <p class="reviews-note" id="reviewsNote">Reseñas de ejemplo</p>
   </div>
 
-  <div class="reviews-grid">
+  <div class="reviews-grid" id="reviewsGrid">
     <article class="review-card">
       <div class="stars">★★★★★</div>
       <blockquote>La emoción de abrir la caja es lo mejor. Me tocó mi favorito y ya quiero otra.</blockquote>
@@ -1094,6 +1096,51 @@
   });
 
   actualizarCarrito();
+
+  // Reseñas del Perfil: si el usuario escribió reseñas (producto, tienda o servicio),
+  // ocupan los primeros lugares. Siempre quedan 3 tarjetas, igual que el diseño original.
+  // Si no hay reseñas guardadas, la página se ve exactamente como estaba.
+  (function(){
+    let propias = [];
+    try {
+      const v = JSON.parse(localStorage.getItem('bb_reviews'));
+      if (Array.isArray(v)) propias = v;
+    } catch (e) {}
+
+    propias = propias
+      .filter(function(r){ return r && r.rating >= 1 && r.text; })
+      .sort(function(a, b){ return new Date(b.date) - new Date(a.date); })
+      .slice(0, 3);
+
+    if (!propias.length) return;
+
+    const TIPOS = { producto: 'Producto', tienda: 'Tienda', servicio: 'Servicio' };
+    const nombre = (localStorage.getItem('bb_user_name') || '').trim() || 'Tú';
+    const tarjetas = document.querySelectorAll('#reviewsGrid .review-card');
+
+    function estrellas(n){
+      n = Math.max(0, Math.min(5, Math.round(n)));
+      return '★'.repeat(n) + '☆'.repeat(5 - n);
+    }
+
+    propias.forEach(function(r, i){
+      const card = tarjetas[i];
+      if (!card) return;
+      card.querySelector('.stars').textContent = estrellas(r.rating);
+      card.querySelector('blockquote').textContent = r.text;
+      card.querySelector('.review-avatar').textContent = nombre.charAt(0).toUpperCase();
+      card.querySelector('.who').textContent = nombre + ' (tú)';
+      card.querySelector('.bought').textContent =
+        (TIPOS[r.type] || 'Producto') + ': ' + (r.target || r.campaign || 'Blindbox MX');
+    });
+
+    // El promedio considera las 3 tarjetas visibles (las de ejemplo valen 5)
+    const suma = propias.reduce(function(s, r){ return s + r.rating; }, 0) + 5 * (3 - propias.length);
+    const prom = suma / 3;
+    document.getElementById('avgNum').textContent = prom.toFixed(1);
+    document.getElementById('avgStars').textContent = estrellas(prom);
+    document.getElementById('reviewsNote').textContent = 'Incluye tus reseñas del perfil y reseñas de ejemplo';
+  })();
 
   // Las secciones aparecen suavemente al hacer scroll
   const reveals = document.querySelectorAll('.reveal');

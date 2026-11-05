@@ -852,12 +852,12 @@
       products = products.map(function(p){
         return p.id === id ? { id: id, name: name, line: line, price: price, image: image, tag: tag } : p;
       });
-      showToast('Producto actualizado (simulado)');
+      showToast('Producto actualizado');
     } else {
       // Agregar (simulado)
       const newId = line.toLowerCase().replace(/\s+/g, '') + '-' + Date.now();
       products.push({ id: newId, name: name, line: line, price: price, image: image, tag: tag });
-      showToast('Producto agregado (simulado)');
+      showToast('Producto agregado');
     }
 
     saveProducts(products);
@@ -893,7 +893,7 @@
     saveProducts(updated);
     cerrarModalEliminar();
     render();
-    showToast('Producto eliminado (simulado)');
+    showToast('Producto eliminado');
   });
 
   render();

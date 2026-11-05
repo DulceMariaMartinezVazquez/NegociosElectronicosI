@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subasta — Blindbox MX</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="CSS/styles.css">
+
+<style>
+  .sub-hero {
+    text-align: center;
+    padding: 60px 6% 20px;
+    background: linear-gradient(180deg, var(--purple-bg) 0%, var(--bg) 100%);
+  }
+  .sub-hero h1 { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 30px; color: var(--ink); margin-bottom: 6px; }
+  .sub-hero p { font-size: 13.5px; color: var(--ink-soft); }
+
+  .sub-wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 40px 6% 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    align-items: start;
+  }
+  .sub-card {
+    background: var(--bg);
+    border-radius: 20px;
+    padding: 26px 28px;
+    box-shadow: 0 10px 24px rgba(122,106,216,0.12);
+  }
+  .sub-card h2 { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 17px; color: var(--ink); }
+  .full { grid-column: 1 / -1; }
+
+  /* Producto */
+  .sub-photo {
+    aspect-ratio: 1 / 1;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--purple-light), var(--purple-bg));
+    color: var(--purple-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .sub-badge {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: var(--purple);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 999px;
+  }
+  .sub-photo { overflow: hidden; }
+  .sub-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sub-name { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 22px; color: var(--ink); margin-bottom: 6px; }
+  .sub-desc { font-size: 14px; line-height: 1.6; color: var(--ink-soft); }
+
+  /* Temporizador */
+  .sub-label { font-size: 12px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 10px; }
+  .timer { display: flex; gap: 10px; margin-bottom: 20px; }
+  .timer-box {
+    flex: 1;
+    background: var(--purple-bg);
+    border-radius: 14px;
+    padding: 12px 6px;
+    text-align: center;
+  }
+  .timer-box b { display: block; font-family: 'Baloo 2', sans-serif; font-size: 30px; line-height: 1.1; color: var(--ink); }
+  .timer-box span { font-size: 11px; color: var(--ink-soft); }
+  .timer.urgent .timer-box { background: #FBEAEA; }
+  .timer.urgent .timer-box b { color: #C0392B; }
+  .timer.ended .timer-box { opacity: .5; }
+
+  .price-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 18px; }
+  .price-now { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 34px; color: var(--purple-dark); line-height: 1; }
+  .price-meta { font-size: 12.5px; color: var(--ink-soft); text-align: right; }
+
+  /* Oferta */
+  .bid-row { display: flex; gap: 10px; }
+  .bid-input-wrap { position: relative; flex: 1; }
+  .bid-input-wrap span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--ink-soft); font-weight: 600; }
+  .bid-input {
+    width: 100%;
+    background: var(--purple-bg);
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: 13px 16px 13px 30px;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .bid-input:focus { outline: 2px solid var(--purple-light); outline-offset: 1px; background: #fff; }
+  .bid-row .btn-primary { border: none; cursor: pointer; padding: 13px 26px; font-size: 14px; white-space: nowrap; }
+  .bid-row .btn-primary:disabled, .bid-input:disabled { opacity: .5; cursor: not-allowed; }
+
+  .quick { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .quick button {
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    background: var(--purple-bg);
+    color: var(--purple-dark);
+  }
+  .quick button:hover { background: var(--purple-light); }
+
+  .msg { display: none; margin-top: 14px; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 500; }
+  .msg.show { display: block; }
+  .msg.ok { background: #EAF7EE; color: #2E7D45; }
+  .msg.err { background: #FBEAEA; color: #C0392B; }
+
+  .sub-reset {
+    margin-top: 16px;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+  }
+
+  /* Lista de ofertas */
+  .card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .count-pill { background: var(--purple-light); color: var(--purple-dark); font-size: 12px; font-weight: 700; padding: 3px 11px; border-radius: 999px; }
+  .bid-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--purple-light); }
+  .bid-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .bid-avatar {
+    width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%;
+    background: var(--purple-light); color: var(--purple-dark);
+    font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .bid-info { flex: 1; min-width: 0; }
+  .bid-who { font-size: 14px; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .bid-time { font-size: 12px; color: var(--ink-soft); }
+  .bid-amount { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 17px; color: var(--ink); }
+  .tag { font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; }
+  .tag.lead { background: #EAF7EE; color: #2E7D45; }
+  .tag.you { background: var(--purple-light); color: var(--purple-dark); }
+
+  .toast {
+    position: fixed; bottom: 26px; right: 26px; max-width: calc(100% - 40px);
+    background: #201B33; color: #fff; padding: 13px 22px; border-radius: 12px;
+    font-size: 13.5px; font-weight: 500; box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    opacity: 0; transform: translateY(10px); transition: opacity .25s, transform .25s;
+    pointer-events: none; z-index: 200;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 760px) {
+    .sub-wrap { grid-template-columns: 1fr; }
+    .sub-card { padding: 22px 18px; }
+    .bid-row { flex-direction: column; }
+    .toast { right: 20px; bottom: 20px; }
+  }
+
+  /* ===== Pestañas Subasta / Marketplace ===== */
+  .sub-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; padding: 14px 6% 0; }
+
+  .sub-tab {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 11px 28px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    background: var(--purple-bg);
+    color: var(--ink-soft);
+    transition: background .2s, color .2s;
+  }
+  .sub-tab:hover { background: var(--purple-light); }
+  .sub-tab.active { background: var(--purple); color: #fff; }
+  .sub-tab:focus-visible { outline: 2px solid var(--purple); outline-offset: 2px; }
+
+  .sub-wrap[hidden], .mk-wrap[hidden] { display: none; }
+
+  /* ===== Marketplace ===== */
+  .mk-wrap { max-width: 980px; margin: 0 auto; padding: 30px 6% 80px; display: flex; flex-direction: column; gap: 22px; }
+  .mk-wrap .card-head .grow { flex: 1; }
+  .mk-wrap .card-head .btn-primary { border: none; cursor: pointer; padding: 10px 20px; font-size: 13.5px; }
+  .mk-sub { font-size: 13px; color: var(--ink-soft); margin: 4px 0 16px; }
+
+  .mk-toolbar { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+  .mk-control {
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--purple-bg);
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .mk-control:focus { outline: 2px solid var(--purple-light); outline-offset: 1px; background: #fff; }
+  textarea.mk-control { resize: vertical; }
+  .mk-shown { font-size: 12px; color: var(--ink-soft); margin-bottom: 14px; }
+
+  .mk-empty { font-size: 13.5px; color: var(--ink-soft); background: var(--purple-bg); border-radius: 12px; padding: 18px; text-align: center; }
+
+  .post-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .post { background: var(--bg); border: 1px solid var(--purple-light); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 6px 16px rgba(122,106,216,0.10); }
+  .post-img { aspect-ratio: 4 / 3; background: var(--purple-bg); position: relative; overflow: hidden; }
+  .post-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .post-img.noimg img { display: none; }
+  .post-ph { display: none; position: absolute; inset: 0; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: var(--ink-soft); font-size: 12px; }
+  .post-ph svg { width: 34px; height: 34px; }
+  .post-img.noimg .post-ph { display: flex; }
+  .post.sold .post-img img { filter: grayscale(.7); opacity: .75; }
+
+  .badge { position: absolute; top: 10px; left: 10px; z-index: 1; font-size: 11.5px; font-weight: 700; padding: 4px 11px; border-radius: 999px; }
+  .badge.disp { background: #EAF7EE; color: #2E7D45; }
+  .badge.agot { background: #FBEAEA; color: #C0392B; }
+
+  .post-body { padding: 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .post-name { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 16px; line-height: 1.25; color: var(--ink); overflow-wrap: anywhere; }
+  .post-price { font-weight: 700; font-size: 15px; color: var(--purple-dark); }
+  .post-cat { align-self: flex-start; font-size: 11.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--purple-light); color: var(--purple-dark); }
+  .post-desc { font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); overflow-wrap: anywhere; }
+  .post-seller { margin-top: auto; padding-top: 8px; font-size: 12px; color: var(--ink-soft); display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .tag-mine { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: var(--purple-light); color: var(--purple-dark); }
+  .mk-link { font-size: 12px; font-weight: 600; color: var(--purple-dark); text-decoration: none; }
+  .mk-link:hover { text-decoration: underline; }
+
+  /* Historial */
+  .hist-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--purple-light); }
+  .hist-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .hist-info { flex: 1; min-width: 0; }
+  .hist-name { font-size: 14px; font-weight: 600; color: var(--ink); overflow-wrap: anywhere; }
+  .hist-meta { font-size: 12px; color: var(--ink-soft); }
+  .hist-price { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 16px; color: var(--ink); white-space: nowrap; }
+  .st { font-size: 11.5px; font-weight: 700; padding: 4px 11px; border-radius: 999px; white-space: nowrap; }
+  .st.disp { background: #EAF7EE; color: #2E7D45; }
+  .st.agot { background: #FBEAEA; color: #C0392B; }
+
+  /* Modal publicar producto */
+  .mk-overlay { display: none; position: fixed; inset: 0; background: rgba(27,23,48,0.5); align-items: center; justify-content: center; padding: 20px; z-index: 100; overflow-y: auto; }
+  .mk-overlay.show { display: flex; }
+  .mk-box { background: var(--bg); border-radius: 22px; padding: 28px; width: 100%; max-width: 560px; max-height: calc(100vh - 40px); overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
+  .mk-box h2 { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 20px; color: var(--ink); margin-bottom: 16px; }
+  .mk-field { margin-bottom: 14px; }
+  .mk-field label { display: block; font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .mk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  .mk-grid .span2 { grid-column: 1 / -1; }
+  .mk-box .post-img { border-radius: 12px; margin-bottom: 14px; }
+  .mk-err { display: none; margin-bottom: 12px; padding: 9px 12px; background: #FBEAEA; color: #C0392B; border-radius: 10px; font-size: 13px; font-weight: 500; }
+  .mk-err.show { display: block; }
+  .mk-actions { display: flex; gap: 10px; margin-top: 8px; }
+  .mk-actions > * { flex: 1; }
+  .mk-cancel { font-family: inherit; font-weight: 600; font-size: 14px; padding: 14px 20px; border-radius: 999px; border: none; cursor: pointer; background: var(--purple-bg); color: var(--ink); }
+  .mk-cancel:hover { background: var(--purple-light); }
+  .mk-actions .btn-primary { border: none; cursor: pointer; padding: 14px 20px; font-size: 14px; }
+
+  @media (max-width: 560px) {
+    .mk-toolbar, .mk-grid { grid-template-columns: 1fr; }
+    .hist-item { flex-wrap: wrap; }
+    .mk-box { padding: 22px 18px; }
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <button class="nav-toggle" aria-label="Abrir menú"
+    onclick="document.querySelector('nav ul').classList.toggle('open')">
+    ☰
+  </button>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="promociones.html">Promociones</a></li>
+      <li><a href="campaña.html">Campaña</a></li>
+      <li><a href="Comunidad.html">Comunidad</a></li>
+      <li><a href="Subasta.html">Subasta</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <a href="index.html" class="logo">
+    <img src="images/logobbmx.png" alt="Blindbox MX">
+  </a>
+
+  <div class="header-actions">
+    <a href="login.html" class="login">Iniciar sesión</a>
+  </div>
+</header>
+
+<section class="sub-hero">
+  <h1>Subasta Blindbox</h1>
+  <p>Una pieza especial, una sola ganadora. Haz tu oferta antes de que se acabe el tiempo ✦</p>
+</section>
+
+<div class="sub-tabs" role="tablist" aria-label="Secciones">
+  <button type="button" class="sub-tab active" id="tabSubasta" role="tab" aria-selected="true" aria-controls="panelSubasta">Subasta</button>
+  <button type="button" class="sub-tab" id="tabMarket" role="tab" aria-selected="false" aria-controls="panelMarket">Marketplace</button>
+</div>
+
+<section class="sub-wrap" id="panelSubasta" role="tabpanel" aria-labelledby="tabSubasta">
+
+  <!-- Producto -->
+  <div class="sub-card">
+    <div class="sub-photo">
+      <span class="sub-badge">Edición especial</span>
+      <img src="images/subasta.png" alt="Skullpanda Merlina" onerror="this.style.display='none'">
+    </div>
+    <div class="sub-name">Skullpanda Merlina</div>
+    <p class="sub-desc">
+      Figura coleccionable Skullpanda inspirada en Merlina: cuello blanco,
+      broche con la letra W, trenzas de estambre y moño negro. Pieza de
+      colección en subasta.
+    </p>
+  </div>
+
+  <!-- Subasta -->
+  <div class="sub-card">
+    <div class="sub-label" id="timerLabel">La subasta termina en</div>
+    <div class="timer" id="timer">
+      <div class="timer-box"><b id="tH">00</b><span>horas</span></div>
+      <div class="timer-box"><b id="tM">00</b><span>min</span></div>
+      <div class="timer-box"><b id="tS">00</b><span>seg</span></div>
+    </div>
+
+    <div class="price-row">
+      <div>
+        <div class="sub-label" style="margin-bottom:4px;">Oferta actual</div>
+        <div class="price-now" id="priceNow">$0</div>
+      </div>
+      <div class="price-meta">
+        Incremento mínimo: $<span id="minInc">0</span><br>
+        <span id="bidTotal">0</span> ofertas
+      </div>
+    </div>
+
+    <div class="sub-label">Hacer oferta</div>
+    <form id="bidForm" novalidate>
+      <div class="bid-row">
+        <div class="bid-input-wrap">
+          <span>$</span>
+          <input type="number" class="bid-input" id="bidInput" inputmode="numeric"
+            min="0" step="10" placeholder="Tu oferta" aria-label="Monto de tu oferta">
+        </div>
+        <button type="submit" class="btn-primary" id="bidBtn">Ofertar</button>
+      </div>
+    </form>
+
+    <div class="quick" id="quick"></div>
+
+    <div class="msg" id="msg" role="alert"></div>
+
+    <button type="button" class="sub-reset" id="resetBtn">Reiniciar subasta </button>
+  </div>
+
+  <!-- Ofertas -->
+  <div class="sub-card full">
+    <div class="card-head">
+      <h2>Historial de ofertas</h2>
+      <span class="count-pill" id="countPill">0</span>
+    </div>
+    <div id="bidList"></div>
+  </div>
+
+</section>
+
+
+<!-- ===== Pestaña Marketplace ===== -->
+<section class="mk-wrap" id="panelMarket" role="tabpanel" aria-labelledby="tabMarket" hidden>
+
+  <div class="sub-card">
+    <div class="card-head">
+      <h2>Marketplace</h2>
+      <span class="count-pill" id="mkCount">0</span>
+      <span class="grow"></span>
+      <button type="button" class="btn-primary" id="mkNew">+ Publicar producto</button>
+    </div>
+    <p class="mk-sub">Productos publicados por la comunidad. Los tuyos llevan la etiqueta "Tuyo".</p>
+
+    <div class="mk-toolbar">
+      <input type="search" class="mk-control" id="mkSearch" placeholder="Buscar producto…" aria-label="Buscar productos">
+      <select class="mk-control" id="mkCat" aria-label="Filtrar por categoría"></select>
+      <select class="mk-control" id="mkEst" aria-label="Filtrar por disponibilidad">
+        <option value="">Todos los estados</option>
+        <option value="Disponible">Disponible</option>
+        <option value="Agotado">Agotado</option>
+      </select>
+    </div>
+    <div class="mk-shown" id="mkShown"></div>
+
+    <div id="mkGrid"></div>
+  </div>
+
+</section>
+
+<!-- Modal: publicar producto -->
+<div class="mk-overlay" id="mkOverlay" role="dialog" aria-modal="true" aria-labelledby="mkFormTitle">
+  <div class="mk-box">
+    <h2 id="mkFormTitle">Publicar producto</h2>
+
+    <form id="mkForm" novalidate>
+      <div class="mk-grid">
+        <div class="mk-field span2">
+          <label for="mkName">Nombre</label>
+          <input type="text" class="mk-control" id="mkName" maxlength="60" placeholder="Ej. Labubu Macaron — caja sellada">
+        </div>
+
+        <div class="mk-field span2">
+          <label for="mkDesc">Descripción</label>
+          <textarea class="mk-control" id="mkDesc" rows="3" maxlength="200" placeholder="Estado, serie, detalles…"></textarea>
+        </div>
+
+        <div class="mk-field">
+          <label for="mkPrice">Precio (MXN)</label>
+          <input type="number" class="mk-control" id="mkPrice" min="0" step="0.01" placeholder="0.00">
+        </div>
+
+        <div class="mk-field">
+          <label for="mkFormCat">Categoría</label>
+          <select class="mk-control" id="mkFormCat"></select>
+        </div>
+
+        <div class="mk-field span2">
+          <label for="mkUrl">Imagen (URL)</label>
+          <input type="text" class="mk-control" id="mkUrl" placeholder="https://…">
+        </div>
+
+        <div class="mk-field span2">
+          <label for="mkFile">…o sube un archivo</label>
+          <input type="file" class="mk-control" id="mkFile" accept="image/*">
+        </div>
+
+        <div class="span2">
+          <div class="post-img noimg" id="mkPreviewBox">
+            <img id="mkPreview" alt="Vista previa de la imagen">
+            <div class="post-ph">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="M4 18l5-5 4 4 3-3 4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Sin imagen
+            </div>
+          </div>
+        </div>
+
+        <div class="mk-field">
+          <label for="mkStatus">Disponibilidad</label>
+          <select class="mk-control" id="mkStatus">
+            <option>Disponible</option>
+            <option>Agotado</option>
+          </select>
+        </div>
+      </div>
+
+      <p class="mk-err" id="mkError" role="alert"></p>
+
+      <div class="mk-actions">
+        <button type="button" class="mk-cancel" id="mkCancel">Cancelar</button>
+        <button type="submit" class="btn-primary">Publicar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<footer class="site-footer">
+  <div class="footer-top">
+
+    <div class="footer-col">
+      <h3>Únete a la comunidad</h3>
+      <p>Entérate primero de nuevos lanzamientos, ofertas y sorpresas.</p>
+
+      <form class="newsletter-form"
+        onsubmit="event.preventDefault(); this.querySelector('button').textContent='¡Listo!'; this.reset();">
+        <input type="email" placeholder="Tu correo">
+        <button type="submit">Suscribirme</button>
+      </form>
+    </div>
+
+    <div class="footer-col">
+      <h4>Explorar</h4>
+      <a href="index.html" class="footer-link">Inicio</a>
+      <a href="catalogo.html" class="footer-link">Catálogo</a>
+      <a href="promociones.html" class="footer-link">Promociones</a>
+      <a href="campaña.html" class="footer-link">Campaña</a>
+      <a href="Comunidad.html" class="footer-link">Comunidad</a>
+      <a href="Subasta.html" class="footer-link">Subasta</a>
+      <a href="nosotros.html" class="footer-link">Nosotros</a>
+      <a href="contacto.html" class="footer-link">Contacto</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Mi cuenta</h4>
+      <a href="login.html" class="footer-link">Iniciar sesión</a>
+      <a href="registro.html" class="footer-link">Registrarme</a>
+      <a href="perfil.html" class="footer-link">Mi perfil</a>
+      <a href="carrito.html" class="footer-link">Carrito</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 Blindbox MX — todos los derechos reservados</span>
+    <div class="footer-bottom-links">
+      <a href="#">Términos y condiciones</a>
+      <a href="#">Política de privacidad</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const END_KEY = 'bb_auction_end';
+  const BIDS_KEY = 'bb_auction_bids';
+  const DURACION = 2 * 60 * 60 * 1000;   // 2 horas (falso, se reinicia con el botón demo)
+  const INCREMENTO = 20;
+  const hora = 60 * 1000;
+
+  function usuario() {
+    return localStorage.getItem('bb_user_name') || 'Coleccionista Blindbox';
+  }
+
+  function ofertasIniciales() {
+    const t = Date.now();
+    return [
+      { who: 'Valeria R.', amount: 450, date: t - 95 * hora / 1, mine: false },
+      { who: 'Diego M.',   amount: 480, date: t - 70 * hora / 1, mine: false },
+      { who: 'Paola G.',   amount: 520, date: t - 41 * hora / 1, mine: false },
+      { who: 'Andrés T.',  amount: 560, date: t - 12 * hora / 1, mine: false }
+    ];
+  }
+
+  function leerOfertas() {
+    try {
+      const v = JSON.parse(localStorage.getItem(BIDS_KEY));
+      if (Array.isArray(v)) return v;
+    } catch (e) {}
+    const base = ofertasIniciales();
+    localStorage.setItem(BIDS_KEY, JSON.stringify(base));
+    return base;
+  }
+
+  function leerFin() {
+    const v = parseInt(localStorage.getItem(END_KEY), 10);
+    if (!isNaN(v)) return v;
+    const fin = Date.now() + DURACION;
+    localStorage.setItem(END_KEY, String(fin));
+    return fin;
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function dinero(n) {
+    return '$' + Number(n).toLocaleString('es-MX');
+  }
+
+  function haceCuanto(ms) {
+    const m = Math.max(0, Math.round((Date.now() - ms) / 60000));
+    if (m < 1) return 'hace unos segundos';
+    if (m < 60) return 'hace ' + m + ' min';
+    const h = Math.round(m / 60);
+    if (h < 24) return 'hace ' + h + ' h';
+    return 'hace ' + Math.round(h / 24) + ' d';
+  }
+
+  function toast(t) {
+    const el = document.getElementById('toast');
+    el.textContent = t;
+    el.classList.add('show');
+    setTimeout(function () { el.classList.remove('show'); }, 2200);
+  }
+
+  function mensaje(texto, tipo) {
+    const m = document.getElementById('msg');
+    m.textContent = texto;
+    m.className = 'msg show ' + tipo;
+  }
+
+  function limpiarMensaje() {
+    document.getElementById('msg').className = 'msg';
+  }
+
+  // ---------- Pantalla ----------
+  function oferMax(lista) {
+    return lista.reduce(function (a, b) { return b.amount > a ? b.amount : a; }, 0);
+  }
+
+  function renderOfertas() {
+    const lista = leerOfertas().slice().sort(function (a, b) { return b.amount - a.amount; });
+    const max = oferMax(lista);
+
+    document.getElementById('priceNow').textContent = dinero(max);
+    document.getElementById('minInc').textContent = INCREMENTO;
+    document.getElementById('bidTotal').textContent = lista.length;
+    document.getElementById('countPill').textContent = lista.length;
+
+    document.getElementById('bidInput').placeholder = 'Mínimo ' + dinero(max + INCREMENTO);
+
+    document.getElementById('quick').innerHTML = [0, 1, 3].map(function (i) {
+      const v = max + INCREMENTO * (i + 1);
+      return '<button type="button" data-v="' + v + '">' + dinero(v) + '</button>';
+    }).join('');
+
+    document.getElementById('bidList').innerHTML = lista.map(function (b, i) {
+      return (
+        '<div class="bid-item">' +
+          '<div class="bid-avatar">' + esc(b.who.trim().charAt(0).toUpperCase()) + '</div>' +
+          '<div class="bid-info">' +
+            '<div class="bid-who">' + esc(b.who) +
+              (b.mine ? '<span class="tag you">Tú</span>' : '') +
+              (i === 0 ? '<span class="tag lead">Va ganando</span>' : '') +
+            '</div>' +
+            '<div class="bid-time">' + esc(haceCuanto(b.date)) + '</div>' +
+          '</div>' +
+          '<div class="bid-amount">' + dinero(b.amount) + '</div>' +
+        '</div>'
+      );
+    }).join('');
+  }
+
+  // ---------- Temporizador ----------
+  function dos(n) { return String(n).padStart(2, '0'); }
+
+  function tick() {
+    const resta = leerFin() - Date.now();
+    const timer = document.getElementById('timer');
+    const input = document.getElementById('bidInput');
+    const btn = document.getElementById('bidBtn');
+
+    if (resta <= 0) {
+      document.getElementById('tH').textContent = '00';
+      document.getElementById('tM').textContent = '00';
+      document.getElementById('tS').textContent = '00';
+      timer.className = 'timer ended';
+      document.getElementById('timerLabel').textContent = 'Subasta finalizada';
+      input.disabled = true;
+      btn.disabled = true;
+      return;
+    }
+
+    const s = Math.floor(resta / 1000);
+    document.getElementById('tH').textContent = dos(Math.floor(s / 3600));
+    document.getElementById('tM').textContent = dos(Math.floor((s % 3600) / 60));
+    document.getElementById('tS').textContent = dos(s % 60);
+
+    timer.className = 'timer' + (s < 300 ? ' urgent' : '');
+    document.getElementById('timerLabel').textContent = 'La subasta termina en';
+    input.disabled = false;
+    btn.disabled = false;
+  }
+
+  // ---------- Ofertar ----------
+  document.getElementById('bidForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    if (leerFin() - Date.now() <= 0) {
+      mensaje('La subasta ya terminó.', 'err');
+      return;
+    }
+
+    const input = document.getElementById('bidInput');
+    const monto = Math.floor(Number(input.value));
+    const lista = leerOfertas();
+    const minimo = oferMax(lista) + INCREMENTO;
+
+    if (!input.value || isNaN(monto)) {
+      mensaje('Escribe el monto de tu oferta.', 'err');
+      input.focus();
+      return;
+    }
+
+    if (monto < minimo) {
+      mensaje('Tu oferta debe ser de al menos ' + dinero(minimo) + '.', 'err');
+      input.focus();
+      return;
+    }
+
+    lista.push({ who: usuario(), amount: monto, date: Date.now(), mine: true });
+    localStorage.setItem(BIDS_KEY, JSON.stringify(lista));
+
+    input.value = '';
+    renderOfertas();
+    mensaje('Oferta registrada — ' + dinero(monto), 'ok');
+    toast('Oferta registrada');
+  });
+
+  // Montos rápidos
+  document.getElementById('quick').addEventListener('click', function (e) {
+    const b = e.target.closest('button');
+    if (!b) return;
+    const input = document.getElementById('bidInput');
+    input.value = b.dataset.v;
+    limpiarMensaje();
+    input.focus();
+  });
+
+  document.getElementById('bidInput').addEventListener('input', limpiarMensaje);
+
+  // Reiniciar demo
+  document.getElementById('resetBtn').addEventListener('click', function () {
+    localStorage.setItem(END_KEY, String(Date.now() + DURACION));
+    localStorage.setItem(BIDS_KEY, JSON.stringify(ofertasIniciales()));
+    limpiarMensaje();
+    renderOfertas();
+    tick();
+    toast('Subasta reiniciada');
+  });
+
+  renderOfertas();
+  tick();
+  setInterval(tick, 1000);
+  setInterval(renderOfertas, 60000);   // refresca "hace X min"
+
+
+  // ==========================================
+  // MARKETPLACE (comparte la llave 'bb_posts' con Perfil)
+  // ==========================================
+  const mk$ = function (id) { return document.getElementById(id); };
+  const MK_KEY = 'bb_posts';
+  const MK_CATS = ['Cajas ciegas', 'Figuras', 'Peluches', 'Accesorios'];
+  const MK_DIA = 24 * 60 * 60 * 1000;
+
+  const MK_ICONO =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">' +
+    '<rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.8"/>' +
+    '<path d="M4 18l5-5 4 4 3-3 4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function mkHace(ms) { return new Date(Date.now() - ms).toISOString(); }
+
+  // Productos de otros vendedores (solo de muestra)
+  const MK_OTROS = [
+    { id: 'o-1', seller: 'Valeria R.', name: 'Hirono Sweet Bean — set de 6 cajas', desc: 'Set completo sellado de la serie Sweet Bean. Envío con guía.', price: 890, category: 'Cajas ciegas', status: 'Disponible', atras: 2 * MK_DIA },
+    { id: 'o-2', seller: 'Diego M.', name: 'Dimoo Aquarium — figura secreta', desc: 'Figura secreta en buen estado, incluye tarjeta de la serie.', price: 650, category: 'Figuras', status: 'Agotado', atras: 5 * MK_DIA },
+    { id: 'o-3', seller: 'Paola G.', name: 'Llavero Labubu con cadena', desc: 'Llavero de felpa nuevo, con cadena metálica.', price: 180, category: 'Accesorios', status: 'Disponible', atras: 8 * MK_DIA }
+  ];
+
+  function mkSemilla() {
+    return [
+      { id: 'p-ejemplo-1', name: 'Labubu Macaron — caja sellada', desc: 'Caja ciega sellada de la serie Macaron, sin abrir. Se entrega bien protegida.', price: 520, category: 'Cajas ciegas', image: '', status: 'Disponible', date: mkHace(1 * MK_DIA) },
+      { id: 'p-ejemplo-2', name: 'Skullpanda Requiem (sin caja)', desc: 'Figura en excelente estado, solo exhibida. Incluye base y accesorios originales.', price: 380, category: 'Figuras', image: '', status: 'Agotado', date: mkHace(3 * MK_DIA) },
+      { id: 'p-ejemplo-3', name: 'Peluche Dimoo Aquarium 25 cm', desc: 'Peluche suave y como nuevo, de la colección Aquarium. Libre de humo y mascotas.', price: 450, category: 'Peluches', image: '', status: 'Disponible', date: mkHace(6 * MK_DIA) },
+      { id: 'p-ejemplo-4', name: 'Vitrina acrílica para 6 figuras', desc: 'Vitrina con tapa antipolvo y base negra. Ideal para exhibir tu colección.', price: 290, category: 'Accesorios', image: '', status: 'Disponible', date: mkHace(9 * MK_DIA) }
+    ];
+  }
+
+  function mkGuardar(lista) {
+    try {
+      localStorage.setItem(MK_KEY, JSON.stringify(lista));
+      return true;
+    } catch (e) {
+      toast('No se pudo guardar: almacenamiento lleno');
+      return false;
+    }
+  }
+
+  function mkLeer() {
+    let lista = null;
+    try {
+      const raw = localStorage.getItem(MK_KEY);
+      if (raw !== null) {
+        const v = JSON.parse(raw);
+        lista = Array.isArray(v) ? v : [];
+      }
+    } catch (e) { lista = []; }
+
+    if (lista === null) {
+      lista = mkSemilla();
+      mkGuardar(lista);
+    }
+
+    // Compatibilidad: antes el estado se llamaba "Vendido"
+    lista.forEach(function (p) { if (p.status === 'Vendido') p.status = 'Agotado'; });
+    return lista;
+  }
+
+  function mkNombre(p) {
+    return p.name && String(p.name).trim() ? p.name : 'Producto sin nombre';
+  }
+
+  function mkPrecio(n) {
+    if (n === null || n === undefined || n === '' || isNaN(n)) return 'Sin precio';
+    return '$' + Number(n).toLocaleString('es-MX', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' MXN';
+  }
+
+  function mkFecha(iso) {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  function mkCorto(t) { return t.length > 90 ? t.slice(0, 90) + '…' : t; }
+
+  // Productos del usuario + productos de muestra de otros vendedores
+  function mkTodos() {
+    const propios = mkLeer().map(function (p) { return Object.assign({}, p, { mine: true }); });
+    const otros = MK_OTROS.map(function (o) {
+      return { id: o.id, name: o.name, desc: o.desc, price: o.price, category: o.category, image: '', status: o.status, date: mkHace(o.atras), seller: o.seller, mine: false };
+    });
+    return propios.concat(otros);
+  }
+
+  function mkTarjeta(p) {
+    const agotado = p.status === 'Agotado';
+
+    return (
+      '<article class="post' + (agotado ? ' sold' : '') + '">' +
+        '<div class="post-img' + (p.image ? '' : ' noimg') + '">' +
+          (p.image ? '<img src="' + esc(p.image) + '" alt="' + esc(mkNombre(p)) + '" loading="lazy">' : '') +
+          '<div class="post-ph">' + MK_ICONO + 'Sin imagen</div>' +
+          '<span class="badge ' + (agotado ? 'agot' : 'disp') + '">' + esc(p.status) + '</span>' +
+        '</div>' +
+        '<div class="post-body">' +
+          '<div class="post-name">' + esc(mkNombre(p)) + '</div>' +
+          '<div class="post-price">' + esc(mkPrecio(p.price)) + '</div>' +
+          '<span class="post-cat">' + esc(p.category) + '</span>' +
+          (p.desc ? '<p class="post-desc">' + esc(mkCorto(p.desc)) + '</p>' : '') +
+          '<div class="post-seller">' +
+            (p.mine
+              ? '<span class="tag-mine">Tuyo</span><a class="mk-link" href="perfil.html">Editar en mi perfil</a>'
+              : 'Vendedor: ' + esc(p.seller)) +
+          '</div>' +
+        '</div>' +
+      '</article>'
+    );
+  }
+
+  function mkRender() {
+    const todos = mkTodos();
+    const q = mk$('mkSearch').value.trim().toLowerCase();
+    const cat = mk$('mkCat').value;
+    const est = mk$('mkEst').value;
+
+    const lista = todos.filter(function (p) {
+      return (!q || (p.name + ' ' + p.desc).toLowerCase().indexOf(q) !== -1) &&
+             (!cat || p.category === cat) &&
+             (!est || p.status === est);
+    }).sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
+
+    mk$('mkCount').textContent = todos.length;
+    mk$('mkShown').textContent = 'Mostrando ' + lista.length + ' de ' + todos.length;
+
+    mk$('mkGrid').innerHTML = lista.length
+      ? '<div class="post-grid">' + lista.map(mkTarjeta).join('') + '</div>'
+      : '<div class="mk-empty">No encontramos productos con esos filtros.</div>';
+
+    // Historial: solo lo que publicó el usuario
+    const mios = todos.filter(function (p) { return p.mine; })
+      .sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
+
+    mk$('mkHistCount').textContent = mios.length;
+
+    mk$('mkHist').innerHTML = mios.length
+      ? mios.map(function (p) {
+          const agotado = p.status === 'Agotado';
+          return (
+            '<div class="hist-item">' +
+              '<div class="hist-info">' +
+                '<div class="hist-name">' + esc(mkNombre(p)) + '</div>' +
+                '<div class="hist-meta">Publicado el ' + esc(mkFecha(p.date)) + ' · ' + esc(p.category) + '</div>' +
+              '</div>' +
+              '<div class="hist-price">' + esc(mkPrecio(p.price)) + '</div>' +
+              '<span class="st ' + (agotado ? 'agot' : 'disp') + '">' + esc(p.status) + '</span>' +
+            '</div>'
+          );
+        }).join('')
+      : '<div class="mk-empty">Aún no tienes publicaciones.</div>';
+  }
+
+  // Imagen que no carga: se muestra el espacio reservado
+  mk$('mkGrid').addEventListener('error', function (e) {
+    if (e.target.tagName === 'IMG') e.target.parentNode.classList.add('noimg');
+  }, true);
+
+  // Filtros
+  mk$('mkCat').innerHTML = '<option value="">Todas las categorías</option>' +
+    MK_CATS.map(function (c) { return '<option>' + esc(c) + '</option>'; }).join('');
+  mk$('mkFormCat').innerHTML = MK_CATS.map(function (c) { return '<option>' + esc(c) + '</option>'; }).join('');
+
+  ['mkSearch', 'mkCat', 'mkEst'].forEach(function (id) {
+    mk$(id).addEventListener('input', mkRender);
+  });
+
+  // ----- Modal: publicar producto -----
+  let mkImagen = '';
+
+  function mkVerPreview() {
+    const caja = mk$('mkPreviewBox');
+    const img = mk$('mkPreview');
+
+    if (mkImagen) {
+      img.src = mkImagen;
+      caja.classList.remove('noimg');
+    } else {
+      img.removeAttribute('src');
+      caja.classList.add('noimg');
+    }
+  }
+
+  mk$('mkPreview').addEventListener('error', function () {
+    mk$('mkPreviewBox').classList.add('noimg');
+  });
+
+  function mkError(texto) {
+    const el = mk$('mkError');
+    el.textContent = texto;
+    el.classList.toggle('show', !!texto);
+  }
+
+  function mkAbrir() {
+    mk$('mkForm').reset();
+    mkImagen = '';
+    mkError('');
+    mkVerPreview();
+    mk$('mkOverlay').classList.add('show');
+    mk$('mkName').focus();
+  }
+
+  function mkCerrar() { mk$('mkOverlay').classList.remove('show'); }
+
+  mk$('mkNew').addEventListener('click', mkAbrir);
+  mk$('mkCancel').addEventListener('click', mkCerrar);
+  mk$('mkOverlay').addEventListener('click', function (e) { if (e.target === this) mkCerrar(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') mkCerrar(); });
+
+  mk$('mkUrl').addEventListener('input', function () {
+    const v = this.value.trim();
+
+    if (/^https?:\/\//i.test(v)) {
+      mkImagen = v;
+      mk$('mkFile').value = '';
+    } else if (v === '') {
+      mkImagen = '';
+    }
+    mkVerPreview();
+  });
+
+  // Archivo local: se reduce a 480 px para que quepa en el almacenamiento
+  mk$('mkFile').addEventListener('change', function () {
+    const f = this.files[0];
+    if (!f) return;
+
+    if (!/^image\//.test(f.type)) {
+      mkError('El archivo debe ser una imagen.');
+      this.value = '';
+      return;
+    }
+
+    const lector = new FileReader();
+    lector.onload = function () {
+      const im = new Image();
+
+      im.onload = function () {
+        const k = Math.min(1, 480 / Math.max(im.width, im.height));
+        const cv = document.createElement('canvas');
+        cv.width = Math.round(im.width * k);
+        cv.height = Math.round(im.height * k);
+        cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height);
+
+        mkImagen = cv.toDataURL('image/jpeg', 0.8);
+        mk$('mkUrl').value = '';
+        mkError('');
+        mkVerPreview();
+      };
+
+      im.onerror = function () { mkError('No se pudo leer la imagen.'); };
+      im.src = lector.result;
+    };
+    lector.readAsDataURL(f);
+  });
+
+  mk$('mkForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const nombre = mk$('mkName').value.trim();
+    const precio = parseFloat(mk$('mkPrice').value);
+    const url = mk$('mkUrl').value.trim();
+
+    const lista = mkLeer();
+    lista.unshift({
+      id: 'p-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+      name: nombre,
+      desc: mk$('mkDesc').value.trim(),
+      price: isNaN(precio) ? null : Math.max(0, precio),
+      category: mk$('mkFormCat').value,
+      image: mkImagen,
+      status: mk$('mkStatus').value,
+      date: new Date().toISOString()
+    });
+
+    if (!mkGuardar(lista)) return;
+
+    mkCerrar();
+    mkRender();
+    toast('Producto publicado');
+  });
+
+  // ----- Pestañas -----
+  function mostrarPestana(nombre) {
+    const market = nombre === 'marketplace';
+
+    mk$('panelSubasta').hidden = market;
+    mk$('panelMarket').hidden = !market;
+
+    mk$('tabSubasta').classList.toggle('active', !market);
+    mk$('tabMarket').classList.toggle('active', market);
+    mk$('tabSubasta').setAttribute('aria-selected', String(!market));
+    mk$('tabMarket').setAttribute('aria-selected', String(market));
+
+    if (market) mkRender();
+
+    try {
+      history.replaceState(null, '', market ? '#marketplace' : location.pathname + location.search);
+    } catch (e) {}
+  }
+
+  mk$('tabSubasta').addEventListener('click', function () { mostrarPestana('subasta'); });
+  mk$('tabMarket').addEventListener('click', function () { mostrarPestana('marketplace'); });
+
+  mkRender();
+  if (location.hash === '#marketplace') mostrarPestana('marketplace');
+</script>
+
+</body>
+</html>

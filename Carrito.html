@@ -375,11 +375,13 @@
       <li><a href="campaña.html">Campaña</a></li>
       <li><a href="nosotros.html">Nosotros</a></li>
       <li><a href="contacto.html">Contacto</a></li>
+      <li><a href="Comunidad.html">Comunidad</a></li>
+      <li><a href="Subasta.html">Ventas</a></li>
     </ul>
   </nav>
 
   <a href="index.html" class="logo">
-    <img src="assets/logo.png" alt="Blindbox MX">
+    <img src="images/logobbmx.png" alt="Blindbox MX">
   </a>
 
   <div class="header-actions">
@@ -441,7 +443,7 @@
       Debes aceptar los términos y condiciones para continuar.
     </div>
 
-    <p class="cart-summary-note">No se realizará ningún cobro real — modo de muestra.</p>
+    <p class="cart-summary-note">No se realizará ningún cobro real </p>
   </div>
 </section>
 
@@ -525,7 +527,7 @@
 
   const optionLabels = { caja: 'Caja sorpresa', kit: 'Kit completo' };
 
-  // ---------- Descuento (simulado) ----------
+  // ---------- Descuento ----------
   function getDiscount(){
     try { return JSON.parse(localStorage.getItem('bb_discount')); } catch (e) { return null; }
   }

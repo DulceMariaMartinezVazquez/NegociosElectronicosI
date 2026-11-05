@@ -596,8 +596,10 @@
       <li><a href="catalogo.html">Catálogo</a></li>
       <li><a href="promociones.html">Promociones</a></li>
       <li><a href="campaña.html">Campaña</a></li>
-      <li><a href="Nosotros.html">Nosotros</a></li>
-      <li><a href="Contacto.html">Contacto</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+      <li><a href="Comunidad.html">Comunidad</a></li>
+      <li><a href="Subasta.html">Ventas</a></li>
     </ul>
   </nav>
 
@@ -789,7 +791,7 @@
 </footer>
 
 <script>
-  // Promociones disponibles (modo simulado, sin servidor)
+  // Promociones disponibles 
   const PROMOS = {
     'BLIND10':      { type: 'percent', value: 10, label: '10% de descuento en tu pedido' },
     'BIENVENIDA15': { type: 'percent', value: 15, label: '15% de descuento en tu primera compra' },
@@ -965,7 +967,7 @@
     localStorage.setItem(DISCOUNT_KEY, JSON.stringify(Object.assign({ code: code }, promo)));
 
     mostrarMensaje('ok',
-      'Descuento aplicado (simulado)<br>' + promo.label + '.<br>' +
+      'Descuento aplicado <br>' + promo.label + '.<br>' +
       '<a href="carrito.html">Ver mi carrito →</a>');
     mostrarActivo();
     lanzarConfeti(couponForm.querySelector('button[type="submit"]'));

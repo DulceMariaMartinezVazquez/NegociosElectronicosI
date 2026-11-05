@@ -932,7 +932,7 @@
     savePromos(promos);
     render();
     const p = promos.find(function(x){ return x.id === id; });
-    showToast(p.status === 'active' ? 'Promoción activada (simulado)' : 'Promoción pausada (simulado)');
+    showToast(p.status === 'active' ? 'Promoción activada' : 'Promoción pausada');
   }
 
   // ---------- Modal agregar / editar ----------
@@ -1020,10 +1020,10 @@
       promos = promos.map(function(p){
         return p.id === id ? Object.assign({}, p, { name: name, code: code, type: type, value: value, line: line, until: until, status: status }) : p;
       });
-      showToast('Promoción actualizada (simulado)');
+      showToast('Promoción actualizada');
     } else {
       promos.push({ id: 'promo-' + Date.now(), name: name, code: code, type: type, value: value, line: line, until: until, status: status });
-      showToast('Promoción agregada (simulado)');
+      showToast('Promoción agregada');
     }
 
     savePromos(promos);
@@ -1058,7 +1058,7 @@
     savePromos(getPromos().filter(function(p){ return p.id !== idPorEliminar; }));
     cerrarModalEliminar();
     render();
-    showToast('Promoción eliminada (simulado)');
+    showToast('Promoción eliminada');
   });
 
   // Escape cierra cualquier caja abierta

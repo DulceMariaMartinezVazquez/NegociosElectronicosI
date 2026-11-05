@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -47,7 +46,7 @@
   }
 
   .profile-sections {
-    max-width: 700px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 40px 6% 80px;
     display: flex;
@@ -359,6 +358,7 @@
     justify-content: center;
     padding: 20px;
     z-index: 100;
+    overflow-y: auto;
   }
 
   .modal-overlay.show {
@@ -499,6 +499,227 @@
       bottom: 20px;
     }
   }
+
+
+  /* =====================================================
+     NUEVO: comentarios editables, reseñas y publicaciones
+     (mismos colores, bordes y sombras que el resto)
+     ===================================================== */
+
+  .form-group select {
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+
+  .f-err {
+    display: none;
+    margin-top: 10px;
+    padding: 9px 12px;
+    background: #FBEAEA;
+    color: #C0392B;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.4;
+    font-weight: 500;
+    text-align: left;
+  }
+
+  .f-err.show { display: block; }
+
+  .char-count.warn { color: #C0392B; font-weight: 600; }
+  .edited { font-style: italic; margin-left: 6px; }
+
+  .profile-card .btn-small { padding: 9px 18px; font-size: 13px; }
+
+  .profile-empty .btn-primary { margin-top: 12px; }
+
+  /* Edición dentro de la lista */
+  .inline-edit {
+    flex: 1;
+    min-width: 0;
+    background: var(--purple-bg);
+    border-radius: 14px;
+    padding: 14px;
+  }
+
+  .inline-edit .form-group { margin-bottom: 10px; }
+  .inline-edit textarea { background: #fff; width: 100%; resize: vertical; }
+  .inline-edit textarea:focus { outline: 2px solid var(--purple-light); outline-offset: 1px; }
+  .inline-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* Reseñas */
+  .card-head .grow { flex: 1; }
+
+  .avg {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--purple-bg);
+    padding: 5px 13px;
+    border-radius: 999px;
+  }
+
+  .avg .star { color: #F5A623; }
+
+  .item-title { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 2px; }
+
+  .stars-wrap { display: flex; align-items: center; flex-wrap: wrap; }
+  .stars { display: inline-flex; gap: 2px; }
+
+  .star-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 28px;
+    line-height: 1;
+    padding: 2px;
+    color: var(--purple-light);
+    transition: transform .1s, color .1s;
+  }
+
+  .star-btn.on { color: #F5A623; }
+  .star-btn:hover { transform: scale(1.15); }
+  .star-btn:focus-visible { outline: 2px solid var(--purple); border-radius: 6px; }
+  .star-text { font-size: 13px; color: var(--ink-soft); margin-left: 10px; }
+
+  .static-stars { color: #F5A623; letter-spacing: 2px; font-size: 15px; margin-right: 6px; }
+  .static-stars .off { color: var(--purple-light); }
+
+  /* Publicaciones */
+  .toolbar {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .toolbar .form-group { margin: 0; }
+  .shown { font-size: 12px; color: var(--ink-soft); margin-bottom: 14px; }
+
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 16px;
+  }
+
+  .post {
+    background: var(--bg);
+    border: 1px solid var(--purple-light);
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 6px 16px rgba(122,106,216,0.10);
+  }
+
+  /* Espacio para la imagen */
+  .post-img {
+    aspect-ratio: 4 / 3;
+    background: var(--purple-bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .post-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .post-img.noimg img { display: none; }
+
+  .post-ph {
+    display: none;
+    position: absolute;
+    inset: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: var(--ink-soft);
+    font-size: 12px;
+  }
+
+  .post-ph svg { width: 34px; height: 34px; }
+  .post-img.noimg .post-ph { display: flex; }
+  .post.sold .post-img img { filter: grayscale(.7); opacity: .75; }
+
+  .badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 4px 11px;
+    border-radius: 999px;
+  }
+
+  .badge.disp { background: #EAF7EE; color: #2E7D45; }
+  .badge.vend { background: #FBEAEA; color: #C0392B; }
+
+  .post-body { padding: 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .post-name { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 16px; line-height: 1.25; color: var(--ink); overflow-wrap: anywhere; }
+  .post-price { font-weight: 700; font-size: 15px; color: var(--purple-dark); }
+
+  .post-cat {
+    align-self: flex-start;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+  }
+
+  .post-desc { font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); overflow-wrap: anywhere; }
+  .post-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 8px; }
+  .post-actions .comment-edit, .post-actions .comment-delete { padding: 7px 11px; font-size: 12px; }
+
+  /* Modal de producto */
+  .modal-box.wide {
+    max-width: 560px;
+    text-align: left;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+
+  .modal-box.wide h2 { margin-bottom: 16px; }
+  .modal-box .f-err { color: #C0392B; }
+  .modal-actions .btn-primary { flex: 1; padding: 14px 20px; font-size: 14px; border: none; cursor: pointer; }
+  .f-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  .f-grid .span2 { grid-column: 1 / -1; }
+  .modal-box .post-img { border-radius: 12px; margin-bottom: 14px; }
+
+  /* Lista simple de publicaciones */
+  .pub-list { display: flex; flex-direction: column; gap: 12px; }
+  .pub-row { display: flex; align-items: center; gap: 14px; padding: 12px 14px; background: var(--purple-bg); border-radius: 16px; }
+  .pub-thumb { position: relative; width: 56px; height: 56px; flex-shrink: 0; border-radius: 12px; overflow: hidden; background: #fff; }
+  .pub-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pub-thumb.noimg img { display: none; }
+  .pub-ph { display: none; position: absolute; inset: 0; align-items: center; justify-content: center; color: var(--ink-soft); }
+  .pub-ph svg { width: 24px; height: 24px; }
+  .pub-thumb.noimg .pub-ph { display: flex; }
+  .pub-info { flex: 1; min-width: 0; }
+  .pub-name { font-size: 14.5px; font-weight: 500; color: var(--ink); overflow-wrap: anywhere; }
+  .pub-price { font-size: 14px; font-weight: 600; color: var(--purple-dark); }
+  .pub-actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .icon-btn { width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; background: #fff; color: var(--purple-dark); transition: background .2s; }
+  .icon-btn:hover { background: var(--purple-light); }
+  .icon-btn.danger { color: #C0392B; }
+  .icon-btn.danger:hover { background: #FBEAEA; }
+  .icon-btn svg { width: 16px; height: 16px; }
+
+  .type-pill { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: var(--purple-light); color: var(--purple-dark); margin-right: 8px; vertical-align: middle; }
+
+  @media (max-width: 560px) {
+    .toolbar { grid-template-columns: 1fr; }
+    .f-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 
@@ -518,6 +739,8 @@
       <li><a href="campaña.html">Campaña</a></li>
       <li><a href="nosotros.html">Nosotros</a></li>
       <li><a href="contacto.html">Contacto</a></li>
+      <li><a href="Comunidad.html">Comunidad</a></li>
+      <li><a href="Subasta.html">Ventas</a></li>
     </ul>
   </nav>
 
@@ -607,7 +830,7 @@
     </form>
   </div>
 
-  <!-- Comentarios -->
+  <!-- Mis comentarios -->
   <div class="profile-card">
     <div class="card-head">
       <h2>Mis comentarios</h2>
@@ -615,7 +838,7 @@
     </div>
 
     <p class="card-sub">
-      Consulta tu historial, publica comentarios nuevos o edita y elimina los que ya no quieras.
+      Lo que publicaste en Comunidad. Si lo editas o eliminas aquí, también cambia allá.
     </p>
 
     <form class="comment-form" id="commentForm" novalidate>
@@ -623,21 +846,16 @@
         <textarea
           id="commentInput"
           rows="3"
-          maxlength="300"
+          maxlength="280"
           placeholder="Escribe un comentario sobre tu experiencia…"
           aria-label="Texto del comentario"></textarea>
       </div>
 
       <div class="comment-form-row">
-        <span class="char-count" id="charCount">0/300</span>
+        <span class="char-count" id="charCount">0/280</span>
 
         <button type="submit" class="btn-primary" id="commentSubmit">
           Publicar comentario
-        </button>
-
-        <button type="button" class="btn-logout" id="cancelEdit"
-          style="display:none;">
-          Cancelar edición
         </button>
       </div>
 
@@ -646,6 +864,63 @@
 
     <div class="list-title">Historial</div>
     <div id="commentsList"></div>
+  </div>
+
+  <!-- Mis reseñas -->
+  <div class="profile-card">
+    <div class="card-head">
+      <h2>Mis reseñas</h2>
+      <span class="count-pill" id="reviewCount">0</span>
+      <span class="grow"></span>
+      <span class="avg" id="reviewAvg"></span>
+    </div>
+
+    <p class="card-sub">
+      Tus opiniones sobre productos, la tienda o el servicio. También se muestran en la página de Campaña.
+    </p>
+
+    <form class="comment-form" id="reviewForm" novalidate>
+      <div class="form-group">
+        <label for="reviewTarget">¿Sobre qué es tu reseña?</label>
+        <select id="reviewTarget"></select>
+      </div>
+
+      <div class="form-group">
+        <label>Tu puntuación</label>
+        <div id="reviewStars"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="reviewText">Tu reseña</label>
+        <textarea
+          id="reviewText"
+          rows="3"
+          maxlength="280"
+          placeholder="Cuéntanos tu experiencia…"></textarea>
+      </div>
+
+      <div class="comment-form-row">
+        <span class="char-count" id="reviewCounter">0/280</span>
+        <button type="submit" class="btn-primary">Publicar reseña</button>
+      </div>
+
+      <p class="f-err" id="reviewError" role="alert"></p>
+    </form>
+
+    <div class="list-title">Historial</div>
+    <div id="reviewsList"></div>
+  </div>
+
+  <!-- Mis publicaciones -->
+  <div class="profile-card">
+    <div class="card-head">
+      <h2 id="postsTitle">Mis publicaciones (0)</h2>
+      <span class="grow"></span>
+      <button type="button" class="btn-primary" id="postNew"
+        style="padding:10px 20px;font-size:13.5px;">+ Publicar</button>
+    </div>
+
+    <div id="postsWrap"></div>
   </div>
 
   <!-- Compras -->
@@ -672,7 +947,7 @@
 
 </section>
 
-<!-- Cuadro para confirmar eliminación -->
+<!-- Cuadro para confirmar eliminación (sirve para comentarios, reseñas y productos) -->
 <div class="modal-overlay" id="deleteOverlay"
   role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
 
@@ -687,7 +962,7 @@
     </div>
 
     <h2 id="deleteTitle">Eliminar comentario</h2>
-    <p>¿Quieres eliminar este comentario? Esta acción no se puede deshacer.</p>
+    <p id="deleteText">¿Quieres eliminar este comentario? Esta acción no se puede deshacer.</p>
 
     <p class="confirm-preview" id="deletePreview"></p>
 
@@ -700,6 +975,75 @@
         Eliminar
       </button>
     </div>
+  </div>
+</div>
+
+<!-- Modal para publicar / editar un producto -->
+<div class="modal-overlay" id="postOverlay"
+  role="dialog" aria-modal="true" aria-labelledby="postFormTitle">
+
+  <div class="modal-box wide">
+    <h2 id="postFormTitle">Publicar producto</h2>
+
+    <form id="postForm" novalidate>
+      <div class="f-grid">
+        <div class="form-group span2">
+          <label for="pfName">Nombre</label>
+          <input type="text" id="pfName" maxlength="60" placeholder="Ej. Labubu Macaron — caja sellada">
+        </div>
+
+        <div class="form-group span2">
+          <label for="pfDesc">Descripción</label>
+          <textarea id="pfDesc" rows="3" maxlength="200" placeholder="Estado, serie, detalles…"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="pfPrice">Precio (MXN)</label>
+          <input type="number" id="pfPrice" min="0" step="0.01" placeholder="0.00">
+        </div>
+
+        <div class="form-group">
+          <label for="pfCat">Categoría</label>
+          <select id="pfCat"></select>
+        </div>
+
+        <div class="form-group span2">
+          <label for="pfUrl">Imagen (URL)</label>
+          <input type="text" id="pfUrl" placeholder="https://…">
+        </div>
+
+        <div class="form-group span2">
+          <label for="pfFile">…o sube un archivo</label>
+          <input type="file" id="pfFile" accept="image/*">
+        </div>
+
+        <!-- Espacio de la imagen / vista previa -->
+        <div class="span2">
+          <div class="post-img noimg" id="pfPreviewBox">
+            <img id="pfPreview" alt="Vista previa de la imagen">
+            <div class="post-ph">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="M4 18l5-5 4 4 3-3 4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Sin imagen
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="pfStatus">Estado</label>
+          <select id="pfStatus">
+            <option>Disponible</option>
+            <option>Agotado</option>
+          </select>
+        </div>
+      </div>
+
+      <p class="f-err" id="pfError" role="alert"></p>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" id="pfCancel">Cancelar</button>
+        <button type="submit" class="btn-primary" id="pfSubmit">Publicar</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -790,6 +1134,8 @@
 </footer>
 
 <script>
+  const $ = function (id) { return document.getElementById(id); };
+
   // ==========================================
   // DATOS DEL PERFIL
   // ==========================================
@@ -800,44 +1146,36 @@
     const telefono = localStorage.getItem('bb_user_phone');
     const direccion = localStorage.getItem('bb_user_address');
 
-    document.getElementById('pf-name').textContent =
-      nombre || 'Coleccionista Blindbox';
+    $('pf-name').textContent = nombre || 'Coleccionista Blindbox';
+    $('pf-data-name').textContent = nombre || 'Coleccionista Blindbox';
 
-    document.getElementById('pf-data-name').textContent =
-      nombre || 'Coleccionista Blindbox';
-
-    document.getElementById('pf-avatar').textContent =
+    $('pf-avatar').textContent =
       nombre && nombre.trim()
         ? nombre.trim().charAt(0).toUpperCase()
         : 'B';
 
-    document.getElementById('pf-data-email').textContent =
-      correo || 'sin correo registrado';
+    $('pf-data-email').textContent = correo || 'sin correo registrado';
+    $('pf-data-phone').textContent = telefono || 'sin teléfono registrado';
+    $('pf-data-address').textContent = direccion || 'sin dirección registrada';
 
-    document.getElementById('pf-data-phone').textContent =
-      telefono || 'sin teléfono registrado';
-
-    document.getElementById('pf-data-address').textContent =
-      direccion || 'sin dirección registrada';
-
-    document.getElementById('edit-nombre').value = nombre || '';
-    document.getElementById('edit-correo').value = correo || '';
-    document.getElementById('edit-telefono').value = telefono || '';
-    document.getElementById('edit-direccion').value = direccion || '';
+    $('edit-nombre').value = nombre || '';
+    $('edit-correo').value = correo || '';
+    $('edit-telefono').value = telefono || '';
+    $('edit-direccion').value = direccion || '';
   }
 
   cargarDatos();
 
-  document.getElementById('editForm').addEventListener('submit', function(e) {
+  $('editForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const nombre = document.getElementById('edit-nombre').value.trim();
-    const correo = document.getElementById('edit-correo').value.trim();
-    const telefono = document.getElementById('edit-telefono').value.trim();
-    const direccion = document.getElementById('edit-direccion').value.trim();
+    const nombre = $('edit-nombre').value.trim();
+    const correo = $('edit-correo').value.trim();
+    const telefono = $('edit-telefono').value.trim();
+    const direccion = $('edit-direccion').value.trim();
 
     if (!nombre) {
-      document.getElementById('edit-nombre').focus();
+      $('edit-nombre').focus();
       return;
     }
 
@@ -848,15 +1186,15 @@
 
     cargarDatos();
 
-    const msg = document.getElementById('saveMsg');
+    const msg = $('saveMsg');
     msg.classList.add('show');
 
-    setTimeout(function() {
+    setTimeout(function () {
       msg.classList.remove('show');
     }, 2500);
   });
 
-  document.getElementById('logoutBtn').addEventListener('click', function() {
+  $('logoutBtn').addEventListener('click', function () {
     localStorage.removeItem('bb_user_name');
     localStorage.removeItem('bb_user_email');
     localStorage.removeItem('bb_user_phone');
@@ -868,68 +1206,42 @@
 
 
   // ==========================================
-  // COMENTARIOS
+  // CONFIGURACIÓN Y UTILIDADES
   // ==========================================
 
+  const MAX_CHARS = 280;
+
+  // Cambia esta lista por los productos reales de tu catálogo
+  const PRODUCTOS_RESENA = ['Labubu Exciting Macaron', 'Kit completo Labubu', 'Labubu The Monsters', 'Skullpanda Requiem', 'Hirono Sweet Bean'];
+
+  // Lo que se puede reseñar: la tienda, el servicio o un producto
+  const OBJETIVOS = [
+    { type: 'tienda', target: 'Blindbox MX' },
+    { type: 'servicio', target: 'Atención y envíos' }
+  ].concat(PRODUCTOS_RESENA.map(function (n) { return { type: 'producto', target: n }; }));
+
+  const TIPOS = { producto: 'Producto', tienda: 'Tienda', servicio: 'Servicio' };
+  const CATEGORIAS = ['Cajas ciegas', 'Figuras', 'Peluches', 'Accesorios'];
+
+  // Los datos viven en arreglos (memoria) y se respaldan en localStorage
+  // para que Comunidad.html y esta página compartan la misma información.
   const COMMENTS_KEY = 'bb_comments';
-  const MAX_CHARS = 300;
+  const REVIEWS_KEY = 'bb_reviews';
+  const POSTS_KEY = 'bb_posts';
 
-  // Comentarios de ejemplo para la primera visita
-  function comentariosEjemplo() {
-    const hora = 60 * 60 * 1000;
-    const dia = 24 * hora;
-    const ahora = Date.now();
+  const MIN = 60 * 1000;
+  const HORA = 60 * MIN;
+  const DIA = 24 * HORA;
 
-    const base = [
-      {
-        atras: 2 * dia + 3 * hora,
-        text: 'Mi Skullpanda Requiem llegó muy bien empacada. ¡Me tocó el personaje que quería!'
-      },
-      {
-        atras: 6 * dia + 8 * hora,
-        text: '¿Habrá más figuras de Hirono pronto? Me quedé con ganas de otra caja de la serie Sweet Bean.'
-      },
-      {
-        atras: 15 * dia + 5 * hora,
-        text: 'Muy buena atención por WhatsApp: respondieron rapidísimo mis dudas sobre el kit completo.'
-      },
-      {
-        atras: 30 * dia + 10 * hora,
-        text: 'El código BLIND10 me funcionó perfecto en mi segunda compra. ¡Gracias!'
-      }
-    ];
-
-    return base.map(function(s, i) {
-      return {
-        id: 'c-ejemplo-' + (i + 1),
-        text: s.text,
-        date: new Date(ahora - s.atras).toISOString()
-      };
-    });
+  function hace(ms) {
+    return new Date(Date.now() - ms).toISOString();
   }
 
-  function readComments() {
-    const raw = localStorage.getItem(COMMENTS_KEY);
-
-    if (raw === null) {
-      const ejemplo = comentariosEjemplo();
-      writeComments(ejemplo);
-      return ejemplo;
-    }
-
-    try {
-      const v = JSON.parse(raw);
-      return Array.isArray(v) ? v : [];
-    } catch (e) {
-      return [];
-    }
+  function nuevoId(prefijo) {
+    return prefijo + '-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
   }
 
-  function writeComments(list) {
-    localStorage.setItem(COMMENTS_KEY, JSON.stringify(list));
-  }
-
-  // Evita que los comentarios se interpreten como código HTML
+  // Evita que el texto del usuario se interprete como código HTML
   function esc(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;')
@@ -940,17 +1252,12 @@
   }
 
   function preview(texto) {
-    return texto.length > 70
-      ? texto.slice(0, 70) + '…'
-      : texto;
+    return texto.length > 70 ? texto.slice(0, 70) + '…' : texto;
   }
 
   function formatDateTime(iso) {
     const d = new Date(iso);
-
-    if (isNaN(d.getTime())) {
-      return '';
-    }
+    if (isNaN(d.getTime())) return '';
 
     return d.toLocaleString('es-MX', {
       day: 'numeric',
@@ -961,15 +1268,58 @@
     });
   }
 
+  let toastTimer = null;
   function showToast(texto) {
-    const toast = document.getElementById('toast');
-
+    const toast = $('toast');
     toast.textContent = texto;
     toast.classList.add('show');
 
-    setTimeout(function() {
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
       toast.classList.remove('show');
     }, 2200);
+  }
+
+  function guardar(key, lista) {
+    try {
+      localStorage.setItem(key, JSON.stringify(lista));
+      return true;
+    } catch (e) {
+      showToast('No se pudo guardar: almacenamiento lleno');
+      return false;
+    }
+  }
+
+  function leer(key, semilla) {
+    let raw = null;
+    try { raw = localStorage.getItem(key); } catch (e) {}
+
+    if (raw !== null) {
+      try {
+        const v = JSON.parse(raw);
+        return Array.isArray(v) ? v : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    const inicial = semilla();
+    guardar(key, inicial);
+    return inicial;
+  }
+
+  function actualizarContador(el, n) {
+    el.textContent = n + '/' + MAX_CHARS;
+    el.classList.toggle('warn', n >= MAX_CHARS - 20);
+  }
+
+  function mostrarError(el, texto) {
+    el.textContent = texto;
+    el.classList.add('show');
+  }
+
+  function ocultarError(el) {
+    el.classList.remove('show');
   }
 
   const iconoBasura =
@@ -983,299 +1333,790 @@
       '<path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z" stroke-linecap="round" stroke-linejoin="round"/>' +
     '</svg>';
 
+  const iconoImagen =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">' +
+      '<rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.8"/>' +
+      '<path d="M4 18l5-5 4 4 3-3 4 4" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '</svg>';
+
 
   // ==========================================
-  // MOSTRAR COMENTARIOS
+  // CONFIRMAR ELIMINACIÓN (un solo cuadro para todo)
   // ==========================================
+
+  const deleteOverlay = $('deleteOverlay');
+  let alConfirmar = null;
+
+  function confirmar(titulo, texto, vista, fn) {
+    $('deleteTitle').textContent = titulo;
+    $('deleteText').textContent = texto;
+    $('deletePreview').textContent = vista;
+
+    alConfirmar = fn;
+    deleteOverlay.classList.add('show');
+    $('btnDeleteCancel').focus();
+  }
+
+  function cerrarEliminar() {
+    deleteOverlay.classList.remove('show');
+    alConfirmar = null;
+  }
+
+  $('btnDeleteCancel').addEventListener('click', cerrarEliminar);
+
+  deleteOverlay.addEventListener('click', function (e) {
+    if (e.target === deleteOverlay) cerrarEliminar();
+  });
+
+  $('btnDeleteConfirm').addEventListener('click', function () {
+    const fn = alConfirmar;
+    cerrarEliminar();
+    if (fn) fn();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      cerrarEliminar();
+      cerrarPost();
+    }
+  });
+
+
+  // ==========================================
+  // 1) MIS COMENTARIOS
+  // ==========================================
+
+  function comentariosEjemplo() {
+    return [
+      { id: 'c-ejemplo-1', date: hace(2 * DIA + 3 * HORA), text: 'Mi Skullpanda Requiem llegó muy bien empacada. ¡Me tocó el personaje que quería!' },
+      { id: 'c-ejemplo-2', date: hace(6 * DIA + 8 * HORA), text: '¿Habrá más figuras de Hirono pronto? Me quedé con ganas de otra caja de la serie Sweet Bean.' },
+      { id: 'c-ejemplo-3', date: hace(15 * DIA + 5 * HORA), text: 'Muy buena atención por WhatsApp: respondieron rapidísimo mis dudas sobre el kit completo.' },
+      { id: 'c-ejemplo-4', date: hace(30 * DIA + 10 * HORA), text: 'El código BLIND10 me funcionó perfecto en mi segunda compra. ¡Gracias!' }
+    ];
+  }
+
+  let comentarios = leer(COMMENTS_KEY, comentariosEjemplo);
+  let comentarioEnEdicion = null;
 
   function renderComments() {
-    const comments = readComments().slice().sort(function(a, b) {
+    const lista = comentarios.slice().sort(function (a, b) {
       return new Date(b.date) - new Date(a.date);
     });
 
-    const wrap = document.getElementById('commentsList');
+    const wrap = $('commentsList');
+    $('commentCount').textContent = lista.length;
 
-    document.getElementById('commentCount').textContent =
-      comments.length;
-
-    if (comments.length === 0) {
+    if (lista.length === 0) {
       wrap.innerHTML =
         '<div class="profile-empty">' +
-          'Todavía no tienes comentarios.<br>' +
+          'Aún no tienes comentarios.<br>' +
           '<button type="button" class="btn-restore" id="btnRestore">' +
             'Restaurar comentarios de ejemplo' +
           '</button>' +
         '</div>';
-
       return;
     }
 
-    wrap.innerHTML = comments.map(function(c) {
+    wrap.innerHTML = lista.map(function (c) {
+
+      // Modo edición: el texto se convierte en un campo editable
+      if (c.id === comentarioEnEdicion) {
+        return (
+          '<div class="comment-item">' +
+            '<div class="inline-edit">' +
+              '<div class="form-group">' +
+                '<textarea id="cEditText" rows="3" maxlength="' + MAX_CHARS + '" aria-label="Editar comentario">' +
+                  esc(c.text) +
+                '</textarea>' +
+              '</div>' +
+              '<div class="comment-form-row">' +
+                '<span class="char-count" id="cEditCounter">' + c.text.length + '/' + MAX_CHARS + '</span>' +
+                '<div class="inline-actions">' +
+                  '<button type="button" class="btn-primary btn-small" data-act="c-save" data-id="' + esc(c.id) + '">Guardar</button>' +
+                  '<button type="button" class="btn-logout btn-small" data-act="c-cancel">Cancelar</button>' +
+                '</div>' +
+              '</div>' +
+              '<p class="f-err" id="cEditErr" role="alert"></p>' +
+            '</div>' +
+          '</div>'
+        );
+      }
+
       return (
         '<div class="comment-item">' +
-
           '<div class="comment-body">' +
             '<p class="comment-text">' + esc(c.text) + '</p>' +
-            '<span class="comment-date">' +
-              esc(formatDateTime(c.date)) +
+            '<span class="comment-date">' + esc(formatDateTime(c.date)) +
+              (c.edited ? '<span class="edited">(editado)</span>' : '') +
             '</span>' +
           '</div>' +
-
           '<div class="comment-actions">' +
-
-            '<button type="button" class="comment-edit" data-id="' +
-              esc(c.id) + '">' +
-              iconoEditar + 'Editar' +
-            '</button>' +
-
-            '<button type="button" class="comment-delete" data-id="' +
-              esc(c.id) + '">' +
-              iconoBasura + 'Eliminar' +
-            '</button>' +
-
+            '<button type="button" class="comment-edit" data-act="c-edit" data-id="' + esc(c.id) + '">' + iconoEditar + 'Editar</button>' +
+            '<button type="button" class="comment-delete" data-act="c-del" data-id="' + esc(c.id) + '">' + iconoBasura + 'Eliminar</button>' +
           '</div>' +
-
         '</div>'
       );
     }).join('');
   }
 
-
-  // ==========================================
-  // PUBLICAR Y EDITAR COMENTARIOS
-  // ==========================================
-
-  const commentForm = document.getElementById('commentForm');
-  const commentInput = document.getElementById('commentInput');
-  const commentError = document.getElementById('commentError');
-  const charCount = document.getElementById('charCount');
-  const commentSubmit = document.getElementById('commentSubmit');
-  const cancelEdit = document.getElementById('cancelEdit');
-
-  // Si contiene un ID, estamos editando un comentario
-  let idPorEditar = null;
-
-  function restablecerFormulario() {
-    idPorEditar = null;
-
-    commentInput.value = '';
-    charCount.textContent = '0/' + MAX_CHARS;
-
-    commentSubmit.textContent = 'Publicar comentario';
-    cancelEdit.style.display = 'none';
-
-    commentError.textContent = '';
-    commentError.classList.remove('show');
-  }
-
-  // Contador de caracteres
-  commentInput.addEventListener('input', function() {
-    charCount.textContent =
-      commentInput.value.length + '/' + MAX_CHARS;
-
-    commentError.classList.remove('show');
+  // Crear comentario
+  $('commentInput').addEventListener('input', function () {
+    actualizarContador($('charCount'), this.value.length);
+    $('commentError').classList.remove('show');
   });
 
-  // Seleccionar un comentario para editar
-  document.getElementById('commentsList').addEventListener('click', function(e) {
-    const btn = e.target.closest('.comment-edit');
-
-    if (!btn) {
-      return;
-    }
-
-    const comentario = readComments().find(function(c) {
-      return c.id === btn.dataset.id;
-    });
-
-    if (!comentario) {
-      showToast('No se encontró el comentario');
-      return;
-    }
-
-    idPorEditar = comentario.id;
-
-    commentInput.value = comentario.text;
-    charCount.textContent =
-      comentario.text.length + '/' + MAX_CHARS;
-
-    commentSubmit.textContent = 'Guardar edición';
-    cancelEdit.style.display = 'inline-flex';
-
-    commentError.textContent = '';
-    commentError.classList.remove('show');
-
-    commentForm.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
-    });
-
-    commentInput.focus();
-  });
-
-  // Cancelar edición sin guardar los cambios
-  cancelEdit.addEventListener('click', function() {
-    restablecerFormulario();
-    showToast('Edición cancelada');
-  });
-
-  // Publicar un comentario nuevo o actualizar uno existente
-  commentForm.addEventListener('submit', function(e) {
+  $('commentForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const texto = commentInput.value.trim();
+    const texto = $('commentInput').value.trim();
+    const error = $('commentError');
 
-    if (texto.length < 3) {
-      commentError.textContent =
-        'Escribe tu comentario antes de continuar (mínimo 3 caracteres).';
-
-      commentError.classList.add('show');
-      commentInput.focus();
+    if (!texto) {
+      error.textContent = 'El comentario no puede estar vacío.';
+      error.classList.add('show');
+      $('commentInput').focus();
       return;
     }
 
-    const comments = readComments();
+    if (texto.length > MAX_CHARS) {
+      error.textContent = 'Máximo ' + MAX_CHARS + ' caracteres.';
+      error.classList.add('show');
+      return;
+    }
 
-    if (idPorEditar) {
-      // Buscar el comentario que se está editando
-      const indice = comments.findIndex(function(c) {
-        return c.id === idPorEditar;
-      });
+    comentarios.unshift({ id: nuevoId('c'), text: texto, date: new Date().toISOString() });
+    guardar(COMMENTS_KEY, comentarios);
 
-      if (indice === -1) {
-        showToast('No se encontró el comentario');
-        restablecerFormulario();
-        return;
-      }
+    $('commentInput').value = '';
+    actualizarContador($('charCount'), 0);
+    renderComments();
+    showToast('Comentario publicado correctamente');
+  });
 
-      // Actualizar el comentario existente
-      comments[indice].text = texto.slice(0, MAX_CHARS);
-      comments[indice].date = new Date().toISOString();
-
-      writeComments(comments);
-
-      restablecerFormulario();
-      renderComments();
-
-      showToast('Comentario actualizado correctamente');
-
-    } else {
-      // Crear un comentario nuevo
-      comments.unshift({
-        id: 'c-' + Date.now() + '-' +
-          Math.floor(Math.random() * 1000),
-
-        text: texto.slice(0, MAX_CHARS),
-        date: new Date().toISOString()
-      });
-
-      writeComments(comments);
-
-      restablecerFormulario();
-      renderComments();
-
-      showToast('Comentario publicado correctamente');
+  // Contador mientras se edita
+  $('commentsList').addEventListener('input', function (e) {
+    if (e.target.id === 'cEditText') {
+      actualizarContador($('cEditCounter'), e.target.value.length);
+      ocultarError($('cEditErr'));
     }
   });
 
+  // Editar / guardar / cancelar / eliminar / restaurar
+  $('commentsList').addEventListener('click', function (e) {
 
-  // ==========================================
-  // ELIMINAR COMENTARIOS CON CONFIRMACIÓN
-  // ==========================================
-
-  const deleteOverlay = document.getElementById('deleteOverlay');
-
-  let idPorEliminar = null;
-
-  // Abrir el cuadro de confirmación
-  document.getElementById('commentsList').addEventListener('click', function(e) {
-
-    // Restaurar comentarios de ejemplo si la lista está vacía
     if (e.target.closest('#btnRestore')) {
-      writeComments(comentariosEjemplo());
+      comentarios = comentariosEjemplo();
+      guardar(COMMENTS_KEY, comentarios);
       renderComments();
       showToast('Comentarios de ejemplo restaurados');
       return;
     }
 
-    const btn = e.target.closest('.comment-delete');
+    const btn = e.target.closest('[data-act]');
+    if (!btn) return;
 
-    if (!btn) {
-      return;
+    const id = btn.dataset.id;
+    const accion = btn.dataset.act;
+
+    if (accion === 'c-edit') {
+      comentarioEnEdicion = id;
+      renderComments();
+
+      const t = $('cEditText');
+      t.focus();
+      t.setSelectionRange(t.value.length, t.value.length);
+
+    } else if (accion === 'c-cancel') {
+      comentarioEnEdicion = null;
+      renderComments();
+      showToast('Edición cancelada');
+
+    } else if (accion === 'c-save') {
+      const texto = $('cEditText').value.trim();
+
+      if (!texto) {
+        mostrarError($('cEditErr'), 'El comentario no puede estar vacío.');
+        return;
+      }
+      if (texto.length > MAX_CHARS) {
+        mostrarError($('cEditErr'), 'Máximo ' + MAX_CHARS + ' caracteres.');
+        return;
+      }
+
+      const c = comentarios.find(function (x) { return x.id === id; });
+      if (c) {
+        c.text = texto;
+        c.edited = true;
+        guardar(COMMENTS_KEY, comentarios);
+      }
+
+      comentarioEnEdicion = null;
+      renderComments();
+      showToast('Comentario actualizado correctamente');
+
+    } else if (accion === 'c-del') {
+      const c = comentarios.find(function (x) { return x.id === id; });
+      if (!c) return;
+
+      confirmar(
+        'Eliminar comentario',
+        '¿Quieres eliminar este comentario? Esta acción no se puede deshacer.',
+        '“' + preview(c.text) + '”',
+        function () {
+          comentarios = comentarios.filter(function (x) { return x.id !== id; });
+          guardar(COMMENTS_KEY, comentarios);
+          if (comentarioEnEdicion === id) comentarioEnEdicion = null;
+          renderComments();
+          showToast('Comentario eliminado correctamente');
+        }
+      );
     }
-
-    const comment = readComments().find(function(c) {
-      return c.id === btn.dataset.id;
-    });
-
-    if (!comment) {
-      showToast('No se encontró el comentario');
-      return;
-    }
-
-    idPorEliminar = comment.id;
-
-    document.getElementById('deletePreview').textContent =
-      '“' + preview(comment.text) + '”';
-
-    deleteOverlay.classList.add('show');
-
-    document.getElementById('btnDeleteCancel').focus();
   });
 
-  // Cerrar el cuadro sin eliminar
-  function cerrarEliminar() {
-    deleteOverlay.classList.remove('show');
-    idPorEliminar = null;
+
+  // ==========================================
+  // 2) MIS RESEÑAS
+  // ==========================================
+
+  function resenasEjemplo() {
+    return [
+      { id: 'r-ejemplo-1', type: 'producto', target: 'Labubu Exciting Macaron', rating: 5, date: hace(4 * DIA), text: 'La figura llegó perfecta y el empaque es hermoso. ¡Me tocó el personaje que quería!' },
+      { id: 'r-ejemplo-2', type: 'servicio', target: 'Atención y envíos', rating: 4, date: hace(12 * DIA), text: 'Me respondieron rápido por WhatsApp y el envío llegó en tiempo.' }
+    ];
   }
 
-  document.getElementById('btnDeleteCancel').addEventListener('click', function() {
-    cerrarEliminar();
+  let resenas = leer(REVIEWS_KEY, resenasEjemplo);
+
+  // Compatibilidad: las reseñas viejas usaban el campo "campaign"
+  resenas.forEach(function (r) {
+    if (!r.target) { r.target = r.campaign || 'Blindbox MX'; r.type = r.type || 'producto'; }
+    if (!r.type) r.type = 'producto';
   });
 
-  // Cerrar al pulsar fuera del cuadro
-  deleteOverlay.addEventListener('click', function(e) {
-    if (e.target === deleteOverlay) {
-      cerrarEliminar();
+  function tituloResena(r) {
+    return '<span class="type-pill">' + esc(TIPOS[r.type] || 'Producto') + '</span>' + esc(r.target);
+  }
+  let resenaEnEdicion = null;
+  let estrellasNuevas = null;
+  let estrellasEdicion = null;
+
+  // Selector de estrellas: hover, clic y teclado
+  function crearEstrellas(cont, inicial) {
+    let valor = inicial || 0;
+    let hover = 0;
+
+    cont.className = 'stars-wrap';
+    cont.innerHTML =
+      '<div class="stars" role="radiogroup" aria-label="Puntuación de 1 a 5 estrellas">' +
+        [1, 2, 3, 4, 5].map(function (n) {
+          return '<button type="button" class="star-btn" role="radio" aria-label="' +
+            n + (n === 1 ? ' estrella' : ' estrellas') + '">★</button>';
+        }).join('') +
+      '</div>' +
+      '<span class="star-text"></span>';
+
+    const grupo = cont.firstChild;
+    const botones = Array.prototype.slice.call(grupo.children);
+    const texto = cont.lastChild;
+
+    function pintar() {
+      const v = hover || valor;
+
+      botones.forEach(function (b, i) {
+        b.classList.toggle('on', i < v);
+        b.setAttribute('aria-checked', String(i + 1 === valor));
+        b.tabIndex = (valor ? i + 1 === valor : i === 0) ? 0 : -1;
+      });
+
+      texto.textContent = v ? v + ' de 5 estrellas' : 'Sin puntuación';
     }
-  });
 
-  // Cerrar al pulsar Escape
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      cerrarEliminar();
+    function fijar(n) {
+      valor = n;
+      hover = 0;
+      pintar();
     }
-  });
 
-  // Confirmar eliminación
-  document.getElementById('btnDeleteConfirm').addEventListener('click', function() {
-    if (!idPorEliminar) {
+    botones.forEach(function (b, i) {
+      b.addEventListener('mouseenter', function () { hover = i + 1; pintar(); });
+      b.addEventListener('click', function () { fijar(i + 1); });
+    });
+
+    grupo.addEventListener('mouseleave', function () { hover = 0; pintar(); });
+
+    grupo.addEventListener('keydown', function (e) {
+      let n = valor;
+
+      if (e.key === 'ArrowRight' || e.key === 'ArrowUp') n = Math.min(5, n + 1);
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') n = Math.max(1, n - 1);
+      else if (e.key === 'Home') n = 1;
+      else if (e.key === 'End') n = 5;
+      else if (/^[1-5]$/.test(e.key)) n = Number(e.key);
+      else return;
+
+      e.preventDefault();
+      fijar(n);
+      botones[n - 1].focus();
+    });
+
+    pintar();
+
+    return {
+      get: function () { return valor; },
+      set: function (v) { valor = v; hover = 0; pintar(); }
+    };
+  }
+
+  function estrellasFijas(n) {
+    let s = '';
+    for (let i = 1; i <= 5; i++) {
+      s += i <= n ? '★' : '<span class="off">★</span>';
+    }
+    return '<span class="static-stars" role="img" aria-label="' + n + ' de 5 estrellas">' + s + '</span>';
+  }
+
+  function renderReviews() {
+    const lista = resenas.slice().sort(function (a, b) {
+      return new Date(b.date) - new Date(a.date);
+    });
+
+    $('reviewCount').textContent = lista.length;
+
+    // Promedio del usuario
+    if (lista.length) {
+      const prom = lista.reduce(function (suma, r) { return suma + r.rating; }, 0) / lista.length;
+      $('reviewAvg').innerHTML = '<span class="star">★</span> ' + prom.toFixed(1) + ' / 5 promedio';
+    } else {
+      $('reviewAvg').textContent = 'Sin puntuaciones aún';
+    }
+
+    if (lista.length === 0) {
+      $('reviewsList').innerHTML =
+        '<div class="profile-empty">Aún no tienes reseñas. ¡Califica una campaña!</div>';
       return;
     }
 
-    const idEliminado = idPorEliminar;
+    $('reviewsList').innerHTML = lista.map(function (r) {
 
-    const comments = readComments().filter(function(c) {
-      return c.id !== idEliminado;
-    });
+      if (r.id === resenaEnEdicion) {
+        return (
+          '<div class="comment-item">' +
+            '<div class="inline-edit">' +
+              '<div class="item-title">' + tituloResena(r) + '</div>' +
+              '<div class="form-group"><div id="rEditStars"></div></div>' +
+              '<div class="form-group">' +
+                '<textarea id="rEditText" rows="3" maxlength="' + MAX_CHARS + '" aria-label="Editar reseña">' +
+                  esc(r.text) +
+                '</textarea>' +
+              '</div>' +
+              '<div class="comment-form-row">' +
+                '<span class="char-count" id="rEditCounter">' + r.text.length + '/' + MAX_CHARS + '</span>' +
+                '<div class="inline-actions">' +
+                  '<button type="button" class="btn-primary btn-small" data-act="r-save" data-id="' + esc(r.id) + '">Guardar</button>' +
+                  '<button type="button" class="btn-logout btn-small" data-act="r-cancel">Cancelar</button>' +
+                '</div>' +
+              '</div>' +
+              '<p class="f-err" id="rEditErr" role="alert"></p>' +
+            '</div>' +
+          '</div>'
+        );
+      }
 
-    writeComments(comments);
+      return (
+        '<div class="comment-item">' +
+          '<div class="comment-body">' +
+            '<div class="item-title">' + tituloResena(r) + '</div>' +
+            estrellasFijas(r.rating) +
+            '<span class="comment-date">' + r.rating + ' de 5 estrellas</span>' +
+            '<p class="comment-text" style="margin-top:6px;">' + esc(r.text) + '</p>' +
+            '<span class="comment-date">' + esc(formatDateTime(r.date)) +
+              (r.edited ? '<span class="edited">(editado)</span>' : '') +
+            '</span>' +
+          '</div>' +
+          '<div class="comment-actions">' +
+            '<button type="button" class="comment-edit" data-act="r-edit" data-id="' + esc(r.id) + '">' + iconoEditar + 'Editar</button>' +
+            '<button type="button" class="comment-delete" data-act="r-del" data-id="' + esc(r.id) + '">' + iconoBasura + 'Eliminar</button>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
 
-    // Si se estaba editando el mismo comentario, cancelar la edición
-    if (idPorEditar === idEliminado) {
-      restablecerFormulario();
+    // Activar las estrellas de la reseña que se está editando
+    if (resenaEnEdicion) {
+      const r = resenas.find(function (x) { return x.id === resenaEnEdicion; });
+      estrellasEdicion = crearEstrellas($('rEditStars'), r ? r.rating : 0);
     }
+  }
 
-    cerrarEliminar();
-    renderComments();
+  // Formulario de reseña nueva
+  function opcionesObjetivo(tipo) {
+    return OBJETIVOS.map(function (o, i) { return { o: o, i: i }; })
+      .filter(function (x) { return tipo === 'producto' ? x.o.type === 'producto' : x.o.type !== 'producto'; })
+      .map(function (x) { return '<option value="' + x.i + '">' + esc(x.o.target) + '</option>'; }).join('');
+  }
 
-    showToast('Comentario eliminado correctamente');
+  $('reviewTarget').innerHTML =
+    '<option value="">Elige qué quieres reseñar…</option>' +
+    '<optgroup label="Tienda y servicio">' + opcionesObjetivo('tienda') + '</optgroup>' +
+    '<optgroup label="Productos">' + opcionesObjetivo('producto') + '</optgroup>';
+
+  estrellasNuevas = crearEstrellas($('reviewStars'), 0);
+
+  $('reviewText').addEventListener('input', function () {
+    actualizarContador($('reviewCounter'), this.value.length);
+    ocultarError($('reviewError'));
+  });
+
+  $('reviewForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const idx = $('reviewTarget').value;
+    const objetivo = OBJETIVOS[Number(idx)];
+    const puntos = estrellasNuevas.get();
+    const texto = $('reviewText').value.trim();
+
+    if (idx === '' || !objetivo) { mostrarError($('reviewError'), 'Elige qué quieres reseñar: un producto, la tienda o el servicio.'); return; }
+    if (!puntos) { mostrarError($('reviewError'), 'Selecciona una puntuación de 1 a 5 estrellas.'); return; }
+    if (!texto) { mostrarError($('reviewError'), 'La reseña no puede estar vacía.'); $('reviewText').focus(); return; }
+
+    resenas.unshift({
+      id: nuevoId('r'),
+      type: objetivo.type,
+      target: objetivo.target,
+      rating: puntos,
+      text: texto,
+      date: new Date().toISOString()
+    });
+    guardar(REVIEWS_KEY, resenas);
+
+    $('reviewTarget').value = '';
+    $('reviewText').value = '';
+    actualizarContador($('reviewCounter'), 0);
+    estrellasNuevas.set(0);
+    ocultarError($('reviewError'));
+
+    renderReviews();
+    showToast('Reseña publicada');
+  });
+
+  $('reviewsList').addEventListener('input', function (e) {
+    if (e.target.id === 'rEditText') {
+      actualizarContador($('rEditCounter'), e.target.value.length);
+      ocultarError($('rEditErr'));
+    }
+  });
+
+  $('reviewsList').addEventListener('click', function (e) {
+    const btn = e.target.closest('[data-act]');
+    if (!btn) return;
+
+    const id = btn.dataset.id;
+    const accion = btn.dataset.act;
+
+    if (accion === 'r-edit') {
+      resenaEnEdicion = id;
+      renderReviews();
+      $('rEditText').focus();
+
+    } else if (accion === 'r-cancel') {
+      resenaEnEdicion = null;
+      renderReviews();
+      showToast('Edición cancelada');
+
+    } else if (accion === 'r-save') {
+      const puntos = estrellasEdicion.get();
+      const texto = $('rEditText').value.trim();
+
+      if (!puntos) { mostrarError($('rEditErr'), 'Selecciona una puntuación.'); return; }
+      if (!texto) { mostrarError($('rEditErr'), 'La reseña no puede estar vacía.'); return; }
+
+      const r = resenas.find(function (x) { return x.id === id; });
+      if (r) {
+        r.rating = puntos;
+        r.text = texto;
+        r.edited = true;
+        guardar(REVIEWS_KEY, resenas);
+      }
+
+      resenaEnEdicion = null;
+      renderReviews();
+      showToast('Reseña actualizada');
+
+    } else if (accion === 'r-del') {
+      const r = resenas.find(function (x) { return x.id === id; });
+      if (!r) return;
+
+      confirmar(
+        'Eliminar reseña',
+        '¿Quieres eliminar esta reseña? Esta acción no se puede deshacer.',
+        r.target + ' — ' + r.rating + ' de 5 estrellas',
+        function () {
+          resenas = resenas.filter(function (x) { return x.id !== id; });
+          guardar(REVIEWS_KEY, resenas);
+          if (resenaEnEdicion === id) resenaEnEdicion = null;
+          renderReviews();
+          showToast('Reseña eliminada');
+        }
+      );
+    }
   });
 
 
-  // Mostrar el historial al abrir la página
-  renderComments();
+  // ==========================================
+  // 3) MIS PUBLICACIONES
+  // ==========================================
 
+  // Las imágenes van vacías en los ejemplos: se ve el espacio reservado
+  function publicacionesEjemplo() {
+    return [
+      { id: 'p-ejemplo-1', name: 'Labubu Macaron — caja sellada', desc: 'Caja ciega sellada de la serie Macaron, sin abrir. Se entrega bien protegida.', price: 520, category: 'Cajas ciegas', image: '', status: 'Disponible', date: hace(1 * DIA) },
+      { id: 'p-ejemplo-2', name: 'Skullpanda Requiem (sin caja)', desc: 'Figura en excelente estado, solo exhibida. Incluye base y accesorios originales.', price: 380, category: 'Figuras', image: '', status: 'Agotado', date: hace(3 * DIA) },
+      { id: 'p-ejemplo-3', name: 'Peluche Dimoo Aquarium 25 cm', desc: 'Peluche suave y como nuevo, de la colección Aquarium. Libre de humo y mascotas.', price: 450, category: 'Peluches', image: '', status: 'Disponible', date: hace(6 * DIA) },
+      { id: 'p-ejemplo-4', name: 'Vitrina acrílica para 6 figuras', desc: 'Vitrina con tapa antipolvo y base negra. Ideal para exhibir tu colección.', price: 290, category: 'Accesorios', image: '', status: 'Disponible', date: hace(9 * DIA) }
+    ];
+  }
+
+  let publicaciones = leer(POSTS_KEY, publicacionesEjemplo);
+  publicaciones.forEach(function (p) { if (p.status === 'Vendido') p.status = 'Agotado'; });
+  let publicacionEnEdicion = null;
+  let imagenActual = '';
+
+  $('pfCat').innerHTML =
+    CATEGORIAS.map(function (c) { return '<option>' + esc(c) + '</option>'; }).join('');
+
+  function nombreProducto(p) {
+    return p.name && String(p.name).trim() ? p.name : 'Producto sin nombre';
+  }
+
+  function precioTexto(n) {
+    return (n === null || n === undefined || n === '' || isNaN(n)) ? 'Sin precio' : formatoPrecio(n);
+  }
+
+  function formatoPrecio(n) {
+    return '$' + Number(n).toLocaleString('es-MX', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' MXN';
+  }
+
+  function renderPosts() {
+    const total = publicaciones.length;
+    const lista = publicaciones.slice().sort(function (a, b) {
+      return new Date(b.date) - new Date(a.date);
+    });
+
+    $('postsTitle').textContent = 'Mis publicaciones (' + total + ')';
+
+    if (total === 0) {
+      $('postsWrap').innerHTML =
+        '<div class="profile-empty">' +
+          'Aún no tienes publicaciones.<br>' +
+          '<button type="button" class="btn-primary" data-act="p-new">Publicar mi primer producto</button>' +
+        '</div>';
+      return;
+    }
+
+    $('postsWrap').innerHTML = '<div class="pub-list">' + lista.map(function (p) {
+      return (
+        '<div class="pub-row">' +
+          '<div class="pub-thumb' + (p.image ? '' : ' noimg') + '">' +
+            (p.image ? '<img src="' + esc(p.image) + '" alt="' + esc(nombreProducto(p)) + '" loading="lazy">' : '') +
+            '<span class="pub-ph">' + iconoImagen + '</span>' +
+          '</div>' +
+          '<div class="pub-info">' +
+            '<div class="pub-name">' + esc(nombreProducto(p)) + '</div>' +
+            '<div class="pub-price">' + esc(precioTexto(p.price)) + '</div>' +
+          '</div>' +
+          '<div class="pub-actions">' +
+            '<button type="button" class="icon-btn" data-act="p-edit" data-id="' + esc(p.id) + '" aria-label="Editar ' + esc(nombreProducto(p)) + '" title="Editar">' + iconoEditar + '</button>' +
+            '<button type="button" class="icon-btn danger" data-act="p-del" data-id="' + esc(p.id) + '" aria-label="Eliminar ' + esc(nombreProducto(p)) + '" title="Eliminar">' + iconoBasura + '</button>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('') + '</div>';
+  }
+
+  // Si una imagen (URL) no carga, se muestra el espacio reservado
+  $('postsWrap').addEventListener('error', function (e) {
+    if (e.target.tagName === 'IMG') {
+      e.target.parentNode.classList.add('noimg');
+    }
+  }, true);
+
+  $('postNew').addEventListener('click', function () { abrirPost(null); });
+
+  $('postsWrap').addEventListener('click', function (e) {
+    const btn = e.target.closest('[data-act]');
+    if (!btn) return;
+
+    const accion = btn.dataset.act;
+    if (accion === 'p-new') { abrirPost(null); return; }
+
+    const id = btn.dataset.id;
+    const p = publicaciones.find(function (x) { return x.id === id; });
+    if (!p) return;
+
+    if (accion === 'p-edit') {
+      abrirPost(p);
+
+    } else if (accion === 'p-del') {
+      confirmar(
+        'Eliminar publicación',
+        '¿Quieres eliminar este producto? Esta acción no se puede deshacer.',
+        nombreProducto(p),
+        function () {
+          publicaciones = publicaciones.filter(function (x) { return x.id !== id; });
+          guardar(POSTS_KEY, publicaciones);
+          renderPosts();
+          showToast('Publicación eliminada');
+        }
+      );
+    }
+  });
+
+  // ----- Modal para publicar / editar -----
+  const postOverlay = $('postOverlay');
+
+  function verPreview() {
+    const caja = $('pfPreviewBox');
+    const img = $('pfPreview');
+
+    if (imagenActual) {
+      img.src = imagenActual;
+      caja.classList.remove('noimg');
+    } else {
+      img.removeAttribute('src');
+      caja.classList.add('noimg');
+    }
+  }
+
+  $('pfPreview').addEventListener('error', function () {
+    $('pfPreviewBox').classList.add('noimg');
+  });
+
+  function abrirPost(p) {
+    publicacionEnEdicion = p ? p.id : null;
+
+    $('postFormTitle').textContent = p ? 'Editar publicación' : 'Publicar producto';
+    $('pfSubmit').textContent = p ? 'Guardar cambios' : 'Publicar';
+
+    $('pfName').value = p ? p.name : '';
+    $('pfDesc').value = p ? p.desc : '';
+    $('pfPrice').value = (p && p.price != null) ? p.price : '';
+    $('pfCat').value = p ? p.category : CATEGORIAS[0];
+    $('pfStatus').value = p ? p.status : 'Disponible';
+
+    imagenActual = p ? p.image : '';
+    $('pfUrl').value = /^https?:\/\//i.test(imagenActual) ? imagenActual : '';
+    $('pfFile').value = '';
+
+    ocultarError($('pfError'));
+    verPreview();
+
+    postOverlay.classList.add('show');
+    $('pfName').focus();
+  }
+
+  function cerrarPost() {
+    postOverlay.classList.remove('show');
+  }
+
+  $('pfCancel').addEventListener('click', cerrarPost);
+
+  postOverlay.addEventListener('click', function (e) {
+    if (e.target === postOverlay) cerrarPost();
+  });
+
+  // Imagen por URL
+  $('pfUrl').addEventListener('input', function () {
+    const v = this.value.trim();
+
+    if (/^https?:\/\//i.test(v)) {
+      imagenActual = v;
+      $('pfFile').value = '';
+    } else if (v === '') {
+      imagenActual = '';
+    }
+
+    verPreview();
+  });
+
+  // Imagen desde el equipo (se reduce a 480 px para que quepa en el almacenamiento)
+  $('pfFile').addEventListener('change', function () {
+    const f = this.files[0];
+    if (!f) return;
+
+    if (!/^image\//.test(f.type)) {
+      mostrarError($('pfError'), 'El archivo debe ser una imagen.');
+      this.value = '';
+      return;
+    }
+
+    const lector = new FileReader();
+
+    lector.onload = function () {
+      const im = new Image();
+
+      im.onload = function () {
+        const k = Math.min(1, 480 / Math.max(im.width, im.height));
+        const cv = document.createElement('canvas');
+        cv.width = Math.round(im.width * k);
+        cv.height = Math.round(im.height * k);
+        cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height);
+
+        imagenActual = cv.toDataURL('image/jpeg', 0.8);
+        $('pfUrl').value = '';
+        ocultarError($('pfError'));
+        verPreview();
+      };
+
+      im.onerror = function () {
+        mostrarError($('pfError'), 'No se pudo leer la imagen.');
+      };
+
+      im.src = lector.result;
+    };
+
+    lector.readAsDataURL(f);
+  });
+
+  $('postForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const nombre = $('pfName').value.trim();
+    const desc = $('pfDesc').value.trim();
+    const precio = parseFloat($('pfPrice').value);
+    const url = $('pfUrl').value.trim();
+
+    const datos = {
+      name: nombre,
+      desc: desc,
+      price: isNaN(precio) ? null : Math.max(0, precio),
+      category: $('pfCat').value,
+      image: imagenActual,
+      status: $('pfStatus').value
+    };
+
+    if (publicacionEnEdicion) {
+      const p = publicaciones.find(function (x) { return x.id === publicacionEnEdicion; });
+      if (p) Object.assign(p, datos);
+      showToast('Publicación actualizada');
+    } else {
+      datos.id = nuevoId('p');
+      datos.date = new Date().toISOString();
+      publicaciones.unshift(datos);
+      showToast('Producto publicado');
+    }
+
+    guardar(POSTS_KEY, publicaciones);
+    cerrarPost();
+    renderPosts();
+  });
+
+
+  // ==========================================
+  // INICIO
+  // ==========================================
+  renderComments();
+  renderReviews();
+  renderPosts();
 </script>
 
 </body>
