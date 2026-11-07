@@ -600,17 +600,86 @@
 </footer>
 
 <script>
-  const chips = document.querySelectorAll('.filter-chip');
-  const cards = document.querySelectorAll('.catalog-card');
+  const PRODUCTS_KEY = 'bb_admin_products';
+  const catalogGrid = document.getElementById('catalogGrid');
+  const catalogFilters = document.getElementById('catalogFilters');
   const emptyMsg = document.getElementById('catalogEmpty');
   const searchInput = document.getElementById('catalogSearch');
   const priceFilter = document.getElementById('catalogPriceFilter');
 
   let activeCategory = 'todos';
 
+  function leerProductosAdministrados(){
+    try {
+      const saved = JSON.parse(localStorage.getItem(PRODUCTS_KEY));
+      return Array.isArray(saved) ? saved : null;
+    } catch (e) { return null; }
+  }
+
+  function crearElemento(tag, className, text){
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    if (text != null) element.textContent = text;
+    return element;
+  }
+
+  function renderCatalogo(){
+    const productos = leerProductosAdministrados();
+    if (productos) {
+      catalogGrid.replaceChildren();
+      catalogFilters.replaceChildren();
+
+      const todos = crearElemento('button', 'filter-chip active', 'Todos');
+      todos.type = 'button';
+      todos.dataset.filter = 'todos';
+      catalogFilters.appendChild(todos);
+
+      const lineas = Array.from(new Set(productos.map(function(producto){ return producto && producto.line; }).filter(Boolean)));
+      lineas.forEach(function(linea){
+        const chip = crearElemento('button', 'filter-chip', linea);
+        chip.type = 'button';
+        chip.dataset.filter = linea;
+        catalogFilters.appendChild(chip);
+      });
+
+      productos.forEach(function(producto){
+        if (!producto || !producto.id) return;
+        const card = crearElemento('article', 'catalog-card');
+        card.dataset.line = producto.line || '';
+        card.dataset.price = Number(producto.price) || 0;
+        card.dataset.name = producto.name || '';
+
+        const imageWrap = crearElemento('div', 'catalog-image');
+        if (producto.tag === 'nuevo' || producto.tag === 'oferta') {
+          const badge = crearElemento('span', 'catalog-badge ' + (producto.tag === 'nuevo' ? 'badge-new' : 'badge-sale'), producto.tag === 'nuevo' ? 'Nuevo' : 'Oferta');
+          imageWrap.appendChild(badge);
+        }
+        const image = document.createElement('img');
+        image.src = producto.image || 'images/placeholder.png';
+        image.alt = producto.name || 'Producto';
+        image.onerror = function(){ image.style.display = 'none'; };
+        imageWrap.appendChild(image);
+
+        const line = crearElemento('span', 'catalog-line', producto.line || '');
+        const name = crearElemento('h3', '', producto.name || 'Producto sin nombre');
+        const price = crearElemento('div', 'catalog-price', '$' + (Number(producto.price) || 0).toLocaleString('es-MX') + ' MXN');
+        const detail = crearElemento('a', 'btn-detail', 'Ver detalle');
+        detail.href = 'Producto.html?id=' + encodeURIComponent(producto.id);
+
+        card.append(imageWrap, line, name, price, detail);
+        catalogGrid.appendChild(card);
+      });
+    }
+
+    activeCategory = 'todos';
+    aplicarFiltros();
+  }
+
   function aplicarFiltros(){
     const searchTerm = searchInput.value.trim().toLowerCase();
     const priceRange = priceFilter.value;
+    const chips = catalogFilters.querySelectorAll('.filter-chip');
+    const cards = catalogGrid.querySelectorAll('.catalog-card');
     let visibleCount = 0;
 
     cards.forEach(function(card){
@@ -632,17 +701,21 @@
     emptyMsg.classList.toggle('show', visibleCount === 0);
   }
 
-  chips.forEach(function(chip){
-    chip.addEventListener('click', function(){
-      chips.forEach(function(c){ c.classList.remove('active'); });
+  catalogFilters.addEventListener('click', function(event){
+    const chip = event.target.closest('.filter-chip');
+    if (!chip) return;
+    catalogFilters.querySelectorAll('.filter-chip').forEach(function(c){ c.classList.remove('active'); });
       chip.classList.add('active');
       activeCategory = chip.dataset.filter;
       aplicarFiltros();
-    });
   });
 
   searchInput.addEventListener('input', aplicarFiltros);
   priceFilter.addEventListener('change', aplicarFiltros);
+  window.addEventListener('storage', function(event){
+    if (event.key === PRODUCTS_KEY) renderCatalogo();
+  });
+  renderCatalogo();
 
   // El carrito solo se muestra si el usuario inició sesión
   (function actualizarCarrito(){

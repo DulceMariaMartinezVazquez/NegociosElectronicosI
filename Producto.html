@@ -551,7 +551,7 @@
 
 <script>
   // Catálogo de muestra (modo básico, sin backend). Coincide con los productos de catalogo.html
-  const products = {
+  const defaultProducts = {
     "labubu-1": { line: "Labubu", name: "Labubu Exciting Macaron", price: 299, kitPrice: 1590, images: ["images/L2.png"], desc: "Figura coleccionable de la serie Exciting Macaron. Caja ciega: no sabrás cuál personaje te toca hasta abrirla." },
     "labubu-2": { line: "Labubu", name: "Labubu The Monsters", price: 350, kitPrice: 1850, images: ["images/L1.png"], desc: "Figura coleccionable de la serie The Monsters. Caja ciega: no sabrás cuál personaje te toca hasta abrirla." },
     "hirono-1": { line: "Hirono", name: "Hirono Let's Checkmate", price: 300, kitPrice: 1590, images: ["images/H1.jpg"], desc: "Figura coleccionable de la serie Let's Checkmate. Caja ciega: no sabrás cuál personaje te toca hasta abrirla." },
@@ -565,17 +565,51 @@
     "dimoo-1": { line: "Dimoo", name: "Dimoo Animal Circus", price: 350, kitPrice: 1850, images: ["images/D1.jpg"], desc: "Figura coleccionable de la serie Animal Circus. Caja ciega: no sabrás cuál personaje te toca hasta abrirla." }
   };
 
+  const PRODUCTS_KEY = 'bb_admin_products';
+  const products = Object.assign({}, defaultProducts);
+  let managedProducts = null;
+  try {
+    const savedProducts = JSON.parse(localStorage.getItem(PRODUCTS_KEY));
+    if (Array.isArray(savedProducts)) managedProducts = savedProducts;
+  } catch (e) {}
+
+  if (managedProducts) {
+    const managedIds = new Set(managedProducts.map(function(item){ return item.id; }));
+    Object.keys(products).forEach(function(productId){
+      if (!managedIds.has(productId)) delete products[productId];
+    });
+    managedProducts.forEach(function(item){
+      if (!item || !item.id) return;
+      const base = defaultProducts[item.id] || {};
+      const price = Number(item.price) || Number(base.price) || 0;
+      products[item.id] = Object.assign({}, base, {
+        line: item.line || base.line || 'Coleccionables',
+        name: item.name || base.name || 'Producto',
+        price: price,
+        kitPrice: Number(base.kitPrice) || price,
+        images: [item.image || (base.images && base.images[0]) || 'images/placeholder.png'],
+        desc: base.desc || ('Figura coleccionable de la línea ' + (item.line || 'Blindbox MX') + '.')
+      });
+    });
+  }
+
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id') || 'labubu-1';
-  const product = products[id] || products['labubu-1'];
+  const product = products[id] || (managedProducts ? null : products['labubu-1']);
+  const productUnavailable = !product;
+  const visibleProduct = product || {
+    line: 'No disponible', name: 'Producto no disponible', price: 0,
+    kitPrice: 0, images: [],
+    desc: 'Este producto ya no está disponible en el catálogo.'
+  };
 
   let option = 'caja';
   let qty = 1;
 
-  document.getElementById('pd-line').textContent = product.line;
-  document.getElementById('pd-name').textContent = product.name;
-  document.getElementById('pd-desc').textContent = product.desc;
-  document.title = product.name + " — Blindbox MX";
+  document.getElementById('pd-line').textContent = visibleProduct.line;
+  document.getElementById('pd-name').textContent = visibleProduct.name;
+  document.getElementById('pd-desc').textContent = visibleProduct.desc;
+  document.title = visibleProduct.name + " — Blindbox MX";
 
   const mainImg = document.getElementById('pd-image');
   const thumbsWrap = document.getElementById('pd-thumbs');
@@ -583,18 +617,22 @@
   function setMainImage(src){
     mainImg.style.display = '';
     mainImg.src = src;
-    mainImg.alt = product.name;
+    mainImg.alt = visibleProduct.name;
   }
 
-  setMainImage(product.images[0]);
+  if (visibleProduct.images.length) {
+    setMainImage(visibleProduct.images[0]);
+  } else {
+    document.querySelector('.detail-gallery').style.display = 'none';
+  }
 
-  product.images.forEach(function(src, i){
+  visibleProduct.images.forEach(function(src, i){
     const btn = document.createElement('button');
     btn.type = 'button';
     if (i === 0) btn.classList.add('active');
     const img = document.createElement('img');
     img.src = src;
-    img.alt = product.name + " - referencia " + (i + 1);
+    img.alt = visibleProduct.name + " - referencia " + (i + 1);
     img.onerror = function(){ btn.hidden = true; };
     btn.appendChild(img);
     btn.addEventListener('click', function(){
@@ -628,13 +666,25 @@
   });
 
   function actualizarPrecios(){
-    const unitPrice = option === 'kit' ? product.kitPrice : product.price;
+    const unitPrice = option === 'kit' ? visibleProduct.kitPrice : visibleProduct.price;
     const label = option === 'kit' ? 'Kit completo' : 'Caja sorpresa (1 pieza)';
     document.getElementById('pd-price').textContent = '$' + unitPrice.toLocaleString('es-MX') + ' MXN · ' + label;
     document.getElementById('pd-total').textContent = '$' + (unitPrice * qty).toLocaleString('es-MX') + ' MXN';
   }
 
   actualizarPrecios();
+
+  if (productUnavailable) {
+    const addButton = document.getElementById('pd-cart-btn');
+    addButton.disabled = true;
+    addButton.textContent = 'Producto no disponible';
+    document.getElementById('pd-option-toggle').style.display = 'none';
+    document.getElementById('pd-qty-minus').closest('.qty-row').style.display = 'none';
+    document.querySelectorAll('.detail-actions .option-label, .detail-total').forEach(function(element){
+      element.style.display = 'none';
+    });
+    document.getElementById('pd-price').textContent = 'No disponible';
+  }
 
   // ---------- Carrito (localStorage, sin backend) ----------
   const CART_KEY = 'bb_cart';
@@ -670,7 +720,8 @@
     }
 
     const cart = getCart();
-    const unitPrice = option === 'kit' ? product.kitPrice : product.price;
+    if (productUnavailable) return;
+    const unitPrice = option === 'kit' ? visibleProduct.kitPrice : visibleProduct.price;
     const cartKey = id + '-' + option;
 
     const existing = cart.find(function(item){ return item.key === cartKey; });
@@ -680,11 +731,11 @@
       cart.push({
         key: cartKey,
         id: id,
-        name: product.name,
-        line: product.line,
+        name: visibleProduct.name,
+        line: visibleProduct.line,
         option: option,
         price: unitPrice,
-        image: product.images[0],
+        image: visibleProduct.images[0],
         qty: qty
       });
     }
@@ -701,24 +752,40 @@
 
   // ---------- Productos relacionados ----------
   const relatedGrid = document.getElementById('relatedGrid');
+  if (productUnavailable) {
+    relatedGrid.textContent = 'No hay productos relacionados disponibles.';
+  }
   const sameLine = Object.keys(products).filter(function(key){
-    return key !== id && products[key].line === product.line;
+    return key !== id && products[key].line === visibleProduct.line;
   });
   const others = Object.keys(products).filter(function(key){
-    return key !== id && products[key].line !== product.line;
+    return key !== id && products[key].line !== visibleProduct.line;
   });
   const relatedIds = sameLine.concat(others).slice(0, 4);
 
   relatedIds.forEach(function(key){
     const p = products[key];
     const card = document.createElement('a');
-    card.href = 'producto.html?id=' + key;
+    card.href = 'Producto.html?id=' + encodeURIComponent(key);
     card.className = 'related-card';
-    card.innerHTML =
-      '<div class="related-image"><img src="' + p.images[0] + '" alt="' + p.name + '" onerror="this.style.display=\'none\'"></div>' +
-      '<h3>' + p.name + '</h3>' +
-      '<div class="related-price">$' + p.price.toLocaleString('es-MX') + ' MXN</div>';
+    const imageWrap = document.createElement('div');
+    imageWrap.className = 'related-image';
+    const image = document.createElement('img');
+    image.src = p.images[0];
+    image.alt = p.name;
+    image.onerror = function(){ image.style.display = 'none'; };
+    imageWrap.appendChild(image);
+    const name = document.createElement('h3');
+    name.textContent = p.name;
+    const price = document.createElement('div');
+    price.className = 'related-price';
+    price.textContent = '$' + p.price.toLocaleString('es-MX') + ' MXN';
+    card.append(imageWrap, name, price);
     relatedGrid.appendChild(card);
+  });
+
+  window.addEventListener('storage', function(event){
+    if (event.key === PRODUCTS_KEY) window.location.reload();
   });
 </script>
 

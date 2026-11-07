@@ -515,6 +515,7 @@
 
 <script>
   const CART_KEY = 'bb_cart';
+  const PROMOS_KEY = 'bb_admin_promos';
 
   function getCart(){
     try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
@@ -529,7 +530,20 @@
 
   // ---------- Descuento ----------
   function getDiscount(){
-    try { return JSON.parse(localStorage.getItem('bb_discount')); } catch (e) { return null; }
+    try {
+      const selected = JSON.parse(localStorage.getItem('bb_discount'));
+      if (!selected || !selected.code) return null;
+
+      const savedPromos = JSON.parse(localStorage.getItem(PROMOS_KEY));
+      if (!Array.isArray(savedPromos)) return selected;
+
+      const promo = savedPromos.find(function(item){
+        return String(item.code || '').toUpperCase() === String(selected.code).toUpperCase();
+      });
+      if (!promo || promo.status !== 'active') return null;
+      if (promo.until && new Date(promo.until + 'T23:59:59') < new Date()) return null;
+      return Object.assign({}, promo, { code: String(promo.code).toUpperCase() });
+    } catch (e) { return null; }
   }
 
   function calcDiscount(cart, subtotal, d){
@@ -687,6 +701,10 @@
   document.getElementById('discountRemove').addEventListener('click', function(){
     localStorage.removeItem('bb_discount');
     render();
+  });
+
+  window.addEventListener('storage', function(event){
+    if (event.key === PROMOS_KEY || event.key === 'bb_discount') render();
   });
 
   render();

@@ -51,6 +51,19 @@
     padding: 0 6%;
   }
 
+  .promo-empty{
+    display:none;
+    max-width: 1000px;
+    margin: 30px auto 0;
+    padding: 0 6%;
+    color: var(--ink-soft);
+    text-align:center;
+  }
+
+  .promo-empty.show{
+    display:block;
+  }
+
   .promo-card{
     background: var(--bg);
     border-radius: 22px;
@@ -626,42 +639,8 @@
   <p>Aprovecha nuestras promociones activas. Elige tu código y aplícalo para ver el descuento en tu carrito.</p>
 </section>
 
-<section class="promo-grid">
-  <article class="promo-card">
-    <span class="promo-ribbon ribbon-popular">Más popular</span>
-    <div class="promo-badge">2x1</div>
-    <h3>2x1 en cajas Labubu</h3>
-    <p>Lleva dos cajas sorpresa de Labubu y paga solo una. Aplica a cajas sorpresa, no a kits.</p>
-    <div class="promo-validity">Por tiempo limitado</div>
-    <div class="promo-code-row">
-      <span class="promo-code">LABUBU2X1</span>
-      <button type="button" class="btn-use-code" data-code="LABUBU2X1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9" stroke-linecap="round"/></svg><span>Copiar código</span></button>
-    </div>
-  </article>
-
-  <article class="promo-card">
-    <div class="promo-badge">10% OFF</div>
-    <h3>10% en todo tu pedido</h3>
-    <p>Un descuento directo sobre el total de tu compra, en cualquier línea de figuras.</p>
-    <div class="promo-validity">Por tiempo limitado</div>
-    <div class="promo-code-row">
-      <span class="promo-code">BLIND10</span>
-      <button type="button" class="btn-use-code" data-code="BLIND10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9" stroke-linecap="round"/></svg><span>Copiar código</span></button>
-    </div>
-  </article>
-
-  <article class="promo-card">
-    <span class="promo-ribbon ribbon-last">Última oportunidad</span>
-    <div class="promo-badge">15% OFF</div>
-    <h3>Bienvenida: 15% en tu primera compra</h3>
-    <p>¿Es tu primera vez en Blindbox MX? Estrena tu colección con un descuento especial.</p>
-    <div class="promo-validity">Solo nuevos clientes</div>
-    <div class="promo-code-row">
-      <span class="promo-code">BIENVENIDA15</span>
-      <button type="button" class="btn-use-code" data-code="BIENVENIDA15"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9" stroke-linecap="round"/></svg><span>Copiar código</span></button>
-    </div>
-  </article>
-</section>
+<section class="promo-grid" id="promoGrid" aria-live="polite"></section>
+<p class="promo-empty" id="promoEmpty">Aún no hay promociones disponibles. Vuelve pronto para descubrir nuevas ofertas.</p>
 
 <section class="coupon-section">
   <div class="coupon-box">
@@ -791,13 +770,13 @@
 </footer>
 
 <script>
-  // Promociones disponibles 
-  const PROMOS = {
-    'BLIND10':      { type: 'percent', value: 10, label: '10% de descuento en tu pedido' },
-    'BIENVENIDA15': { type: 'percent', value: 15, label: '15% de descuento en tu primera compra' },
-    'LABUBU2X1':    { type: '2x1', line: 'Labubu', label: '2x1 en cajas sorpresa Labubu' }
-  };
-
+  // El catálogo público lee exactamente los códigos que administra el panel.
+  const PROMOS_KEY = 'bb_admin_promos';
+  const PROMO_SEED = [
+    { id: 'promo-labubu2x1', name: '2x1 en cajas Labubu', code: 'LABUBU2X1', type: '2x1', value: null, line: 'Labubu', until: '', status: 'active' },
+    { id: 'promo-blind10', name: '10% en todo tu pedido', code: 'BLIND10', type: 'percent', value: 10, line: '', until: '', status: 'active' },
+    { id: 'promo-bienvenida15', name: 'Bienvenida: 15% en tu primera compra', code: 'BIENVENIDA15', type: 'percent', value: 15, line: '', until: '', status: 'active' }
+  ];
   const DISCOUNT_KEY = 'bb_discount';
 
   const couponForm = document.getElementById('couponForm');
@@ -805,6 +784,80 @@
   const couponMessage = document.getElementById('couponMessage');
   const couponActive = document.getElementById('couponActive');
   const couponActiveCode = document.getElementById('couponActiveCode');
+
+  function readPromos(){
+    try {
+      const saved = JSON.parse(localStorage.getItem(PROMOS_KEY));
+      if (Array.isArray(saved)) return saved;
+    } catch (e) {}
+    return PROMO_SEED.slice();
+  }
+
+  function isPromoAvailable(promo){
+    if (promo.status !== 'active') return false;
+    if (!promo.until) return true;
+    const expiration = new Date(promo.until + 'T23:59:59');
+    return !Number.isNaN(expiration.getTime()) && expiration >= new Date();
+  }
+
+  function promoDetails(promo){
+    const label = promo.type === '2x1'
+      ? '2x1 en cajas sorpresa ' + (promo.line || '')
+      : promo.type === 'fixed'
+        ? '$' + Number(promo.value).toLocaleString('es-MX') + ' de descuento'
+        : Number(promo.value) + '% de descuento';
+    return Object.assign({}, promo, { code: String(promo.code || '').toUpperCase(), label: promo.name || label });
+  }
+
+  function availablePromos(){
+    return readPromos().filter(isPromoAvailable).map(promoDetails);
+  }
+
+  function renderPromos(){
+    const grid = document.getElementById('promoGrid');
+    const empty = document.getElementById('promoEmpty');
+    const promos = availablePromos();
+    grid.replaceChildren();
+    empty.classList.toggle('show', promos.length === 0);
+
+    promos.forEach(function(promo){
+      const card = document.createElement('article');
+      card.className = 'promo-card';
+      const badge = document.createElement('div');
+      badge.className = 'promo-badge';
+      badge.textContent = promo.type === '2x1' ? '2x1' : promo.type === 'fixed'
+        ? '$' + Number(promo.value).toLocaleString('es-MX') + ' OFF'
+        : Number(promo.value) + '% OFF';
+      const title = document.createElement('h3');
+      title.textContent = promo.name || promo.label;
+      const description = document.createElement('p');
+      description.textContent = promo.description || promo.label;
+      const validity = document.createElement('div');
+      validity.className = 'promo-validity';
+      validity.textContent = promo.until
+        ? 'Válido hasta ' + new Date(promo.until + 'T00:00:00').toLocaleDateString('es-MX')
+        : 'Por tiempo limitado';
+      const codeRow = document.createElement('div');
+      codeRow.className = 'promo-code-row';
+      const code = document.createElement('span');
+      code.className = 'promo-code';
+      code.textContent = promo.code;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'btn-use-code';
+      button.textContent = 'Copiar código';
+      button.addEventListener('click', function(){
+        couponInput.value = promo.code;
+        copiarTexto(promo.code).then(function(){
+          button.textContent = '¡Copiado!';
+          setTimeout(function(){ button.textContent = 'Copiar código'; }, 1800);
+        }).catch(function(){ button.textContent = 'Código listo para aplicar'; });
+      });
+      codeRow.append(code, button);
+      card.append(badge, title, description, validity, codeRow);
+      grid.appendChild(card);
+    });
+  }
 
   function getDiscount(){
     try { return JSON.parse(localStorage.getItem(DISCOUNT_KEY)); } catch (e) { return null; }
@@ -850,33 +903,17 @@
     });
   }
 
-  document.querySelectorAll('.btn-use-code').forEach(function(btn){
-    const original = btn.innerHTML;
-    let timer = null;
-
-    btn.addEventListener('click', function(){
-      const code = btn.dataset.code;
-
-      // Además de copiarlo, lo dejamos escrito en el campo para aplicarlo de inmediato
-      couponInput.value = code;
-
-      function restaurar(){
-        clearTimeout(timer);
-        timer = setTimeout(function(){
-          btn.classList.remove('copied');
-          btn.innerHTML = original;
-        }, 1800);
+  renderPromos();
+  window.addEventListener('storage', function(event){
+    if (event.key === PROMOS_KEY) {
+      renderPromos();
+      const selected = getDiscount();
+      if (selected && !availablePromos().some(function(promo){ return promo.code === selected.code; })) {
+        localStorage.removeItem(DISCOUNT_KEY);
+        couponMessage.className = 'coupon-message';
+        mostrarActivo();
       }
-
-      copiarTexto(code).then(function(){
-        btn.classList.add('copied');
-        btn.innerHTML = CHECK_SVG + '<span>¡Copiado!</span>';
-        restaurar();
-      }).catch(function(){
-        btn.innerHTML = '<span>Ya está en el campo ↓</span>';
-        restaurar();
-      });
-    });
+    }
   });
 
   // ---------- Confeti ----------
@@ -956,7 +993,7 @@
   couponForm.addEventListener('submit', function(e){
     e.preventDefault();
     const code = couponInput.value.trim().toUpperCase();
-    const promo = PROMOS[code];
+    const promo = availablePromos().find(function(item){ return item.code === code; });
 
     if (!promo) {
       mostrarMensaje('error', 'Ese código no es válido. Prueba con alguno de los de arriba.');
@@ -964,14 +1001,20 @@
     }
 
     // Guardamos el descuento para que el carrito lo use
-    localStorage.setItem(DISCOUNT_KEY, JSON.stringify(Object.assign({ code: code }, promo)));
+    localStorage.setItem(DISCOUNT_KEY, JSON.stringify(Object.assign({}, promo, { code: code })));
 
     mostrarMensaje('ok',
-      'Descuento aplicado <br>' + promo.label + '.<br>' +
+      'Descuento aplicado <br>' + escHTML(promo.label) + '.<br>' +
       '<a href="carrito.html">Ver mi carrito →</a>');
     mostrarActivo();
     lanzarConfeti(couponForm.querySelector('button[type="submit"]'));
   });
+
+  function escHTML(text){
+    return String(text == null ? '' : text)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
 
   document.getElementById('couponRemove').addEventListener('click', function(){
     localStorage.removeItem(DISCOUNT_KEY);
