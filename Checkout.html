@@ -10,70 +10,373 @@
 <link rel="stylesheet" href="CSS/styles.css">
 
 <style>
-  .checkout-wrap{
-    min-height: 60vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding: 60px 6%;
+  .checkout-page{
+    padding: 64px 6% 90px;
     background: linear-gradient(180deg, var(--purple-bg) 0%, var(--bg) 100%);
   }
 
-  .checkout-card{
-    max-width: 440px;
-    background: var(--bg);
-    border-radius: 22px;
-    padding: 46px 36px;
-    box-shadow: 0 14px 32px rgba(122,106,216,0.16);
+  .checkout-shell{
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 360px minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
   }
 
-  .checkout-icon{
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
+  .checkout-summary,
+  .checkout-panel{
+    background: var(--bg);
+    border: 1px solid rgba(122,106,216,0.1);
+    border-radius: 24px;
+    box-shadow: 0 16px 38px rgba(122,106,216,0.12);
+  }
+
+  .checkout-summary{
+    padding: 28px 24px;
+  }
+
+  .checkout-summary .eyebrow,
+  .checkout-panel .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     background: var(--purple-light);
     color: var(--purple-dark);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+  }
+
+  .checkout-summary h2,
+  .checkout-panel h1{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+
+  .order-item{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .order-thumb{
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--purple-light), #f7f3ff);
     display:flex;
     align-items:center;
     justify-content:center;
-    margin: 0 auto 20px;
-  }
-
-  .checkout-icon svg{
-    width: 30px;
-    height: 30px;
-  }
-
-  .checkout-card .eyebrow{
-    display:inline-block;
-    background: var(--purple-light);
-    color: var(--purple-dark);
-    font-weight:600;
-    font-size: 12.5px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    margin-bottom: 14px;
-  }
-
-  .checkout-card h1{
-    font-family:'Baloo 2', sans-serif;
     font-weight:700;
-    font-size: 24px;
+    color: var(--purple-dark);
+    flex-shrink:0;
+  }
+
+  .order-meta{
+    flex:1;
+  }
+
+  .order-meta strong{
+    display:block;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+
+  .order-meta span{
+    color: var(--ink-soft);
+    font-size: 12px;
+  }
+
+  .order-price{
+    font-weight:600;
     color: var(--ink);
+  }
+
+  .totals-box{
+    margin-top: 22px;
+    background: var(--purple-bg);
+    border-radius: 18px;
+    padding: 18px 16px;
+  }
+
+  .totals-row{
+    display:flex;
+    justify-content:space-between;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--ink-soft);
     margin-bottom: 10px;
   }
 
-  .checkout-card p{
-    font-size: 14px;
-    line-height: 1.7;
-    color: var(--ink-soft);
-    margin-bottom: 28px;
+  .totals-row.total{
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(122,106,216,0.18);
+    color: var(--ink);
+    font-weight:700;
+    font-size: 16px;
   }
 
-  .checkout-card .btn-primary{
+  .checkout-panel{
+    padding: 28px clamp(18px, 2.5vw, 38px);
+  }
+
+  .form-step{
+    display:none;
+    animation: fadeIn .25s ease;
+  }
+
+  .form-step.is-active{ display:block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .field-grid{
+    display:grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 18px;
+  }
+
+  .field,
+  .field-wide {
+    display:flex;
+    flex-direction:column;
+    gap: 8px;
+  }
+
+  .field-wide{ grid-column: 1 / -1; }
+
+  label{
+    font-weight:600;
+    font-size: 14px;
+    color: var(--ink);
+  }
+
+  input,
+  select,
+  textarea{
+    width:100%;
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 14px;
+    padding: 13px 14px;
+    font: inherit;
+    color: var(--ink);
+    transition: border-color .2s, box-shadow .2s;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus{
+    outline:none;
+    border-color: rgba(122,106,216,0.7);
+    box-shadow: 0 0 0 4px rgba(122,106,216,0.08);
+  }
+
+  textarea{ min-height: 110px; resize: vertical; }
+
+  .payment-options{
+    display:grid;
+    gap: 14px;
+    margin-top: 6px;
+  }
+
+  .payment-method {
+    position: relative;
+    display:flex;
+    align-items:center;
+    gap: 14px;
+    cursor:pointer;
+    padding: 18px 18px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: #fff;
+    transition: border-color .2s, box-shadow .2s, transform .2s;
+  }
+
+  .payment-method:hover{
+    border-color: rgba(122,106,216,0.45);
+    transform: translateY(-1px);
+  }
+
+  .payment-method input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+  }
+
+  .payment-method .radio-ui{
+    width: 20px;
+    height: 20px;
+    border-radius:50%;
+    border: 2px solid var(--purple);
+    position: relative;
+    flex-shrink:0;
+  }
+
+  .payment-method input:checked + .radio-ui::after{
+    content: "";
+    position:absolute;
+    inset: 4px;
+    border-radius:50%;
+    background: var(--purple);
+  }
+
+  .payment-method:has(input:checked) {
+    border-color: rgba(122,106,216,0.8);
+    box-shadow: 0 10px 24px rgba(122,106,216,0.12);
+    background: var(--purple-bg);
+  }
+
+  .payment-icon{
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    display:grid;
+    place-items:center;
+    font-size: 20px;
+    font-weight:700;
+  }
+
+  .payment-copy strong{
+    display:block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+
+  .payment-copy span{
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+
+  .review-card{
+    background: var(--purple-bg);
+    border: 1px solid rgba(122,106,216,0.14);
+    border-radius: 18px;
+    padding: 18px;
+    margin-top: 6px;
+  }
+
+  .review-card h3{
+    font-size: 18px;
+    margin-bottom: 14px;
+  }
+
+  .review-row{
+    display:flex;
+    justify-content:space-between;
+    gap: 16px;
+    font-size: 14px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(122,106,216,0.12);
+  }
+
+  .review-row:last-child{ border-bottom: none; }
+
+  .review-row span:first-child{
+    color: var(--ink-soft);
+  }
+
+  .review-row strong{ max-width: 60%; text-align:right; }
+
+  .checkbox-row{
+    display:flex;
+    align-items:flex-start;
+    gap: 10px;
+    margin-top: 18px;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+
+  .checkbox-row input{ width: 18px; height: 18px; margin-top: 2px; }
+
+  .form-actions {
+    display:flex;
+    justify-content:space-between;
+    gap: 12px;
+    margin-top: 30px;
+  }
+
+  .btn-primary,
+  .btn-secondary{
+    border:none;
+    font: inherit;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
     justify-content:center;
-    width: 100%;
+    gap: 10px;
+    min-height: 52px;
+    padding: 0 22px;
+    border-radius: 999px;
+    font-weight:600;
+    transition: transform .2s, opacity .2s;
+  }
+
+  .btn-primary {
+    background: var(--purple);
+    color: #fff;
+    box-shadow: 0 10px 24px rgba(122,106,216,0.35);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    background: var(--purple-dark);
+  }
+
+  .btn-secondary{
+    background: #f2f0f8;
+    color: var(--ink);
+    border: 1px solid rgba(122,106,216,0.12);
+  }
+
+  .success-message{
+    display:none;
+    margin-top: 20px;
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: #e9f8ef;
+    color: #1a6c46;
+    font-weight:600;
+    border: 1px solid rgba(26,108,70,0.15);
+  }
+
+  .success-message.is-visible{ display:block; }
+
+  .saved-address-notice{
+    display:none;
+    color: #1d7b52;
+    font-size: 13px;
+    margin: -10px 0 18px;
+  }
+
+  .saved-address-notice.is-visible{ display:block; }
+
+  @media (max-width: 960px){
+    .checkout-shell{ grid-template-columns: 1fr; }
+    .checkout-summary{ order:2; }
+    .checkout-panel{ order:1; }
+  }
+
+  @media (max-width: 640px){
+    .field-grid{ grid-template-columns: 1fr; }
+    .form-actions{ flex-direction: column-reverse; }
+    .btn-primary, .btn-secondary{ width: 100%; }
   }
 </style>
 </head>
@@ -104,20 +407,206 @@
   </div>
 </header>
 
-<section class="checkout-wrap">
-  <div class="checkout-card">
-    <div class="checkout-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <circle cx="12" cy="12" r="9"/>
-        <path d="M12 7v5l3 2" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <span class="eyebrow">Paso siguiente</span>
-    <h1>Pago — próximamente</h1>
-    <p>Estamos trabajando en el proceso de pago y facturación. Por ahora esta parte es solo una vista de muestra.</p>
-    <a href="carrito.html" class="btn-primary">Regresar al carrito</a>
+<main class="checkout-page">
+  <div class="checkout-shell">
+    <aside class="checkout-summary">
+      <span class="eyebrow">Tu pedido</span>
+      <h2>Resumen</h2>
+
+      <div class="order-item">
+        <div class="order-thumb">BB</div>
+        <div class="order-meta">
+          <strong>Blindbox edición limitada</strong>
+          <span>Color: Rosa / Talla M</span>
+        </div>
+        <div class="order-price">$799</div>
+      </div>
+
+      <div class="order-item">
+        <div class="order-thumb">ST</div>
+        <div class="order-meta">
+          <strong>Sticker pack</strong>
+          <span>Pack x3 piezas</span>
+        </div>
+        <div class="order-price">$149</div>
+      </div>
+
+      <div class="totals-box">
+        <div class="totals-row">
+          <span>Subtotal</span>
+          <span>$948</span>
+        </div>
+        <div class="totals-row">
+          <span>Envío</span>
+          <span>$120</span>
+        </div>
+        <div class="totals-row">
+          <span>Descuento</span>
+          <span>-$80</span>
+        </div>
+        <div class="totals-row total">
+          <span>Total</span>
+          <span>$988</span>
+        </div>
+      </div>
+    </aside>
+
+    <section class="checkout-panel">
+      <form id="checkoutForm" novalidate>
+        <div class="form-step is-active" data-step-panel="1">
+          <h1 tabindex="-1">Dirección de entrega</h1>
+          <p class="saved-address-notice" id="savedAddressNotice" role="status">Usamos la dirección guardada. Puedes editarla antes de continuar.</p>
+
+          <div class="field-grid">
+            <div class="field">
+              <label for="firstName">Nombre</label>
+              <input id="firstName" name="firstName" type="text" placeholder="Ej. Ana" required>
+            </div>
+            <div class="field">
+              <label for="lastName">Apellido</label>
+              <input id="lastName" name="lastName" type="text" placeholder="Ej. García" required>
+            </div>
+            <div class="field">
+              <label for="email">Correo</label>
+              <input id="email" name="email" type="email" placeholder="ana@email.com" required>
+            </div>
+            <div class="field">
+              <label for="phone">Teléfono</label>
+              <input id="phone" name="phone" type="tel" placeholder="55 1234 5678" required>
+            </div>
+            <div class="field-wide">
+              <label for="street">Calle y número</label>
+              <input id="street" name="street" type="text" placeholder="Calle de la Reforma 123" required>
+            </div>
+            <div class="field">
+              <label for="colonia">Colonia</label>
+              <input id="colonia" name="colonia" type="text" placeholder="Condesa" required>
+            </div>
+            <div class="field">
+              <label for="city">Ciudad</label>
+              <input id="city" name="city" type="text" placeholder="Ciudad de México" required>
+            </div>
+            <div class="field">
+              <label for="state">Estado</label>
+              <select id="state" name="state" required>
+                <option value="">Selecciona</option>
+                <option>CDMX</option>
+                <option>Jalisco</option>
+                <option>Nuevo León</option>
+                <option>Guadalajara</option>
+                <option>Querétaro</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="postalCode">Código postal</label>
+              <input id="postalCode" name="postalCode" type="text" placeholder="06700" required>
+            </div>
+            <div class="field-wide">
+              <label for="instructions">Indicaciones adicionales</label>
+              <textarea id="instructions" name="instructions" placeholder="Ej. Entregar en portería, llamar antes..."></textarea>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" onclick="window.location.href='Carrito.html'">Volver al carrito</button>
+            <button type="button" class="btn-primary next-step" id="continueAddress">Continuar al pago</button>
+          </div>
+        </div>
+
+        <div class="form-step" data-step-panel="2">
+          <h1 tabindex="-1">Método de pago</h1>
+
+          <div class="payment-options">
+            <label class="payment-method">
+              <input type="radio" name="paymentMethod" value="Tarjeta" checked>
+              <span class="radio-ui" aria-hidden="true"></span>
+              <span class="payment-icon">💳</span>
+              <span class="payment-copy">
+                <strong>Tarjeta</strong>
+                <span>Visa, Mastercard o American Express</span>
+              </span>
+            </label>
+
+            <label class="payment-method">
+              <input type="radio" name="paymentMethod" value="Transferencia">
+              <span class="radio-ui" aria-hidden="true"></span>
+              <span class="payment-icon">🏦</span>
+              <span class="payment-copy">
+                <strong>Transferencia bancaria</strong>
+                <span>Pago con SPEI o transferencia</span>
+              </span>
+            </label>
+
+            <label class="payment-method">
+              <input type="radio" name="paymentMethod" value="PayPal">
+              <span class="radio-ui" aria-hidden="true"></span>
+              <span class="payment-icon">🅿️</span>
+              <span class="payment-copy">
+                <strong>PayPal</strong>
+                <span>Paga con tu cuenta de PayPal</span>
+              </span>
+            </label>
+
+            <label class="payment-method">
+              <input type="radio" name="paymentMethod" value="Efectivo">
+              <span class="radio-ui" aria-hidden="true"></span>
+              <span class="payment-icon">💵</span>
+              <span class="payment-copy">
+                <strong>Efectivo</strong>
+                <span>Pago en tienda o contra entrega</span>
+              </span>
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-secondary prev-step">Regresar</button>
+            <button type="button" class="btn-primary next-step">Revisar pedido</button>
+          </div>
+        </div>
+
+        <div class="form-step" data-step-panel="3">
+          <h1 tabindex="-1">Confirmación</h1>
+
+          <div class="review-card">
+            <h3>Datos del envío</h3>
+            <div class="review-row">
+              <span>Destinatario</span>
+              <strong id="reviewName">—</strong>
+            </div>
+            <div class="review-row">
+              <span>Dirección</span>
+              <strong id="reviewAddress">—</strong>
+            </div>
+            <div class="review-row">
+              <span>Contacto</span>
+              <strong id="reviewContact">—</strong>
+            </div>
+            <div class="review-row">
+              <span>Método de pago</span>
+              <strong id="reviewPayment">—</strong>
+            </div>
+            <div class="review-row">
+              <span>Total</span>
+              <strong>$988 MXN</strong>
+            </div>
+          </div>
+
+          <label class="checkbox-row">
+            <input type="checkbox" id="confirmInfo" required>
+            <span>Confirmo que los datos son correctos y autorizo el cobro del pedido.</span>
+          </label>
+
+          <div class="form-actions">
+            <button type="button" class="btn-secondary prev-step">Editar</button>
+            <button type="submit" class="btn-primary" id="finalizeOrder">Finalizar pedido</button>
+          </div>
+
+          <div class="success-message" id="successMessage">¡Pedido confirmado! Te enviamos un correo con la información y seguimiento de tu entrega.</div>
+        </div>
+      </form>
+    </section>
   </div>
-</section>
+</main>
 
 <footer class="site-footer">
   <div class="footer-top">
@@ -184,6 +673,131 @@
     </div>
   </div>
 </footer>
+
+<script>
+  const form = document.getElementById('checkoutForm');
+  const steps = Array.from(document.querySelectorAll('[data-step-panel]'));
+  const successMessage = document.getElementById('successMessage');
+  const finalizeButton = document.getElementById('finalizeOrder');
+  const savedAddressNotice = document.getElementById('savedAddressNotice');
+  const continueAddressButton = document.getElementById('continueAddress');
+  const addressFields = ['firstName', 'lastName', 'email', 'phone', 'street', 'colonia', 'city', 'state', 'postalCode', 'instructions'];
+  const savedAddressKey = 'blindboxCheckoutAddress';
+
+  let currentStep = 1;
+
+  function showStep(step) {
+    currentStep = step;
+    steps.forEach((panel) => {
+      panel.classList.toggle('is-active', Number(panel.dataset.stepPanel) === currentStep);
+    });
+    steps.find((panel) => Number(panel.dataset.stepPanel) === currentStep)?.querySelector('h1')?.focus();
+  }
+
+  function loadSavedAddress() {
+    try {
+      const savedAddress = localStorage.getItem(savedAddressKey);
+      if (!savedAddress) {
+        return;
+      }
+
+      const address = JSON.parse(savedAddress);
+      addressFields.forEach((fieldName) => {
+        const field = document.getElementById(fieldName);
+        if (field && typeof address[fieldName] === 'string') {
+          field.value = address[fieldName];
+        }
+      });
+
+      savedAddressNotice.classList.add('is-visible');
+      continueAddressButton.textContent = 'Usar dirección y continuar';
+    } catch (error) {
+      console.error('No se pudo recuperar la dirección guardada.', error);
+    }
+  }
+
+  function saveAddress() {
+    const address = Object.fromEntries(addressFields.map((fieldName) => [
+      fieldName,
+      document.getElementById(fieldName).value.trim()
+    ]));
+
+    try {
+      localStorage.setItem(savedAddressKey, JSON.stringify(address));
+    } catch (error) {
+      console.error('No se pudo guardar la dirección para futuras compras.', error);
+    }
+  }
+
+  function updateConfirmationSummary() {
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const street = document.getElementById('street').value.trim();
+    const colonia = document.getElementById('colonia').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const state = document.getElementById('state').value;
+    const postalCode = document.getElementById('postalCode').value.trim();
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'Tarjeta';
+
+    document.getElementById('reviewName').textContent = `${firstName || 'Nombre'} ${lastName || 'Apellido'}`;
+    document.getElementById('reviewAddress').textContent = `${street || 'Calle'} ${colonia ? `, ${colonia}` : ''}, ${city || 'Ciudad'}, ${state || 'Estado'} ${postalCode ? `, ${postalCode}` : ''}`;
+    document.getElementById('reviewContact').textContent = `${email || 'correo@ejemplo.com'} / ${phone || 'Teléfono'}`;
+    document.getElementById('reviewPayment').textContent = paymentMethod;
+  }
+
+  function validateAddressStep() {
+    const requiredFields = form.querySelectorAll('#firstName, #lastName, #email, #phone, #street, #colonia, #city, #state, #postalCode');
+    for (const field of requiredFields) {
+      if (!field.checkValidity()) {
+        field.reportValidity();
+        return false;
+      }
+    }
+    saveAddress();
+    updateConfirmationSummary();
+    return true;
+  }
+
+  loadSavedAddress();
+
+  document.querySelectorAll('.next-step').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (currentStep === 1 && !validateAddressStep()) {
+        return;
+      }
+
+      if (currentStep === 2) {
+        updateConfirmationSummary();
+      }
+
+      showStep(Math.min(currentStep + 1, 3));
+    });
+  });
+
+  document.querySelectorAll('.prev-step').forEach((button) => {
+    button.addEventListener('click', () => {
+      showStep(Math.max(currentStep - 1, 1));
+    });
+  });
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const confirmCheckbox = document.getElementById('confirmInfo');
+
+    if (!confirmCheckbox.checked) {
+      confirmCheckbox.reportValidity();
+      return;
+    }
+
+    successMessage.classList.add('is-visible');
+    finalizeButton.textContent = 'Pedido confirmado';
+    finalizeButton.disabled = true;
+    finalizeButton.style.opacity = '0.8';
+    finalizeButton.style.cursor = 'default';
+  });
+</script>
 
 </body>
 </html>
