@@ -154,6 +154,8 @@
 
   .form-step.is-active{ display:block; }
 
+  .form-step [hidden]{ display:none; }
+
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
@@ -430,6 +432,48 @@
 
   .success-message.is-visible{ display:block; }
 
+  .success-message h2{
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 28px;
+    margin-bottom: 4px;
+  }
+
+  .purchase-summary{
+    margin-top: 18px;
+    padding: 18px;
+    border-radius: 16px;
+    background: #fff;
+    color: var(--ink);
+  }
+
+  .purchase-summary h3{
+    font-size: 17px;
+    margin-bottom: 12px;
+  }
+
+  .purchase-items{
+    margin-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  .purchase-item{
+    display:flex;
+    justify-content:space-between;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .purchase-item span:first-child{
+    color: var(--ink-soft);
+  }
+
+  .purchase-summary .review-row:last-child{
+    font-size: 16px;
+    font-weight: 700;
+  }
+
   .saved-address-notice{
     display:none;
     color: #1d7b52;
@@ -513,35 +557,35 @@
           <div class="field-grid">
             <div class="field">
               <label for="firstName">Nombre</label>
-              <input id="firstName" name="firstName" type="text" placeholder="Ej. Ana" required>
+              <input id="firstName" name="firstName" type="text" placeholder="Ej. Ana">
             </div>
             <div class="field">
               <label for="lastName">Apellido</label>
-              <input id="lastName" name="lastName" type="text" placeholder="Ej. García" required>
+              <input id="lastName" name="lastName" type="text" placeholder="Ej. García">
             </div>
             <div class="field">
               <label for="email">Correo</label>
-              <input id="email" name="email" type="email" placeholder="ana@email.com" required>
+              <input id="email" name="email" type="email" placeholder="ana@email.com">
             </div>
             <div class="field">
               <label for="phone">Teléfono</label>
-              <input id="phone" name="phone" type="tel" placeholder="55 1234 5678" required>
+              <input id="phone" name="phone" type="tel" placeholder="55 1234 5678">
             </div>
             <div class="field-wide">
               <label for="street">Calle y número</label>
-              <input id="street" name="street" type="text" placeholder="Calle de la Reforma 123" required>
+              <input id="street" name="street" type="text" placeholder="Calle de la Reforma 123">
             </div>
             <div class="field">
               <label for="colonia">Colonia</label>
-              <input id="colonia" name="colonia" type="text" placeholder="Condesa" required>
+              <input id="colonia" name="colonia" type="text" placeholder="Condesa">
             </div>
             <div class="field">
               <label for="city">Ciudad</label>
-              <input id="city" name="city" type="text" placeholder="Ciudad de México" required>
+              <input id="city" name="city" type="text" placeholder="Ciudad de México">
             </div>
             <div class="field">
               <label for="state">Estado</label>
-              <select id="state" name="state" required>
+              <select id="state" name="state">
                 <option value="">Selecciona</option>
                 <option>CDMX</option>
                 <option>Jalisco</option>
@@ -552,7 +596,7 @@
             </div>
             <div class="field">
               <label for="postalCode">Código postal</label>
-              <input id="postalCode" name="postalCode" type="text" placeholder="06700" required>
+              <input id="postalCode" name="postalCode" type="text" placeholder="06700">
             </div>
             <div class="field-wide">
               <label for="instructions">Indicaciones adicionales</label>
@@ -575,7 +619,7 @@
               <span class="radio-ui" aria-hidden="true"></span>
               <span class="payment-icon">💳</span>
               <span class="payment-copy">
-                <strong>Tarjeta</strong>
+                <strong>Tarjeta Debito/Credito </strong>
                 <span>Visa, Mastercard o American Express</span>
               </span>
             </label>
@@ -586,7 +630,7 @@
               <span class="payment-icon">🏦</span>
               <span class="payment-copy">
                 <strong>Transferencia bancaria</strong>
-                <span>Datos bancarios simulados</span>
+                <span>Datos bancarios </span>
               </span>
             </label>
 
@@ -596,7 +640,7 @@
               <span class="payment-icon">👛</span>
               <span class="payment-copy">
                 <strong>E-wallet</strong>
-                <span>Usa tu saldo simulado</span>
+                <span>Usa tu saldo</span>
               </span>
             </label>
           </div>
@@ -606,26 +650,26 @@
             <div class="field-grid">
               <div class="field-wide">
                 <label for="cardholder">Nombre en la tarjeta</label>
-                <input id="cardholder" name="cardholder" type="text" autocomplete="cc-name" placeholder="Como aparece en la tarjeta" required>
+                <input id="cardholder" name="cardholder" type="text" autocomplete="cc-name" placeholder="Como aparece en la tarjeta">
               </div>
               <div class="field-wide">
                 <label for="cardNumber">Número de tarjeta</label>
-                <input id="cardNumber" name="cardNumber" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="16 dígitos" pattern="[0-9]{13,19}" maxlength="19" required>
+                <input id="cardNumber" name="cardNumber" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="16 dígitos" maxlength="19">
               </div>
               <div class="field">
                 <label for="cardExpiry">Fecha de vencimiento</label>
-                <input id="cardExpiry" name="cardExpiry" type="month" autocomplete="cc-exp" required>
+                <input id="cardExpiry" name="cardExpiry" type="month" autocomplete="cc-exp">
               </div>
               <div class="field">
                 <label for="cardCvv">CVV</label>
-                <input id="cardCvv" name="cardCvv" type="password" inputmode="numeric" autocomplete="cc-csc" placeholder="3 o 4 dígitos" pattern="[0-9]{3,4}" maxlength="4" required>
+                <input id="cardCvv" name="cardCvv" type="password" inputmode="numeric" autocomplete="cc-csc" placeholder="3 o 4 dígitos" maxlength="4">
               </div>
             </div>
             <p class="payment-note">Pago de demostración: no se realizará ningún cargo ni se guardarán los datos de la tarjeta.</p>
           </div>
 
           <div class="payment-details" id="transferDetails" hidden>
-            <h2>Datos para transferencia (simulados)</h2>
+            <h2>Datos para transferencia</h2>
             <div class="transfer-data">
               <div><span>Banco</span><strong>Banco Blindbox (demo)</strong></div>
               <div><span>Beneficiario</span><strong>Blindbox MX</strong></div>
@@ -638,7 +682,7 @@
           <div class="payment-details" id="walletDetails" hidden>
             <h2>Saldo E-wallet</h2>
             <p class="wallet-balance">$5,000 MXN</p>
-            <p class="payment-note">Saldo de demostración. Al pagar, la compra se confirmará de forma simulada.</p>
+            <p class="payment-note">Saldo de demostración.</p>
           </div>
 
           <div class="form-actions">
@@ -675,8 +719,8 @@
           </div>
 
           <label class="checkbox-row">
-            <input type="checkbox" id="confirmInfo" required>
-            <span>Confirmo que los datos son correctos y autorizo la confirmación simulada de la compra.</span>
+            <input type="checkbox" id="confirmInfo">
+            <span>Confirmo que los datos son correctos y autorizo la confirmación de la compra.</span>
           </label>
 
           <div class="form-actions">
@@ -684,7 +728,27 @@
             <button type="submit" class="btn-primary" id="finalizeOrder">Pagar</button>
           </div>
 
-          <div class="success-message" id="successMessage" role="status">¡Compra confirmada! El pago fue simulado; no se realizó ningún cargo.</div>
+          <div class="success-message" id="successMessage" role="status" aria-live="polite">
+            <h2>Pago aprobado</h2>
+            <p>La compra se confirmó.</p>
+            <div class="purchase-summary">
+              <h3>Resumen de compra</h3>
+              <div class="review-row">
+                <span>Número de pedido</span>
+                <strong id="purchaseOrderNumber">—</strong>
+              </div>
+              <div class="review-row">
+                <span>Método de pago</span>
+                <strong id="purchasePaymentMethod">—</strong>
+              </div>
+              <div id="purchaseItems" class="purchase-items"></div>
+              <div class="review-row">
+                <span>Total pagado </span>
+                <strong id="purchaseTotal">$0 MXN</strong>
+              </div>
+            </div>
+            <button type="button" class="btn-primary" id="viewTicket" style="margin-top:16px">Ver comprobante / Descargar PDF</button>
+          </div>
         </div>
       </form>
     </section>
@@ -757,6 +821,7 @@
   </div>
 </footer>
 
+<script src="js/ticket.js"></script>
 <script>
   const form = document.getElementById('checkoutForm');
   const steps = Array.from(document.querySelectorAll('[data-step-panel]'));
@@ -780,6 +845,7 @@
 
   let currentStep = 1;
   let orderTotal = 0;
+  let orderSubtotal = 0, orderDiscount = 0, orderDiscountCode = '', lastOrder = null;
 
   function formatCurrency(amount) {
     return '$' + amount.toLocaleString('es-MX') + ' MXN';
@@ -888,6 +954,9 @@
     const discountInfo = getDiscount();
     const discount = calculateDiscount(cart, subtotal, discountInfo);
     orderTotal = Math.max(subtotal - discount, 0);
+    orderSubtotal = subtotal;
+    orderDiscount = discount;
+    orderDiscountCode = discountInfo && discountInfo.code ? discountInfo.code : '';
 
     document.getElementById('orderSubtotal').textContent = formatCurrency(subtotal);
     document.getElementById('orderTotal').textContent = formatCurrency(orderTotal);
@@ -973,44 +1042,65 @@
     });
   }
 
-  function validatePaymentStep() {
-    const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked');
-    if (!selectedMethod) {
-      return false;
-    }
-
-    if (selectedMethod.value === 'Tarjeta') {
-      const expiryField = document.getElementById('cardExpiry');
-      const expiryDate = expiryField.value ? new Date(`${expiryField.value}-01T00:00:00`) : null;
-      const currentMonth = new Date();
-      currentMonth.setDate(1);
-      currentMonth.setHours(0, 0, 0, 0);
-      expiryField.setCustomValidity(
-        expiryDate && expiryDate < currentMonth ? 'La tarjeta debe estar vigente.' : ''
-      );
-
-      for (const field of cardFields) {
-        if (!field.checkValidity()) {
-          field.reportValidity();
-          return false;
-        }
-      }
-    }
-
-    return true;
-  }
+  // Sin validaciones: se puede avanzar con los campos vacíos
+  function validatePaymentStep() { return true; }
 
   function validateAddressStep() {
-    const requiredFields = form.querySelectorAll('#firstName, #lastName, #email, #phone, #street, #colonia, #city, #state, #postalCode');
-    for (const field of requiredFields) {
-      if (!field.checkValidity()) {
-        field.reportValidity();
-        return false;
-      }
-    }
     saveAddress();
     updateConfirmationSummary();
     return true;
+  }
+
+  function showPurchaseConfirmation() {
+    const orderNumber = `BBMX-${Date.now().toString().slice(-8)}-${Math.floor(1000 + Math.random() * 9000)}`;
+    const cart = getCart();
+    const itemsContainer = document.getElementById('purchaseItems');
+    itemsContainer.replaceChildren();
+
+    cart.forEach((item) => {
+      const row = document.createElement('div');
+      row.className = 'purchase-item';
+
+      const description = document.createElement('span');
+      description.textContent = `${item.name || 'Producto'} · Cantidad: ${Number(item.qty) || 0}`;
+
+      const price = document.createElement('strong');
+      price.textContent = formatCurrency((Number(item.price) || 0) * (Number(item.qty) || 0));
+
+      row.append(description, price);
+      itemsContainer.appendChild(row);
+    });
+
+    document.getElementById('purchaseOrderNumber').textContent = orderNumber;
+    document.getElementById('purchasePaymentMethod').textContent =
+      document.querySelector('input[name="paymentMethod"]:checked')?.value || 'Tarjeta';
+    document.getElementById('purchaseTotal').textContent = formatCurrency(orderTotal);
+    document.querySelector('.form-step[data-step-panel="3"] .review-card').hidden = true;
+    document.querySelector('.form-step[data-step-panel="3"] .checkbox-row').hidden = true;
+    document.querySelector('.form-step[data-step-panel="3"] .form-actions').hidden = true;
+
+    // Crear y guardar el pedido para el historial y el ticket
+    const v = (id) => document.getElementById(id).value.trim();
+    const address = [v('street'), v('colonia'), v('city'), document.getElementById('state').value, v('postalCode')]
+      .filter(Boolean).join(', ');
+
+    lastOrder = {
+      id: orderNumber,
+      date: new Date().toISOString(),
+      customer: {
+        name: (v('firstName') + ' ' + v('lastName')).trim() || 'Cliente',
+        email: v('email'), phone: v('phone'), address
+      },
+      payment: document.querySelector('input[name="paymentMethod"]:checked')?.value || 'Tarjeta',
+      items: cart.map((i) => ({ name: i.name || 'Producto', option: i.option, qty: Number(i.qty) || 0, price: Number(i.price) || 0 })),
+      subtotal: orderSubtotal, discount: orderDiscount, discountCode: orderDiscountCode, total: orderTotal
+    };
+    BBTicket.saveOrder(lastOrder);
+    localStorage.removeItem(cartKey);
+    localStorage.removeItem(discountKey);
+
+    successMessage.classList.add('is-visible');
+    BBTicket.open(lastOrder);
   }
 
   renderOrder();
@@ -1053,22 +1143,15 @@
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const confirmCheckbox = document.getElementById('confirmInfo');
-
-    if (!confirmCheckbox.checked) {
-      confirmCheckbox.reportValidity();
-      return;
-    }
-
-    successMessage.classList.add('is-visible');
+    showPurchaseConfirmation();
     finalizeButton.textContent = 'Pedido confirmado';
     finalizeButton.disabled = true;
     finalizeButton.style.opacity = '0.8';
     finalizeButton.style.cursor = 'default';
-    cardFields.forEach((field) => {
-      field.value = '';
-    });
+    cardFields.forEach((field) => { field.value = ''; });
   });
+
+  document.getElementById('viewTicket').addEventListener('click', () => lastOrder && BBTicket.open(lastOrder));
 </script>
 
 </body>

@@ -925,10 +925,11 @@
 
   <!-- Compras -->
   <div class="profile-card">
-    <h2>Mis compras (próximamente)</h2>
-    <div class="profile-empty">
-      Todavía no tienes compras. Cuando el carrito esté listo, tu historial aparecerá aquí.
+    <div class="card-head">
+      <h2>Mis compras</h2>
+      <span class="count-pill" id="ordersCount">0</span>
     </div>
+    <div id="ordersList"></div>
   </div>
 
   <!-- Cerrar sesión -->
@@ -1133,6 +1134,7 @@
   </div>
 </footer>
 
+<script src="js/ticket.js"></script>
 <script>
   const $ = function (id) { return document.getElementById(id); };
 
@@ -1378,6 +1380,7 @@
     if (e.key === 'Escape') {
       cerrarEliminar();
       cerrarPost();
+      BBTicket.close();
     }
   });
 
@@ -2112,11 +2115,43 @@
 
 
   // ==========================================
+  // 4) MIS COMPRAS
+  // ==========================================
+  function renderOrders() {
+    const pedidos = BBTicket.getOrders();
+    $('ordersCount').textContent = pedidos.length;
+
+    if (!pedidos.length) {
+      $('ordersList').innerHTML = '<div class="profile-empty">Todavía no tienes compras.</div>';
+      return;
+    }
+
+    $('ordersList').innerHTML = '<div class="pub-list">' + pedidos.map(function (o, i) {
+      const n = (o.items || []).reduce(function (s, x) { return s + x.qty; }, 0);
+      return '<div class="pub-row">' +
+        '<div class="pub-info">' +
+          '<div class="pub-name">' + esc(o.id) + '</div>' +
+          '<div class="comment-date">' + esc(BBTicket.fecha(o.date)) + ' · ' + n + (n === 1 ? ' producto' : ' productos') + '</div>' +
+          '<div class="pub-price">' + esc(BBTicket.money(o.total)) + '</div>' +
+        '</div>' +
+        '<button type="button" class="comment-edit" data-order="' + i + '">Ver detalle</button>' +
+      '</div>';
+    }).join('') + '</div>';
+  }
+
+  $('ordersList').addEventListener('click', function (e) {
+    const b = e.target.closest('[data-order]');
+    if (b) BBTicket.open(BBTicket.getOrders()[Number(b.dataset.order)]);
+  });
+
+
+  // ==========================================
   // INICIO
   // ==========================================
   renderComments();
   renderReviews();
   renderPosts();
+  renderOrders();
 </script>
 
 </body>
