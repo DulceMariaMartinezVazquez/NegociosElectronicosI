@@ -83,8 +83,16 @@
     flex-shrink:0;
   }
 
+  .order-thumb img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+
   .order-meta{
     flex:1;
+    min-width: 0;
   }
 
   .order-meta strong{
@@ -94,6 +102,7 @@
   }
 
   .order-meta span{
+    display: block;
     color: var(--ink-soft);
     font-size: 12px;
   }
@@ -117,6 +126,12 @@
     font-size: 14px;
     color: var(--ink-soft);
     margin-bottom: 10px;
+  }
+
+  .totals-row[hidden],
+  .checkout-panel[hidden],
+  .totals-box[hidden]{
+    display:none;
   }
 
   .totals-row.total{
@@ -264,6 +279,63 @@
     font-size: 13px;
   }
 
+  .payment-details{
+    margin-top: 16px;
+    padding: 20px;
+    border: 1px solid rgba(122,106,216,0.18);
+    border-radius: 18px;
+    background: var(--purple-bg);
+  }
+
+  .payment-details[hidden]{
+    display:none;
+  }
+
+  .payment-details h2{
+    font-size: 17px;
+    margin-bottom: 14px;
+  }
+
+  .payment-note{
+    color: var(--ink-soft);
+    font-size: 13px;
+    line-height: 1.6;
+    margin-top: 12px;
+  }
+
+  .transfer-data{
+    display:grid;
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  .transfer-data div{
+    display:flex;
+    justify-content:space-between;
+    gap: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(122,106,216,0.12);
+  }
+
+  .transfer-data div:last-child{
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .transfer-data span{
+    color: var(--ink-soft);
+  }
+
+  .transfer-data strong{
+    text-align:right;
+  }
+
+  .wallet-balance{
+    color: var(--purple-dark);
+    font-size: 22px;
+    font-weight: 700;
+  }
+
   .review-card{
     background: var(--purple-bg);
     border: 1px solid rgba(122,106,216,0.14);
@@ -399,7 +471,7 @@
   </nav>
 
   <a href="index.html" class="logo">
-    <img src="assets/logo.png" alt="Blindbox MX">
+    <img src="images/logobbmx.png" alt="Blindbox MX">
   </a>
 
   <div class="header-actions">
@@ -413,45 +485,26 @@
       <span class="eyebrow">Tu pedido</span>
       <h2>Resumen</h2>
 
-      <div class="order-item">
-        <div class="order-thumb">BB</div>
-        <div class="order-meta">
-          <strong>Blindbox edición limitada</strong>
-          <span>Color: Rosa / Talla M</span>
-        </div>
-        <div class="order-price">$799</div>
-      </div>
+      <div id="orderItems"></div>
+      <p id="emptyCartMessage" hidden>Tu carrito está vacío. <a href="Carrito.html">Volver al carrito</a></p>
 
-      <div class="order-item">
-        <div class="order-thumb">ST</div>
-        <div class="order-meta">
-          <strong>Sticker pack</strong>
-          <span>Pack x3 piezas</span>
-        </div>
-        <div class="order-price">$149</div>
-      </div>
-
-      <div class="totals-box">
+      <div class="totals-box" id="orderTotals">
         <div class="totals-row">
           <span>Subtotal</span>
-          <span>$948</span>
+          <span id="orderSubtotal">$0 MXN</span>
         </div>
-        <div class="totals-row">
-          <span>Envío</span>
-          <span>$120</span>
-        </div>
-        <div class="totals-row">
-          <span>Descuento</span>
-          <span>-$80</span>
+        <div class="totals-row" id="orderDiscountRow" hidden>
+          <span id="orderDiscountLabel">Descuento</span>
+          <span id="orderDiscountAmount">-$0 MXN</span>
         </div>
         <div class="totals-row total">
           <span>Total</span>
-          <span>$988</span>
+          <span id="orderTotal">$0 MXN</span>
         </div>
       </div>
     </aside>
 
-    <section class="checkout-panel">
+    <section class="checkout-panel" id="checkoutPanel">
       <form id="checkoutForm" novalidate>
         <div class="form-step is-active" data-step-panel="1">
           <h1 tabindex="-1">Dirección de entrega</h1>
@@ -533,29 +586,59 @@
               <span class="payment-icon">🏦</span>
               <span class="payment-copy">
                 <strong>Transferencia bancaria</strong>
-                <span>Pago con SPEI o transferencia</span>
+                <span>Datos bancarios simulados</span>
               </span>
             </label>
 
             <label class="payment-method">
-              <input type="radio" name="paymentMethod" value="PayPal">
+              <input type="radio" name="paymentMethod" value="E-wallet">
               <span class="radio-ui" aria-hidden="true"></span>
-              <span class="payment-icon">🅿️</span>
+              <span class="payment-icon">👛</span>
               <span class="payment-copy">
-                <strong>PayPal</strong>
-                <span>Paga con tu cuenta de PayPal</span>
+                <strong>E-wallet</strong>
+                <span>Usa tu saldo simulado</span>
               </span>
             </label>
+          </div>
 
-            <label class="payment-method">
-              <input type="radio" name="paymentMethod" value="Efectivo">
-              <span class="radio-ui" aria-hidden="true"></span>
-              <span class="payment-icon">💵</span>
-              <span class="payment-copy">
-                <strong>Efectivo</strong>
-                <span>Pago en tienda o contra entrega</span>
-              </span>
-            </label>
+          <div class="payment-details" id="cardDetails">
+            <h2>Datos de la tarjeta</h2>
+            <div class="field-grid">
+              <div class="field-wide">
+                <label for="cardholder">Nombre en la tarjeta</label>
+                <input id="cardholder" name="cardholder" type="text" autocomplete="cc-name" placeholder="Como aparece en la tarjeta" required>
+              </div>
+              <div class="field-wide">
+                <label for="cardNumber">Número de tarjeta</label>
+                <input id="cardNumber" name="cardNumber" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="16 dígitos" pattern="[0-9]{13,19}" maxlength="19" required>
+              </div>
+              <div class="field">
+                <label for="cardExpiry">Fecha de vencimiento</label>
+                <input id="cardExpiry" name="cardExpiry" type="month" autocomplete="cc-exp" required>
+              </div>
+              <div class="field">
+                <label for="cardCvv">CVV</label>
+                <input id="cardCvv" name="cardCvv" type="password" inputmode="numeric" autocomplete="cc-csc" placeholder="3 o 4 dígitos" pattern="[0-9]{3,4}" maxlength="4" required>
+              </div>
+            </div>
+            <p class="payment-note">Pago de demostración: no se realizará ningún cargo ni se guardarán los datos de la tarjeta.</p>
+          </div>
+
+          <div class="payment-details" id="transferDetails" hidden>
+            <h2>Datos para transferencia (simulados)</h2>
+            <div class="transfer-data">
+              <div><span>Banco</span><strong>Banco Blindbox (demo)</strong></div>
+              <div><span>Beneficiario</span><strong>Blindbox MX</strong></div>
+              <div><span>CLABE</span><strong>000 000 000000000000</strong></div>
+              <div><span>Referencia</span><strong>BBMX-2026</strong></div>
+            </div>
+            <p class="payment-note">Estos datos son ficticios y solo sirven para mostrar el flujo de pago.</p>
+          </div>
+
+          <div class="payment-details" id="walletDetails" hidden>
+            <h2>Saldo E-wallet</h2>
+            <p class="wallet-balance">$5,000 MXN</p>
+            <p class="payment-note">Saldo de demostración. Al pagar, la compra se confirmará de forma simulada.</p>
           </div>
 
           <div class="form-actions">
@@ -587,21 +670,21 @@
             </div>
             <div class="review-row">
               <span>Total</span>
-              <strong>$988 MXN</strong>
+              <strong id="reviewTotal">$0 MXN</strong>
             </div>
           </div>
 
           <label class="checkbox-row">
             <input type="checkbox" id="confirmInfo" required>
-            <span>Confirmo que los datos son correctos y autorizo el cobro del pedido.</span>
+            <span>Confirmo que los datos son correctos y autorizo la confirmación simulada de la compra.</span>
           </label>
 
           <div class="form-actions">
             <button type="button" class="btn-secondary prev-step">Editar</button>
-            <button type="submit" class="btn-primary" id="finalizeOrder">Finalizar pedido</button>
+            <button type="submit" class="btn-primary" id="finalizeOrder">Pagar</button>
           </div>
 
-          <div class="success-message" id="successMessage">¡Pedido confirmado! Te enviamos un correo con la información y seguimiento de tu entrega.</div>
+          <div class="success-message" id="successMessage" role="status">¡Compra confirmada! El pago fue simulado; no se realizó ningún cargo.</div>
         </div>
       </form>
     </section>
@@ -681,10 +764,141 @@
   const finalizeButton = document.getElementById('finalizeOrder');
   const savedAddressNotice = document.getElementById('savedAddressNotice');
   const continueAddressButton = document.getElementById('continueAddress');
+  const paymentMethods = Array.from(document.querySelectorAll('input[name="paymentMethod"]'));
+  const paymentPanels = {
+    Tarjeta: document.getElementById('cardDetails'),
+    Transferencia: document.getElementById('transferDetails'),
+    'E-wallet': document.getElementById('walletDetails')
+  };
+  const cardFields = Array.from(document.querySelectorAll('#cardDetails input'));
+  const cartKey = 'bb_cart';
+  const discountKey = 'bb_discount';
+  const promosKey = 'bb_admin_promos';
+  const optionLabels = { caja: 'Caja sorpresa', kit: 'Kit completo' };
   const addressFields = ['firstName', 'lastName', 'email', 'phone', 'street', 'colonia', 'city', 'state', 'postalCode', 'instructions'];
   const savedAddressKey = 'blindboxCheckoutAddress';
 
   let currentStep = 1;
+  let orderTotal = 0;
+
+  function formatCurrency(amount) {
+    return '$' + amount.toLocaleString('es-MX') + ' MXN';
+  }
+
+  function getCart() {
+    try {
+      const cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
+      return Array.isArray(cart) ? cart : [];
+    } catch (error) {
+      console.error('No se pudo recuperar el carrito.', error);
+      return [];
+    }
+  }
+
+  function getDiscount() {
+    try {
+      const selected = JSON.parse(localStorage.getItem(discountKey));
+      if (!selected || !selected.code) return null;
+
+      const savedPromos = JSON.parse(localStorage.getItem(promosKey));
+      if (!Array.isArray(savedPromos)) return selected;
+
+      const promo = savedPromos.find((item) =>
+        String(item.code || '').toUpperCase() === String(selected.code).toUpperCase()
+      );
+      if (!promo || promo.status !== 'active') return null;
+      if (promo.until && new Date(promo.until + 'T23:59:59') < new Date()) return null;
+      return { ...promo, code: String(promo.code).toUpperCase() };
+    } catch (error) {
+      console.error('No se pudo recuperar el descuento del carrito.', error);
+      return null;
+    }
+  }
+
+  function calculateDiscount(cart, subtotal, discountInfo) {
+    if (!discountInfo) return 0;
+    if (discountInfo.type === 'percent') {
+      return Math.round(subtotal * discountInfo.value / 100);
+    }
+    if (discountInfo.type === '2x1') {
+      return cart
+        .filter((item) => item.line === discountInfo.line && item.option === 'caja')
+        .reduce((sum, item) => sum + Math.floor(item.qty / 2) * item.price, 0);
+    }
+    return 0;
+  }
+
+  function renderOrder() {
+    const cart = getCart();
+    const itemsContainer = document.getElementById('orderItems');
+    const emptyMessage = document.getElementById('emptyCartMessage');
+    const totals = document.getElementById('orderTotals');
+    const checkoutPanel = document.getElementById('checkoutPanel');
+    itemsContainer.replaceChildren();
+
+    emptyMessage.hidden = cart.length > 0;
+    totals.hidden = cart.length === 0;
+    checkoutPanel.hidden = cart.length === 0;
+
+    if (cart.length === 0) {
+      orderTotal = 0;
+      document.getElementById('reviewTotal').textContent = formatCurrency(orderTotal);
+      return;
+    }
+
+    let subtotal = 0;
+    cart.forEach((item) => {
+      const quantity = Number(item.qty) || 0;
+      const price = Number(item.price) || 0;
+      const lineTotal = price * quantity;
+      subtotal += lineTotal;
+
+      const row = document.createElement('div');
+      row.className = 'order-item';
+
+      const thumb = document.createElement('div');
+      thumb.className = 'order-thumb';
+      if (item.image) {
+        const image = document.createElement('img');
+        image.src = item.image;
+        image.alt = item.name || 'Producto';
+        image.onerror = () => image.remove();
+        thumb.appendChild(image);
+      } else {
+        thumb.textContent = 'BB';
+      }
+
+      const meta = document.createElement('div');
+      meta.className = 'order-meta';
+      const line = document.createElement('span');
+      line.textContent = item.line || '';
+      const name = document.createElement('strong');
+      name.textContent = item.name || 'Producto';
+      const details = document.createElement('span');
+      details.textContent = `${optionLabels[item.option] || item.option || 'Producto'} · Cantidad: ${quantity}`;
+      meta.append(line, name, details);
+
+      const priceElement = document.createElement('div');
+      priceElement.className = 'order-price';
+      priceElement.textContent = formatCurrency(lineTotal);
+      row.append(thumb, meta, priceElement);
+      itemsContainer.appendChild(row);
+    });
+
+    const discountInfo = getDiscount();
+    const discount = calculateDiscount(cart, subtotal, discountInfo);
+    orderTotal = Math.max(subtotal - discount, 0);
+
+    document.getElementById('orderSubtotal').textContent = formatCurrency(subtotal);
+    document.getElementById('orderTotal').textContent = formatCurrency(orderTotal);
+    document.getElementById('reviewTotal').textContent = formatCurrency(orderTotal);
+    const discountRow = document.getElementById('orderDiscountRow');
+    discountRow.hidden = !(discountInfo && discountInfo.code);
+    if (!discountRow.hidden) {
+      document.getElementById('orderDiscountLabel').textContent = `Descuento (${discountInfo.code})`;
+      document.getElementById('orderDiscountAmount').textContent = '-' + formatCurrency(discount);
+    }
+  }
 
   function showStep(step) {
     currentStep = step;
@@ -745,6 +959,45 @@
     document.getElementById('reviewAddress').textContent = `${street || 'Calle'} ${colonia ? `, ${colonia}` : ''}, ${city || 'Ciudad'}, ${state || 'Estado'} ${postalCode ? `, ${postalCode}` : ''}`;
     document.getElementById('reviewContact').textContent = `${email || 'correo@ejemplo.com'} / ${phone || 'Teléfono'}`;
     document.getElementById('reviewPayment').textContent = paymentMethod;
+    document.getElementById('reviewTotal').textContent = formatCurrency(orderTotal);
+  }
+
+  function updatePaymentDetails() {
+    const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'Tarjeta';
+    Object.entries(paymentPanels).forEach(([method, panel]) => {
+      const isSelected = method === selectedMethod;
+      panel.hidden = !isSelected;
+      panel.querySelectorAll('input').forEach((field) => {
+        field.disabled = !isSelected;
+      });
+    });
+  }
+
+  function validatePaymentStep() {
+    const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked');
+    if (!selectedMethod) {
+      return false;
+    }
+
+    if (selectedMethod.value === 'Tarjeta') {
+      const expiryField = document.getElementById('cardExpiry');
+      const expiryDate = expiryField.value ? new Date(`${expiryField.value}-01T00:00:00`) : null;
+      const currentMonth = new Date();
+      currentMonth.setDate(1);
+      currentMonth.setHours(0, 0, 0, 0);
+      expiryField.setCustomValidity(
+        expiryDate && expiryDate < currentMonth ? 'La tarjeta debe estar vigente.' : ''
+      );
+
+      for (const field of cardFields) {
+        if (!field.checkValidity()) {
+          field.reportValidity();
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   function validateAddressStep() {
@@ -760,11 +1013,27 @@
     return true;
   }
 
+  renderOrder();
   loadSavedAddress();
+  updatePaymentDetails();
+
+  paymentMethods.forEach((method) => {
+    method.addEventListener('change', updatePaymentDetails);
+  });
+
+  window.addEventListener('storage', (event) => {
+    if (event.key === cartKey || event.key === discountKey || event.key === promosKey) {
+      renderOrder();
+    }
+  });
 
   document.querySelectorAll('.next-step').forEach((button) => {
     button.addEventListener('click', () => {
       if (currentStep === 1 && !validateAddressStep()) {
+        return;
+      }
+
+      if (currentStep === 2 && !validatePaymentStep()) {
         return;
       }
 
@@ -796,6 +1065,9 @@
     finalizeButton.disabled = true;
     finalizeButton.style.opacity = '0.8';
     finalizeButton.style.cursor = 'default';
+    cardFields.forEach((field) => {
+      field.value = '';
+    });
   });
 </script>
 
